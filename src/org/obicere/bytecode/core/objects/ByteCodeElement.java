@@ -1,12 +1,9 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-import org.obicere.bytecode.viewer.dom.Modeler;
-
 /**
  * @author Obicere
  */
-public abstract class ByteCodeElement implements Modeler {
+public abstract class ByteCodeElement {
 
     private int start;
     private int end;
@@ -31,14 +28,6 @@ public abstract class ByteCodeElement implements Modeler {
         return end - start;
     }
 
-    // TODO make abstract again
-    public String getIdentifier() {
-        return "";
-    }
-
-    @Override
-    public void model(final DocumentBuilder builder) {
-        // TODO remove
-    }
+    public abstract String getIdentifier();
 
 }

@@ -5,7 +5,7 @@ import org.obicere.bytecode.core.reader.ConstantReader;
 /**
  * @author Obicere
  */
-public class ConstantMethodRef extends AbstractConstantMethodRef {
+public class ConstantMethodRef extends MethodRef {
 
     private static final String NAME = "MethodRef";
 

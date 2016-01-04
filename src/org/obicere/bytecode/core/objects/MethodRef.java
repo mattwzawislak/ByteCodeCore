@@ -7,12 +7,12 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 
 /**
  */
-public abstract class AbstractConstantMethodRef extends Constant {
+public abstract class MethodRef extends Constant {
 
     private final int classIndex;
     private final int nameAndTypeIndex;
 
-    public AbstractConstantMethodRef(final int tag, final int classIndex, final int nameAndTypeIndex) {
+    public MethodRef(final int tag, final int classIndex, final int nameAndTypeIndex) {
         super(tag);
         this.classIndex = classIndex;
         this.nameAndTypeIndex = nameAndTypeIndex;

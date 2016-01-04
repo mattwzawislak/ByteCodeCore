@@ -5,7 +5,7 @@ import org.obicere.bytecode.core.reader.ConstantReader;
 /**
  * @author Obicere
  */
-public class ConstantInterfaceMethodRef extends AbstractConstantMethodRef {
+public class ConstantInterfaceMethodRef extends MethodRef {
 
     private static final String NAME = "InterfaceMethodRef";
 
