@@ -5,8 +5,13 @@ package org.obicere.bytecode.core.objects;
  */
 public abstract class Attribute extends ByteCodeElement {
 
-    public String getIdentifier() {
-        return "attribute" + getStart();
+    private final int length;
+
+    public Attribute(final int length) {
+        this.length = length;
     }
 
+    public int getAttributeLength() {
+        return length;
+    }
 }

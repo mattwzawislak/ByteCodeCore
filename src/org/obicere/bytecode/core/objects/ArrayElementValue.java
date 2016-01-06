@@ -1,11 +1,11 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
 public class ArrayElementValue extends ElementValue {
+
+    public static final String IDENTIFIER = "ArrayElementValue";
 
     private static final int TAG = '[';
 
@@ -13,6 +13,11 @@ public class ArrayElementValue extends ElementValue {
 
     public ArrayElementValue(final ElementValue[] values) {
         super(TAG);
+
+        if (values == null) {
+            throw new NullPointerException("values must be non-null");
+        }
+
         this.values = values;
     }
 
@@ -21,17 +26,7 @@ public class ArrayElementValue extends ElementValue {
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-
-        builder.add("{");
-        boolean first = true;
-        for (final ElementValue value : values) {
-            if (!first) {
-                builder.comma();
-            }
-            value.model(builder);
-            first = false;
-        }
-        builder.add("}");
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

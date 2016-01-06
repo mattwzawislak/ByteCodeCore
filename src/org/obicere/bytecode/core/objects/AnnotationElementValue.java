@@ -1,11 +1,11 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
 public class AnnotationElementValue extends ElementValue {
+
+    public static final String IDENTIFIER = "AnnotationElementValue";
 
     private static final int TAG = '@';
 
@@ -13,6 +13,9 @@ public class AnnotationElementValue extends ElementValue {
 
     public AnnotationElementValue(final Annotation annotation) {
         super(TAG);
+        if(annotation == null){
+            throw new NullPointerException("annotation must be non-null");
+        }
         this.annotation = annotation;
     }
 
@@ -21,7 +24,7 @@ public class AnnotationElementValue extends ElementValue {
     }
 
     @Override
-    public void model(final DocumentBuilder builder){
-        annotation.model(builder);
+    public String getIdentifier(){
+        return IDENTIFIER;
     }
 }

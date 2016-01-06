@@ -1,20 +1,19 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
 public class BootstrapMethodsAttribute extends Attribute {
 
+    public static final String IDENTIFIER = "BootstrapMethodsAttribute";
+
     private final BootstrapMethod[] bootstrapMethods;
 
-    public BootstrapMethodsAttribute(final BootstrapMethod[] bootstrapMethods) {
-
+    public BootstrapMethodsAttribute(final int length, final BootstrapMethod[] bootstrapMethods) {
+        super(length);
         if (bootstrapMethods == null) {
-            throw new NullPointerException("bootstrap methods not defined.");
+            throw new NullPointerException("bootstrap methods must be non-null");
         }
-
         this.bootstrapMethods = bootstrapMethods;
     }
 
@@ -23,17 +22,7 @@ public class BootstrapMethodsAttribute extends Attribute {
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-
-        final BootstrapMethod[] methods = bootstrapMethods;
-        if (methods.length == 0) {
-            return;
-        }
-
-        for (final BootstrapMethod method : methods) {
-            builder.newLine();
-            builder.newLine();
-            method.model(builder);
-        }
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

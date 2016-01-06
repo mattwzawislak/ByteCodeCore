@@ -1,11 +1,11 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
 public class BooleanElementValue extends ElementValue {
+
+    public static final String IDENTIFIER = "BooleanElementValue";
 
     private static final int TAG = 'Z';
 
@@ -21,8 +21,7 @@ public class BooleanElementValue extends ElementValue {
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        final String value = builder.getConstantPool().getAsString(constantValueIndex);
-        builder.add(value.equals("true"));
+    public String getIdentifier(){
+        return IDENTIFIER;
     }
 }

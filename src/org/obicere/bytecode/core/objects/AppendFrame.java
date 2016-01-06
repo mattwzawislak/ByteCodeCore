@@ -1,13 +1,11 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
 public class AppendFrame extends StackMapFrame {
 
-    private static final String NAME = "AppendFrame";
+    public static final String IDENTIFIER = "AppendFrame";
 
     private final int                    offset;
     private final VerificationTypeInfo[] locals;
@@ -15,8 +13,8 @@ public class AppendFrame extends StackMapFrame {
     public AppendFrame(final int frameType, final int offset, final VerificationTypeInfo[] locals) {
         super(frameType);
 
-        if (locals.length != frameType - 251) {
-            throw new IllegalArgumentException("invalid locals count for frame: " + locals.length);
+        if(locals == null){
+            throw new NullPointerException("locals must be non-null");
         }
 
         this.offset = offset;
@@ -38,13 +36,11 @@ public class AppendFrame extends StackMapFrame {
 
     @Override
     public String getName() {
-        return NAME;
+        return IDENTIFIER;
     }
 
     @Override
-    public void modelValue(final DocumentBuilder builder) {
-        builder.newLine();
-        builder.add("Locals:");
-        modelInfo(builder, locals);
+    public String getIdentifier(){
+        return IDENTIFIER;
     }
 }

@@ -53,7 +53,8 @@ public class ConstantInvokeDynamic extends Constant {
 
         if (bootstrapMethodsAttribute != null) {
             final BootstrapMethod method = bootstrapMethodsAttribute.getBootstrapMethods()[bootstrapMethodAttrIndex];
-            method.modelDeclaration(builder);
+            final int bootstrapMethodRef = method.getBootstrapMethodRef();
+            constantPool.get(bootstrapMethodRef).modelValue(builder);
 
         } else {
             builder.add(bootstrapMethodAttrIndex);
