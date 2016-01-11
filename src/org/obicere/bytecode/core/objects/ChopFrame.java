@@ -5,7 +5,7 @@ package org.obicere.bytecode.core.objects;
  */
 public class ChopFrame extends StackMapFrame {
 
-    private static final String NAME = "ChopFrame";
+    public static final String IDENTIFIER = "ChopFrame";
 
     private final int offset;
 
@@ -21,6 +21,11 @@ public class ChopFrame extends StackMapFrame {
 
     @Override
     public String getName() {
-        return NAME;
+        return IDENTIFIER;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }
