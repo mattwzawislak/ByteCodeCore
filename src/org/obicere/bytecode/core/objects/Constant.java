@@ -1,13 +1,9 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
 public abstract class Constant extends ByteCodeElement {
-
-    private static final int MAX_NAME_LENGTH = 11;
 
     private final int tag;
 
@@ -19,24 +15,8 @@ public abstract class Constant extends ByteCodeElement {
         return tag;
     }
 
-    @Override
-    public String getIdentifier() {
-        return "constant" + getStart();
-    }
-
     public abstract String getName();
 
     public abstract String toString(final ConstantPool constantPool);
-
-    public abstract void modelValue(final DocumentBuilder builder);
-
-    @Override
-    public void model(final DocumentBuilder builder) {
-        final String type = getName();
-        builder.addKeyword(getName());
-        builder.padTabbed(type.length(), MAX_NAME_LENGTH);
-        builder.tab();
-        modelValue(builder);
-    }
 
 }

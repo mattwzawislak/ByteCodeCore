@@ -1,14 +1,13 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.core.objects.signature.FieldSignature;
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 import org.obicere.bytecode.core.reader.ConstantReader;
-import org.obicere.bytecode.viewer.util.ByteCodeUtils;
 
 /**
  * @author Obicere
  */
 public class ConstantFieldRef extends Constant {
+
+    public static final String IDENTIFIER = "ConstantFieldRef";
 
     private static final String NAME = "FieldRef";
 
@@ -41,24 +40,7 @@ public class ConstantFieldRef extends Constant {
     }
 
     @Override
-    public void modelValue(final DocumentBuilder builder) {
-        final ConstantPool constantPool = builder.getConstantPool();
-        builder.newLine();
-        builder.tab();
-
-        final ConstantNameAndType nameAndType = (ConstantNameAndType) constantPool.get(nameAndTypeIndex);
-        final FieldSignature signature = SignatureAttribute.parseField(constantPool.getAsString(nameAndType.getDescriptorIndex()));
-        signature.model(builder);
-        builder.add(" ");
-
-        final boolean importMode = builder.getDomain().getSettingsController().getSettings().getBoolean("code.importMode");
-        if (importMode) {
-            builder.add(ByteCodeUtils.getClassName(constantPool.getAsString(getClassIndex())));
-        } else {
-            builder.add(ByteCodeUtils.getQualifiedName(constantPool.getAsString(getClassIndex())));
-        }
-        builder.add("#");
-        builder.add(constantPool.getAsString(nameAndType.getNameIndex()));
-
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

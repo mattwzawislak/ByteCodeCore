@@ -5,6 +5,8 @@ package org.obicere.bytecode.core.objects;
  */
 public class CodeException extends ByteCodeElement {
 
+    public static final String IDENTIFIER = "CodeException";
+
     private final int startPC;
     private final int endPC;
     private final int handlerPC;
@@ -31,5 +33,10 @@ public class CodeException extends ByteCodeElement {
 
     public int getCatchType() {
         return catchType;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

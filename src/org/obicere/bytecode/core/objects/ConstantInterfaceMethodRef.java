@@ -7,6 +7,8 @@ import org.obicere.bytecode.core.reader.ConstantReader;
  */
 public class ConstantInterfaceMethodRef extends MethodRef {
 
+    public static final String IDENTIFIER = "MethodRef";
+
     private static final String NAME = "InterfaceMethodRef";
 
     public ConstantInterfaceMethodRef(final int classIndex, final int nameAndTypeIndex) {
@@ -16,5 +18,10 @@ public class ConstantInterfaceMethodRef extends MethodRef {
     @Override
     public String getName() {
         return NAME;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

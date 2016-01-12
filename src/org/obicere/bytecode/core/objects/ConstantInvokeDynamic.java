@@ -8,6 +8,8 @@ import org.obicere.bytecode.core.reader.ConstantReader;
  */
 public class ConstantInvokeDynamic extends Constant {
 
+    public static final String IDENTIFIER = "ConstantInvokeDynamic";
+
     private static final String NAME = "InvokeDynamic";
 
     private final int bootstrapMethodAttrIndex;

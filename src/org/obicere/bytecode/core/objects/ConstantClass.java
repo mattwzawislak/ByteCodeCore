@@ -1,13 +1,13 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 import org.obicere.bytecode.core.reader.ConstantReader;
-import org.obicere.bytecode.viewer.util.ByteCodeUtils;
 
 /**
  * @author Obicere
  */
 public class ConstantClass extends Constant {
+
+    public static final String IDENTIFIER = "ConstantClass";
 
     private static final String NAME = "Class";
 
@@ -18,15 +18,14 @@ public class ConstantClass extends Constant {
         this.nameIndex = nameIndex;
     }
 
-    @Override
-    public String getName() {
-        return NAME;
-    }
-
     public int getNameIndex() {
         return nameIndex;
     }
 
+    @Override
+    public String getName() {
+        return NAME;
+    }
     @Override
     public String toString(final ConstantPool constantPool) {
         // nameIndex points to a ConstantUtf8
@@ -34,18 +33,7 @@ public class ConstantClass extends Constant {
     }
 
     @Override
-    public void modelValue(final DocumentBuilder builder) {
-        builder.indent();
-        builder.newLine();
-        final String name = builder.getConstantPool().getAsString(getNameIndex());
-        final boolean importMode = builder.getDomain().getSettingsController().getSettings().getBoolean("code.importMode");
-        if (importMode) {
-            builder.add(ByteCodeUtils.getClassName(name));
-        } else {
-            builder.add(ByteCodeUtils.getQualifiedName(name));
-        }
-        builder.add(".");
-        builder.addKeyword("class");
-        builder.unindent();
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

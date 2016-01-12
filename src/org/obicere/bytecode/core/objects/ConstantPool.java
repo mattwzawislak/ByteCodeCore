@@ -37,6 +37,8 @@ public class ConstantPool extends ByteCodeElement {
         return "constantPool";
     }
 
+    private static final int MAX_NAME_LENGTH = 11;
+
     @Override
     public void model(final DocumentBuilder builder) {
 
@@ -53,6 +55,9 @@ public class ConstantPool extends ByteCodeElement {
                 // maybe move this to a ConstantNull class with a modeler there?
                 builder.addKeyword("null");
             } else {
+                final String type = constant.getName();
+                builder.addKeyword(type);
+                builder.padTabbed(type.length(), MAX_NAME_LENGTH);
                 constant.model(builder);
             }
             builder.newLine();
