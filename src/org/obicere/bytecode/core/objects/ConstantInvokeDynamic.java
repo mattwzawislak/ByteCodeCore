@@ -1,6 +1,5 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 import org.obicere.bytecode.core.reader.ConstantReader;
 
 /**
@@ -40,31 +39,7 @@ public class ConstantInvokeDynamic extends Constant {
         return constantPool.getAsString(nameAndTypeIndex) + " " + bootstrapMethodAttrIndex;
     }
 
-    @Override
-    public void modelValue(final DocumentBuilder builder) {
-        final ConstantPool constantPool = builder.getConstantPool();
-        builder.indent();
-
-        BootstrapMethodsAttribute bootstrapMethodsAttribute = null;
-        for (final Attribute attribute : builder.getClassFile().getAttributes()) {
-            if (attribute instanceof BootstrapMethodsAttribute) {
-                bootstrapMethodsAttribute = (BootstrapMethodsAttribute) attribute;
-                break;
-            }
-        }
-
-        if (bootstrapMethodsAttribute != null) {
-            final BootstrapMethod method = bootstrapMethodsAttribute.getBootstrapMethods()[bootstrapMethodAttrIndex];
-            final int bootstrapMethodRef = method.getBootstrapMethodRef();
-            constantPool.get(bootstrapMethodRef).modelValue(builder);
-
-        } else {
-            builder.add(bootstrapMethodAttrIndex);
-        }
-        builder.newLine();
-
-        constantPool.get(nameAndTypeIndex).modelValue(builder);
-
-        builder.unindent();
+    public String getIdentifier(){
+        return IDENTIFIER;
     }
 }

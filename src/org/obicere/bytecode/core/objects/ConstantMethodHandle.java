@@ -1,6 +1,5 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 import org.obicere.bytecode.core.reader.ConstantReader;
 
 /**
@@ -8,20 +7,9 @@ import org.obicere.bytecode.core.reader.ConstantReader;
  */
 public class ConstantMethodHandle extends Constant {
 
-    private static final String NAME = "MethodHandle";
+    public static final String IDENTIFIER = "ConstantMethodHandle";
 
-    private static final String[] HANDLES = new String[]{
-            null,
-            "getfield",
-            "getstatic",
-            "putfield",
-            "putstatic",
-            "invokevirtual",
-            "invokestatic",
-            "invokespecial",
-            "newinvokespecial",
-            "invokeinterface"
-    };
+    private static final String NAME = "MethodHandle";
 
     private final int referenceKind;
 
@@ -48,13 +36,11 @@ public class ConstantMethodHandle extends Constant {
 
     @Override
     public String toString(final ConstantPool constantPool) {
-        return HANDLES[referenceKind] + "=" + constantPool.getAsString(referenceIndex);
+        return referenceKind + ";" + constantPool.getAsString(referenceIndex);
     }
 
     @Override
-    public void modelValue(final DocumentBuilder builder) {
-        builder.addKeyword(HANDLES[referenceKind]);
-        builder.tab();
-        builder.getConstantPool().get(referenceIndex).modelValue(builder);
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }
