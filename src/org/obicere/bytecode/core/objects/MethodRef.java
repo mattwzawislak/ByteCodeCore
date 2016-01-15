@@ -4,6 +4,8 @@ package org.obicere.bytecode.core.objects;
  */
 public abstract class MethodRef extends Constant {
 
+    public static final String IDENTIFIER = "MethodRef";
+
     private final int classIndex;
     private final int nameAndTypeIndex;
 
@@ -24,5 +26,10 @@ public abstract class MethodRef extends Constant {
     @Override
     public String toString(final ConstantPool constantPool) {
         return constantPool.getAsString(classIndex) + ";" + constantPool.getAsString(nameAndTypeIndex);
+    }
+
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

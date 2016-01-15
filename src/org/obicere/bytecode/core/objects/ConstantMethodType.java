@@ -1,12 +1,13 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 import org.obicere.bytecode.core.reader.ConstantReader;
 
 /**
  * @author Obicere
  */
 public class ConstantMethodType extends Constant {
+
+    public static final String IDENTIFIER = "ConstantMethodType";
 
     private static final String NAME = "MethodType";
 
@@ -22,7 +23,7 @@ public class ConstantMethodType extends Constant {
     }
 
     @Override
-    public String getName(){
+    public String getName() {
         return NAME;
     }
 
@@ -32,7 +33,7 @@ public class ConstantMethodType extends Constant {
     }
 
     @Override
-    public void modelValue(final DocumentBuilder builder) {
-        builder.add(builder.getConstantPool().getAsString(descriptorIndex));
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

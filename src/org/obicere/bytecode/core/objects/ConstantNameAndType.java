@@ -1,14 +1,13 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.core.objects.signature.FieldSignature;
-import org.obicere.bytecode.core.objects.signature.MethodSignature;
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 import org.obicere.bytecode.core.reader.ConstantReader;
 
 /**
  * @author Obicere
  */
 public class ConstantNameAndType extends Constant {
+
+    public static final String IDENTIFIER = "ConstantNameAndType";
 
     private static final String NAME = "NameAndType";
 
@@ -41,22 +40,7 @@ public class ConstantNameAndType extends Constant {
     }
 
     @Override
-    public void modelValue(final DocumentBuilder builder) {
-        final ConstantPool constantPool = builder.getConstantPool();
-        final String name = constantPool.getAsString(nameIndex);
-
-        final String signature = constantPool.getAsString(descriptorIndex);
-        final MethodSignature methodSignature = SignatureAttribute.parseMethod(signature);
-        if (methodSignature != null) {
-            methodSignature.modelReturnType(builder);
-            builder.add(" " + name);
-            methodSignature.modelParameters(builder);
-        } else {
-            final FieldSignature fieldSignature = SignatureAttribute.parseField(signature);
-            if (fieldSignature != null) {
-                fieldSignature.model(builder);
-                builder.add(name);
-            }
-        }
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }
