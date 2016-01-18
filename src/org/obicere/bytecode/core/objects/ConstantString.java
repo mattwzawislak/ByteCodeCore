@@ -1,12 +1,13 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 import org.obicere.bytecode.core.reader.ConstantReader;
 
 /**
  * @author Obicere
  */
 public class ConstantString extends Constant {
+
+    public static final String IDENTIFIER = "ConstantString";
 
     private static final String NAME = "String";
 
@@ -32,7 +33,7 @@ public class ConstantString extends Constant {
     }
 
     @Override
-    public void modelValue(final DocumentBuilder builder) {
-        builder.addString(builder.getConstantPool().getAsString(stringIndex));
+    public String getIdentifier(){
+        return IDENTIFIER;
     }
 }
