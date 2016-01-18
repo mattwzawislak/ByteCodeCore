@@ -35,6 +35,15 @@ public class CodeAttribute extends Attribute {
 
     public CodeAttribute(final int length, final int maxStack, final int maxLocals, final byte[] code, final Instruction[] instructions, final CodeException[] exceptions, final Attribute[] attributes) {
         super(length);
+        if (instructions == null) {
+            throw new NullPointerException("instructions must be non-null");
+        }
+        if (exceptions == null) {
+            throw new NullPointerException("exceptions must be non-null");
+        }
+        if (attributes == null) {
+            throw new NullPointerException("attributes must be non-null");
+        }
         this.maxStack = maxStack;
         this.maxLocals = maxLocals;
         this.code = code;

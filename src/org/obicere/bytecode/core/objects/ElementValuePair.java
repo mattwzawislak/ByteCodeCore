@@ -1,21 +1,20 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
 public class ElementValuePair extends ByteCodeElement {
 
-    private final int          elementNameIndex;
+    public static final String IDENTIFIER = "ElementValuePair";
+
+    private final int elementNameIndex;
+
     private final ElementValue value;
 
     public ElementValuePair(final int elementNameIndex, final ElementValue value) {
-
         if (value == null) {
-            throw new NullPointerException("value is not defined.");
+            throw new NullPointerException("value must be non-null");
         }
-
         this.elementNameIndex = elementNameIndex;
         this.value = value;
     }
@@ -29,11 +28,7 @@ public class ElementValuePair extends ByteCodeElement {
     }
 
     @Override
-    public void model(final DocumentBuilder builder){
-        final ConstantPool constantPool = builder.getConstantPool();
-        builder.add(constantPool.getAsString(elementNameIndex));
-        builder.add(" = ");
-        value.model(builder);
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
-
 }

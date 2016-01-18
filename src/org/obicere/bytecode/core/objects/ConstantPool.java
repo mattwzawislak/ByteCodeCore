@@ -12,6 +12,9 @@ public class ConstantPool extends ByteCodeElement {
     private final Constant[] constants;
 
     public ConstantPool(final Constant[] constants) {
+        if (constants == null) {
+            throw new NullPointerException("constants must be non-null");
+        }
         this.constants = constants;
     }
 

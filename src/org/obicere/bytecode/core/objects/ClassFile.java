@@ -30,6 +30,19 @@ public class ClassFile extends ByteCodeElement {
     private final AttributeSet attributeSet;
 
     public ClassFile(final int minorVersion, final int majorVersion, final ConstantPool constantPool, final int accessFlags, final int thisClass, final int superClass, final int[] interfaces, final Field[] fields, final Method[] methods, final Attribute[] attributes) {
+        if (constantPool == null) {
+            throw new NullPointerException("constant pool must be non-null");
+        }
+        if (fields == null) {
+            throw new NullPointerException("fields must be non-null");
+        }
+        if (methods == null) {
+            throw new NullPointerException("methods must be non-null");
+        }
+        if (attributes == null) {
+            throw new NullPointerException("attributes must be non-null");
+        }
+
         this.minorVersion = minorVersion;
         this.majorVersion = majorVersion;
         this.constantPool = constantPool;

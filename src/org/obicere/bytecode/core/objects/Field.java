@@ -1,15 +1,11 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.core.objects.signature.FieldSignature;
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-import org.obicere.bytecode.viewer.util.ByteCodeUtils;
-
-import java.util.Set;
-
 /**
  * @author Obicere
  */
 public class Field extends ByteCodeElement {
+
+    public static final String IDENTIFIER = "Field";
 
     private final int accessFlags;
 
@@ -22,6 +18,9 @@ public class Field extends ByteCodeElement {
     private final AttributeSet attributeSet;
 
     public Field(final int accessFlags, final int nameIndex, final int descriptorIndex, final Attribute[] attributes) {
+        if (attributes == null) {
+            throw new NullPointerException("attributes must be non-null");
+        }
         this.accessFlags = accessFlags;
         this.nameIndex = nameIndex;
         this.descriptorIndex = descriptorIndex;
@@ -45,86 +44,12 @@ public class Field extends ByteCodeElement {
         return attributes;
     }
 
+    public AttributeSet getAttributeSet() {
+        return attributeSet;
+    }
+
     @Override
-    public void model(final DocumentBuilder builder) {
-
-        if (ByteCodeUtils.isSynthetic(accessFlags) || attributeSet.getAttribute(SyntheticAttribute.class) != null) {
-            addSynthetic(builder);
-            builder.newLine();
-        }
-
-        modelAnnotations(builder);
-        modelDeclaration(builder);
-    }
-
-    private void addSynthetic(final DocumentBuilder builder) {
-        builder.addComment("Synthetic Field");
-    }
-
-    private void modelAnnotations(final DocumentBuilder builder) {
-        final Set<RuntimeVisibleAnnotationsAttribute> rvaAttributes = attributeSet.getAttributes(RuntimeVisibleAnnotationsAttribute.class);
-        final Set<RuntimeInvisibleAnnotationsAttribute> riaAttributes = attributeSet.getAttributes(RuntimeInvisibleAnnotationsAttribute.class);
-
-        if (rvaAttributes != null) {
-            rvaAttributes.forEach(e -> {
-                e.model(builder);
-                builder.newLine();
-            });
-        }
-        if (riaAttributes != null) {
-            riaAttributes.forEach(e -> {
-                e.model(builder);
-                builder.newLine();
-            });
-        }
-    }
-
-    private void modelType(final DocumentBuilder builder, final ConstantPool constantPool) {
-        final SignatureAttribute attribute = attributeSet.getAttribute(SignatureAttribute.class);
-        final FieldSignature signature;
-        if (attribute != null) {
-            signature = attribute.parseField(constantPool);
-        } else {
-            final String descriptor = constantPool.getAsString(descriptorIndex);
-            signature = SignatureAttribute.parseField(descriptor);
-        }
-
-        if (signature != null) {
-
-            // add type annotations to the signature now
-
-            final Set<RuntimeVisibleTypeAnnotationsAttribute> rvtaAttributes = attributeSet.getAttributes(RuntimeVisibleTypeAnnotationsAttribute.class);
-            final Set<RuntimeInvisibleTypeAnnotationsAttribute> ritaAttributes = attributeSet.getAttributes(RuntimeInvisibleTypeAnnotationsAttribute.class);
-
-            if (rvtaAttributes != null) {
-                rvtaAttributes.forEach(e -> signature.addAnnotations(e.getAnnotations()));
-            }
-            if (ritaAttributes != null) {
-                ritaAttributes.forEach(e -> signature.addAnnotations(e.getAnnotations()));
-            }
-
-            signature.model(builder);
-        }
-    }
-
-    private void modelDeclaration(final DocumentBuilder builder) {
-        final ConstantPool constantPool = builder.getConstantPool();
-        final String[] names = ByteCodeUtils.getFieldAccessNames(accessFlags);
-
-        for (final String name : names) {
-            builder.addKeyword(name + " ");
-        }
-
-        modelType(builder, constantPool);
-
-        builder.add(" " + constantPool.getAsString(nameIndex));
-
-        final ConstantValueAttribute constantAttribute = attributeSet.getAttribute(ConstantValueAttribute.class);
-        if (constantAttribute != null) {
-            final Constant constant = constantPool.get(constantAttribute.getConstantValueIndex());
-            builder.add(" = ");
-            constant.modelValue(builder);
-        }
-        builder.add(";");
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

@@ -15,6 +15,9 @@ public class ConstantUtf8 extends Constant {
 
     public ConstantUtf8(final String bytes) {
         super(ConstantReader.CONSTANT_UTF8);
+        if (bytes == null) {
+            throw new NullPointerException("bytes must be non-null");
+        }
         this.bytes = bytes;
     }
 
