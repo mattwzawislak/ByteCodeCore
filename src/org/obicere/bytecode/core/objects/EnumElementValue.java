@@ -1,5 +1,7 @@
 package org.obicere.bytecode.core.objects;
 
+import org.obicere.bytecode.core.reader.ElementValueReader;
+
 /**
  * @author Obicere
  */
@@ -7,13 +9,11 @@ public class EnumElementValue extends ElementValue {
 
     public static final String IDENTIFIER = "EnumElementValue";
 
-    private static final int TAG = 'e';
-
     private final int typeNameIndex;
     private final int constNameIndex;
 
     public EnumElementValue(final int typeNameIndex, final int constNameIndex) {
-        super(TAG);
+        super(ElementValueReader.TAG_ENUM);
         this.typeNameIndex = typeNameIndex;
         this.constNameIndex = constNameIndex;
     }

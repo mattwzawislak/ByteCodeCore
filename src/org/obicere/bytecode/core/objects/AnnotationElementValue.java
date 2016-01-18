@@ -1,5 +1,7 @@
 package org.obicere.bytecode.core.objects;
 
+import org.obicere.bytecode.core.reader.ElementValueReader;
+
 /**
  * @author Obicere
  */
@@ -7,12 +9,10 @@ public class AnnotationElementValue extends ElementValue {
 
     public static final String IDENTIFIER = "AnnotationElementValue";
 
-    private static final int TAG = '@';
-
     private final Annotation annotation;
 
     public AnnotationElementValue(final Annotation annotation) {
-        super(TAG);
+        super(ElementValueReader.TAG_ANNOTATION);
         if(annotation == null){
             throw new NullPointerException("annotation must be non-null");
         }

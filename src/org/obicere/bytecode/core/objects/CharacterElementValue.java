@@ -1,5 +1,7 @@
 package org.obicere.bytecode.core.objects;
 
+import org.obicere.bytecode.core.reader.ElementValueReader;
+
 /**
  * @author Obicere
  */
@@ -7,12 +9,10 @@ public class CharacterElementValue extends ElementValue {
 
     public static final String IDENTIFIER = "CharacterElementValue";
 
-    private static final int TAG = 'C';
-
     private final int constantValueIndex;
 
     public CharacterElementValue(final int constantValueIndex) {
-        super(TAG);
+        super(ElementValueReader.TAG_CHARACTER);
         this.constantValueIndex = constantValueIndex;
     }
 

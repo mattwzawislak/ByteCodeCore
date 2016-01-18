@@ -1,18 +1,18 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
+import org.obicere.bytecode.core.reader.ElementValueReader;
 
 /**
  * @author Obicere
  */
 public class FloatElementValue extends ElementValue {
 
-    private static final int TAG = 'F';
+    public static final String IDENTIFIER = "FloatElementValue";
 
     private final int constantValueIndex;
 
     public FloatElementValue(final int constantValueIndex) {
-        super(TAG);
+        super(ElementValueReader.TAG_FLOAT);
         this.constantValueIndex = constantValueIndex;
     }
 
@@ -21,8 +21,7 @@ public class FloatElementValue extends ElementValue {
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        final ConstantFloat constant = (ConstantFloat) builder.getConstantPool().get(constantValueIndex);
-        builder.add(constant.getBytes());
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

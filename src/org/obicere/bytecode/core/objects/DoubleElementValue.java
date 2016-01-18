@@ -1,5 +1,7 @@
 package org.obicere.bytecode.core.objects;
 
+import org.obicere.bytecode.core.reader.ElementValueReader;
+
 /**
  * @author Obicere
  */
@@ -7,12 +9,10 @@ public class DoubleElementValue extends ElementValue {
 
     public static final String IDENTIFIER = "DoubleElementValue";
 
-    private static final int TAG = 'D';
-
     private final int constantValueIndex;
 
     public DoubleElementValue(final int constantValueIndex) {
-        super(TAG);
+        super(ElementValueReader.TAG_DOUBLE);
         this.constantValueIndex = constantValueIndex;
     }
 
