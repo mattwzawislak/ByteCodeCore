@@ -10,6 +10,6 @@ import java.io.IOException;
 public class LongVariableInfoReader implements Reader<LongVariableInfo> {
     @Override
     public LongVariableInfo read(final IndexedDataInputStream input) throws IOException {
-        return new LongVariableInfo(input.readUnsignedByte());
+        return new LongVariableInfo();
     }
 }

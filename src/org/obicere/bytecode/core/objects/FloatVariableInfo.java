@@ -1,18 +1,19 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
+import org.obicere.bytecode.core.reader.VerificationTypeInfoReader;
 
 /**
  */
 public class FloatVariableInfo extends VerificationTypeInfo {
 
-    public FloatVariableInfo(final int tag) {
-        super(tag);
+    public static final String IDENTIFIER = "FloatVariableInfo";
+
+    public FloatVariableInfo() {
+        super(VerificationTypeInfoReader.ITEM_FLOAT);
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        builder.addKeyword("float");
+    public String getIdentifier(){
+        return IDENTIFIER;
     }
-
 }

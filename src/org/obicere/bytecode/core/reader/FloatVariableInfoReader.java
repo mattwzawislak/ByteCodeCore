@@ -10,6 +10,6 @@ import java.io.IOException;
 public class FloatVariableInfoReader implements Reader<FloatVariableInfo> {
     @Override
     public FloatVariableInfo read(final IndexedDataInputStream input) throws IOException {
-        return new FloatVariableInfo(input.readUnsignedByte());
+        return new FloatVariableInfo();
     }
 }

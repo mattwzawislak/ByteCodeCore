@@ -11,6 +11,6 @@ public class IntegerVariableInfoReader implements Reader<IntegerVariableInfo> {
 
     @Override
     public IntegerVariableInfo read(final IndexedDataInputStream input) throws IOException {
-        return new IntegerVariableInfo(input.readUnsignedByte());
+        return new IntegerVariableInfo();
     }
 }

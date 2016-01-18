@@ -10,6 +10,6 @@ import java.io.IOException;
 public class NullVariableInfoReader implements Reader<NullVariableInfo> {
     @Override
     public NullVariableInfo read(final IndexedDataInputStream input) throws IOException {
-        return new NullVariableInfo(input.readUnsignedByte());
+        return new NullVariableInfo();
     }
 }

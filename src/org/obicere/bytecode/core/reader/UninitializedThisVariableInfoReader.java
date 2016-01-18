@@ -10,6 +10,6 @@ import java.io.IOException;
 public class UninitializedThisVariableInfoReader implements Reader<UninitializedThisVariableInfo> {
     @Override
     public UninitializedThisVariableInfo read(final IndexedDataInputStream input) throws IOException {
-        return new UninitializedThisVariableInfo(input.readUnsignedByte());
+        return new UninitializedThisVariableInfo();
     }
 }

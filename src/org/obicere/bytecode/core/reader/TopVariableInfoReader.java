@@ -12,6 +12,6 @@ public class TopVariableInfoReader implements Reader<VerificationTypeInfo> {
 
     @Override
     public VerificationTypeInfo read(final IndexedDataInputStream input) throws IOException {
-        return new TopVariableInfo(input.readUnsignedByte());
+        return new TopVariableInfo();
     }
 }

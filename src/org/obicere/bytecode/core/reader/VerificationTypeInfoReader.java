@@ -36,7 +36,6 @@ public class VerificationTypeInfoReader extends MultiReader<Integer, Verificatio
     public VerificationTypeInfo read(final IndexedDataInputStream input) throws IOException {
         final int start = input.getLogicalIndex();
         final int type = input.readUnsignedByte();
-        input.step(1);
         final Reader<? extends VerificationTypeInfo> reader = get(type);
 
         if(reader == null){
