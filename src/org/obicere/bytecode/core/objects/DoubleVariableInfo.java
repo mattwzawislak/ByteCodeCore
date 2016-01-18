@@ -1,18 +1,19 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
+import org.obicere.bytecode.core.reader.VerificationTypeInfoReader;
 
 /**
  */
 public class DoubleVariableInfo extends VerificationTypeInfo {
 
-    public DoubleVariableInfo(final int tag) {
-        super(tag);
+    public static final String IDENTIFIER = "DoubleVariableInfo";
+
+    public DoubleVariableInfo() {
+        super(VerificationTypeInfoReader.ITEM_DOUBLE);
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        builder.addKeyword("double");
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
-
 }

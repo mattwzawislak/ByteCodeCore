@@ -1,11 +1,11 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
 public class DoubleElementValue extends ElementValue {
+
+    public static final String IDENTIFIER = "DoubleElementValue";
 
     private static final int TAG = 'D';
 
@@ -21,8 +21,7 @@ public class DoubleElementValue extends ElementValue {
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        final ConstantDouble constant = (ConstantDouble) builder.getConstantPool().get(constantValueIndex);
-        builder.add(constant.getBytes());
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

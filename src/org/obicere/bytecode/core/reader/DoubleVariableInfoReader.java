@@ -10,6 +10,6 @@ import java.io.IOException;
 public class DoubleVariableInfoReader implements Reader<DoubleVariableInfo> {
     @Override
     public DoubleVariableInfo read(final IndexedDataInputStream input) throws IOException {
-        return new DoubleVariableInfo(input.readUnsignedByte());
+        return new DoubleVariableInfo();
     }
 }
