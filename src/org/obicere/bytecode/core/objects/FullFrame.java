@@ -1,15 +1,14 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
 public class FullFrame extends StackMapFrame {
 
-    private static final String NAME = "FullFrame";
+    public static final String IDENTIFIER = "FullFrame";
 
-    private final int                    offset;
+    private final int offset;
+
     private final VerificationTypeInfo[] locals;
     private final VerificationTypeInfo[] stack;
 
@@ -17,26 +16,16 @@ public class FullFrame extends StackMapFrame {
         super(frameType);
 
         if (locals == null) {
-            throw new NullPointerException("locals not defined.");
+            throw new NullPointerException("locals must be non-null");
         }
 
         if (stack == null) {
-            throw new NullPointerException("stack not defined.");
+            throw new NullPointerException("stack must be non-null");
         }
 
         this.offset = offset;
         this.locals = locals;
         this.stack = stack;
-    }
-
-    @Override
-    public int getOffsetDelta() {
-        return offset;
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
     }
 
     public VerificationTypeInfo[] getLocals() {
@@ -48,14 +37,17 @@ public class FullFrame extends StackMapFrame {
     }
 
     @Override
-    public void modelValue(final DocumentBuilder builder){
+    public int getOffsetDelta() {
+        return offset;
+    }
 
-        builder.newLine();
-        builder.add("Locals:");
-        modelInfo(builder, locals);
+    @Override
+    public String getName() {
+        return IDENTIFIER;
+    }
 
-        builder.newLine();
-        builder.add("Stack:");
-        modelInfo(builder, stack);
+    @Override
+    public String getIdentifier(){
+        return IDENTIFIER;
     }
 }

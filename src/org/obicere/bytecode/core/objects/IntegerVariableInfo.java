@@ -1,18 +1,19 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
+import org.obicere.bytecode.core.reader.VerificationTypeInfoReader;
 
 /**
  */
 public class IntegerVariableInfo extends VerificationTypeInfo {
 
-    public IntegerVariableInfo(final int tag) {
-        super(tag);
+    public static final String IDENTIFIER = "IntegerVariableInfo";
+
+    public IntegerVariableInfo() {
+        super(VerificationTypeInfoReader.ITEM_INTEGER);
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        builder.addKeyword("int");
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
-
 }

@@ -1,12 +1,11 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.core.objects.signature.FieldSignature;
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
 public class LocalVariable extends ByteCodeElement {
+
+    public static final String IDENTIFIER = "LocalVariable";
 
     private final int startPC;
     private final int length;
@@ -43,12 +42,7 @@ public class LocalVariable extends ByteCodeElement {
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        final ConstantPool constantPool = builder.getConstantPool();
-        final FieldSignature signature = SignatureAttribute.parseField(constantPool.getAsString(descriptorIndex));
-
-        signature.model(builder);
-        builder.add(" ");
-        builder.add(constantPool.getAsString(nameIndex));
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

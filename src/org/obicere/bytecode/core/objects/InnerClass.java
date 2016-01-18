@@ -1,11 +1,11 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
 public class InnerClass extends ByteCodeElement {
+
+    public static final String IDENTIFIER = "InnerClass";
 
     private final int innerClassInfoIndex;
     private final int outerClassInfoIndex;
@@ -36,24 +36,7 @@ public class InnerClass extends ByteCodeElement {
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        final String name = builder.getConstantPool().getAsString(innerClassInfoIndex);
-
-        final String modelledProperty = name + ".modelled";
-        if(builder.getProperty(modelledProperty) != null){
-            return;
-        }
-        builder.setProperty("accessFlags", innerClassAccessFlags);
-
-        final ClassFile file = builder.getClassInformation().getClass(name);
-
-        if (file == null) {
-            builder.addComment("Could not find inner class: " + name);
-            return;
-        }
-        builder.setProperty(modelledProperty, "true");
-        builder.setWorkingClass(file);
-        file.model(builder);
-        builder.clearWorkingClass();
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

@@ -11,8 +11,16 @@ public class FrameCodeBlock extends CodeBlock {
     private final int startPC;
 
     public FrameCodeBlock(final StackMapFrame frame, final int startPC) {
+        if (frame == null) {
+            throw new NullPointerException("frame must be non-null");
+        }
+
         this.frame = frame;
         this.startPC = startPC;
+    }
+
+    public StackMapFrame getFrame() {
+        return frame;
     }
 
     @Override
@@ -29,11 +37,4 @@ public class FrameCodeBlock extends CodeBlock {
     public String getIdentifier() {
         return IDENTIFIER;
     }
-    /*
-    @Override
-    public void model(final DocumentBuilder builder) {
-        builder.newLine();
-        frame.model(builder);
-    }
-    */
 }
