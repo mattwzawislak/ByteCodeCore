@@ -1,18 +1,19 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
+import org.obicere.bytecode.core.reader.VerificationTypeInfoReader;
 
 /**
  */
 public class LongVariableInfo extends VerificationTypeInfo {
 
-    public LongVariableInfo(final int tag) {
-        super(tag);
+    public static final String IDENTIFIER = "LongVariableInfo";
+
+    public LongVariableInfo() {
+        super(VerificationTypeInfoReader.ITEM_LONG);
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        builder.addKeyword("long");
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
-
 }

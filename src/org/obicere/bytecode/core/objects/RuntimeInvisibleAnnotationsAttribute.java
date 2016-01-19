@@ -1,26 +1,28 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
 public class RuntimeInvisibleAnnotationsAttribute extends Attribute {
 
+    public static final String IDENTIFIER = "RuntimeInvisibleAnnotationsAttribute";
+
     private final Annotation[] annotations;
 
-    public RuntimeInvisibleAnnotationsAttribute(final Annotation[] annotations){
+    public RuntimeInvisibleAnnotationsAttribute(final int length, final Annotation[] annotations) {
+        super(length);
+        if (annotations == null) {
+            throw new NullPointerException("annotations must be non-null");
+        }
         this.annotations = annotations;
     }
 
-    public Annotation[] getAnnotations(){
+    public Annotation[] getAnnotations() {
         return annotations;
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        for (final Annotation annotation : annotations) {
-            annotation.model(builder);
-        }
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

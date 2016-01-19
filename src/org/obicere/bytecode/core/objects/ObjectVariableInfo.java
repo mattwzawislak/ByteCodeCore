@@ -1,34 +1,26 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.core.objects.signature.FieldSignature;
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-import org.obicere.bytecode.viewer.util.ByteCodeUtils;
+import org.obicere.bytecode.core.reader.VerificationTypeInfoReader;
 
 /**
  */
 public class ObjectVariableInfo extends VerificationTypeInfo {
 
+    public static final String IDENTIFIER = "ObjectVariableInfo";
+
     private final int index;
 
-    public ObjectVariableInfo(final int tag, final int index) {
-        super(tag);
+    public ObjectVariableInfo(final int index) {
+        super(VerificationTypeInfoReader.ITEM_OBJECT);
         this.index = index;
     }
 
-    @Override
-    public void model(final DocumentBuilder builder) {
+    public int getIndex() {
+        return index;
+    }
 
-        final String signature = builder.getConstantPool().getAsString(index);
-        final FieldSignature fieldSignature = SignatureAttribute.parseField(signature);
-        if (fieldSignature != null) {
-            fieldSignature.model(builder);
-        } else {
-            final boolean importMode = builder.getDomain().getSettingsController().getSettings().getBoolean("code.importMode");
-            if (importMode) {
-                builder.add(ByteCodeUtils.getClassName(signature));
-            } else {
-                builder.add(ByteCodeUtils.getQualifiedName(signature));
-            }
-        }
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

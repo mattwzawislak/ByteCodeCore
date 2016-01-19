@@ -1,18 +1,19 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
+import org.obicere.bytecode.core.reader.VerificationTypeInfoReader;
 
 /**
  */
 public class NullVariableInfo extends VerificationTypeInfo {
 
-    public NullVariableInfo(final int tag) {
-        super(tag);
+    public static final String IDENTIFIER = "NullVariableInfo";
+
+    public NullVariableInfo() {
+        super(VerificationTypeInfoReader.ITEM_NULL);
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        builder.addKeyword("null");
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
-
 }
