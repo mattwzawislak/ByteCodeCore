@@ -5,12 +5,14 @@ package org.obicere.bytecode.core.objects;
  */
 public class LocalVariableTypeTableAttribute extends Attribute {
 
+    public static final String IDENTIFIER = "LocalVariableTypeTableAttribute";
+
     private final LocalVariableType[] localVariableTypeTable;
 
-    public LocalVariableTypeTableAttribute(final LocalVariableType[] localVariableTypeTable) {
-
+    public LocalVariableTypeTableAttribute(final int length, final LocalVariableType[] localVariableTypeTable) {
+        super(length);
         if (localVariableTypeTable == null) {
-            throw new NullPointerException("local variable type table not defined.");
+            throw new NullPointerException("local variable type table must be non-null");
         }
 
         this.localVariableTypeTable = localVariableTypeTable;
@@ -20,4 +22,8 @@ public class LocalVariableTypeTableAttribute extends Attribute {
         return localVariableTypeTable;
     }
 
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
+    }
 }

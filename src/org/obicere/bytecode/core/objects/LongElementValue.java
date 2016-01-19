@@ -1,18 +1,18 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
+import org.obicere.bytecode.core.reader.ElementValueReader;
 
 /**
  * @author Obicere
  */
 public class LongElementValue extends ElementValue {
 
-    private static final int TAG = 'J';
+    public static final String IDENTIFIER = "LongElementValue";
 
     private final int constantValueIndex;
 
     public LongElementValue(final int constantValueIndex) {
-        super(TAG);
+        super(ElementValueReader.TAG_LONG);
         this.constantValueIndex = constantValueIndex;
     }
 
@@ -21,8 +21,7 @@ public class LongElementValue extends ElementValue {
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        final ConstantLong constant = (ConstantLong) builder.getConstantPool().get(constantValueIndex);
-        builder.add(constant.getBytes());
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }
