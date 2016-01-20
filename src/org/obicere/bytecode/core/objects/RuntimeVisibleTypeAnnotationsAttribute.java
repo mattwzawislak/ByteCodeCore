@@ -5,12 +5,14 @@ package org.obicere.bytecode.core.objects;
  */
 public class RuntimeVisibleTypeAnnotationsAttribute extends Attribute {
 
+    public static final String IDENTIFIER = "RuntimeVisibleTypeAnnotationsAttribute";
+
     private final TypeAnnotation[] annotations;
 
-    public RuntimeVisibleTypeAnnotationsAttribute(final TypeAnnotation[] annotations) {
-
+    public RuntimeVisibleTypeAnnotationsAttribute(final int length, final TypeAnnotation[] annotations) {
+        super(length);
         if (annotations == null) {
-            throw new NullPointerException("annotations not defined.");
+            throw new NullPointerException("annotations must be non-null");
         }
 
         this.annotations = annotations;
@@ -18,5 +20,10 @@ public class RuntimeVisibleTypeAnnotationsAttribute extends Attribute {
 
     public TypeAnnotation[] getAnnotations() {
         return annotations;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }
