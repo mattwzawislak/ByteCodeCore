@@ -12,8 +12,8 @@ public abstract class Instruction extends ByteCodeElement {
     private final int opcode;
 
     public Instruction(final String mnemonic, final int opcode) {
-        if (mnemonic.length() == 0) { // Will throw NPE if null
-            throw new IllegalArgumentException("mnemonic must not be empty.");
+        if (mnemonic == null) {
+            throw new NullPointerException("mnemonic must be non-null");
         }
         this.mnemonic = mnemonic;
         this.opcode = opcode;
