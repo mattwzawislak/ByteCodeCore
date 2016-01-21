@@ -1,27 +1,25 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
 public class SameLocals1StackItemFrame extends StackMapFrame {
 
-    private static final String NAME = "SameLocalsFrame";
+    public static final String IDENTIFIER = "SameLocalsFrame";
 
     private final VerificationTypeInfo stack;
 
     public SameLocals1StackItemFrame(final int frameType, final VerificationTypeInfo stack) {
         super(frameType);
 
-        if(stack == null){
-            throw new IllegalArgumentException("invalid verification type stack provided.");
+        if (stack == null) {
+            throw new IllegalArgumentException("stack must be non-null");
         }
 
         this.stack = stack;
     }
 
-    public VerificationTypeInfo getStack(){
+    public VerificationTypeInfo getStack() {
         return stack;
     }
 
@@ -32,13 +30,11 @@ public class SameLocals1StackItemFrame extends StackMapFrame {
 
     @Override
     public String getName() {
-        return NAME;
+        return IDENTIFIER;
     }
 
     @Override
-    public void modelValue(final DocumentBuilder builder) {
-        builder.newLine();
-        builder.add("Stack:");
-        modelInfo(builder, new VerificationTypeInfo[]{stack});
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

@@ -5,7 +5,7 @@ package org.obicere.bytecode.core.objects;
  */
 public class SameFrameExtended extends StackMapFrame {
 
-    private static final String NAME = "SameFrameExtended";
+    public static final String IDENTIFIER = "SameFrameExtended";
 
     private final int offset;
 
@@ -21,6 +21,11 @@ public class SameFrameExtended extends StackMapFrame {
 
     @Override
     public String getName() {
-        return NAME;
+        return IDENTIFIER;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

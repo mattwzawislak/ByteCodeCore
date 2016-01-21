@@ -4,16 +4,18 @@ import org.obicere.bytecode.core.objects.signature.ClassSignature;
 import org.obicere.bytecode.core.objects.signature.FieldSignature;
 import org.obicere.bytecode.core.objects.signature.MethodSignature;
 import org.obicere.bytecode.core.objects.signature.QueueString;
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 
 /**
  * @author Obicere
  */
 public class SignatureAttribute extends Attribute {
 
+    public static final String IDENTIFIER = "SignatureAttribute";
+
     private final int signatureIndex;
 
-    public SignatureAttribute(final int signatureIndex) {
+    public SignatureAttribute(final int length, final int signatureIndex) {
+        super(length);
 
         this.signatureIndex = signatureIndex;
     }
@@ -23,8 +25,8 @@ public class SignatureAttribute extends Attribute {
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        throw new UnsupportedOperationException("signatures cannot be modeled properly. Instead call the parseXX methods.");
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 
     public FieldSignature parseField(final ConstantPool constantPool) {
@@ -34,7 +36,6 @@ public class SignatureAttribute extends Attribute {
     public MethodSignature parseMethod(final ConstantPool constantPool) {
         return parseMethod(constantPool.getAsString(signatureIndex));
     }
-
 
     public ClassSignature parseClass(final ConstantPool constantPool) {
         return parseClass(constantPool.getAsString(signatureIndex));
