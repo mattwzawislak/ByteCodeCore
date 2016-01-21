@@ -5,7 +5,14 @@ package org.obicere.bytecode.core.objects;
  */
 public class SyntheticAttribute extends Attribute {
 
-    public SyntheticAttribute() {
-        // Well okay
+    public static final String IDENTIFIER = "SyntheticAttribute";
+
+    public SyntheticAttribute(final int length) {
+        super(length);
+    }
+
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

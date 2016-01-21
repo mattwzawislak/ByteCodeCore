@@ -14,9 +14,4 @@ public abstract class VerificationTypeInfo extends ByteCodeElement {
     public int getTag() {
         return tag;
     }
-
-    @Override
-    public String getIdentifier() {
-        return "verificationTypeInfo" + getStart();
-    }
 }

@@ -13,6 +13,16 @@ public class TypeAnnotation extends Annotation {
 
     public TypeAnnotation(final int targetType, final Target targetInfo, final TypePath targetPath, final int typeIndex, final ElementValuePair[] elementValuePairs) {
         super(typeIndex, elementValuePairs);
+        if (targetInfo == null) {
+            throw new NullPointerException("target info must be non-null");
+        }
+        if (targetPath == null) {
+            throw new NullPointerException("target path must be non-null");
+        }
+        if (elementValuePairs == null) {
+            throw new NullPointerException("element value pairs must be non-null");
+        }
+
         this.targetType = targetType;
         this.targetInfo = targetInfo;
         this.targetPath = targetPath;

@@ -1,20 +1,19 @@
 package org.obicere.bytecode.core.objects;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
+import org.obicere.bytecode.core.reader.VerificationTypeInfoReader;
 
 /**
  */
 public class UninitializedThisVariableInfo extends VerificationTypeInfo {
 
-    public UninitializedThisVariableInfo(final int tag) {
-        super(tag);
+    public static final String IDENTIFIER = "UninitializedThisVariableInfo";
+
+    public UninitializedThisVariableInfo() {
+        super(VerificationTypeInfoReader.ITEM_UNINITIALIZED_THIS);
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        builder.addKeyword("this");
-        builder.add("->");
-        builder.addKeyword("nullptr");
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
-
 }
