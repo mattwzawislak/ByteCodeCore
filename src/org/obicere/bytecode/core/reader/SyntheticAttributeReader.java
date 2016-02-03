@@ -10,10 +10,8 @@ import java.io.IOException;
  */
 public class SyntheticAttributeReader implements Reader<SyntheticAttribute> {
 
-    private final SyntheticAttribute instance = new SyntheticAttribute();
-
     @Override
     public SyntheticAttribute read(final IndexedDataInputStream input) throws IOException {
-        return instance;
+        return new SyntheticAttribute(input.readInt());
     }
 }

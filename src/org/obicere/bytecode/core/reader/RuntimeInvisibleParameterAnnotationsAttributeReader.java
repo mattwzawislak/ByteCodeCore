@@ -19,6 +19,7 @@ public class RuntimeInvisibleParameterAnnotationsAttributeReader implements Read
 
     @Override
     public RuntimeInvisibleParameterAnnotationsAttribute read(final IndexedDataInputStream input) throws IOException {
+        final int length = input.readInt();
         final int numParameters = input.readUnsignedByte();
         final Annotation[][] annotations = new Annotation[numParameters][];
 
@@ -29,6 +30,6 @@ public class RuntimeInvisibleParameterAnnotationsAttributeReader implements Read
                 annotations[i][j] = annotation.read(input);
             }
         }
-        return new RuntimeInvisibleParameterAnnotationsAttribute(annotations);
+        return new RuntimeInvisibleParameterAnnotationsAttribute(length, annotations);
     }
 }

@@ -10,10 +10,8 @@ import java.io.IOException;
  */
 public class DeprecatedAttributeReader implements Reader<DeprecatedAttribute> {
 
-    private final DeprecatedAttribute instance = new DeprecatedAttribute();
-
     @Override
     public DeprecatedAttribute read(final IndexedDataInputStream input) throws IOException {
-        return instance;
+        return new DeprecatedAttribute(input.readInt());
     }
 }

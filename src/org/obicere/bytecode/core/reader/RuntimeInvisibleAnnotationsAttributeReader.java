@@ -19,12 +19,13 @@ public class RuntimeInvisibleAnnotationsAttributeReader implements Reader<Runtim
 
     @Override
     public RuntimeInvisibleAnnotationsAttribute read(final IndexedDataInputStream input) throws IOException {
+        final int length = input.readInt();
         final int numAnnotations = input.readUnsignedShort();
         final Annotation[] annotations = new Annotation[numAnnotations];
 
         for (int i = 0; i < numAnnotations; i++) {
             annotations[i] = annotation.read(input);
         }
-        return new RuntimeInvisibleAnnotationsAttribute(annotations);
+        return new RuntimeInvisibleAnnotationsAttribute(length, annotations);
     }
 }

@@ -11,11 +11,12 @@ import java.io.IOException;
 public class ExceptionsAttributeReader implements Reader<ExceptionsAttribute> {
     @Override
     public ExceptionsAttribute read(final IndexedDataInputStream input) throws IOException {
+        final int length = input.readInt();
         final int numberOfExceptions = input.readUnsignedShort();
         final int[] exceptionIndexTable = new int[numberOfExceptions];
         for(int i = 0; i < numberOfExceptions; i++){
             exceptionIndexTable[i] = input.readUnsignedShort();
         }
-        return new ExceptionsAttribute(exceptionIndexTable);
+        return new ExceptionsAttribute(length, exceptionIndexTable);
     }
 }

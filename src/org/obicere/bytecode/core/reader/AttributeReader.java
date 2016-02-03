@@ -74,7 +74,6 @@ public class AttributeReader extends MultiReader<String, Attribute> {
     public Attribute read(final IndexedDataInputStream input) throws IOException {
         final int start = input.getLogicalIndex();
         final int attributeNameIndex = input.readUnsignedShort();
-        input.readInt(); // Read the attribute length. This is ignored generally
         final String attributeName = constantPool.getAsString(attributeNameIndex);
         final Reader<? extends Attribute> reader = get(attributeName);
         if (reader == null) {

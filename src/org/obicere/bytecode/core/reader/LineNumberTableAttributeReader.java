@@ -15,12 +15,13 @@ public class LineNumberTableAttributeReader implements Reader<LineNumberTableAtt
 
     @Override
     public LineNumberTableAttribute read(final IndexedDataInputStream input) throws IOException {
+        final int length = input.readInt();
         final int lineNumberTableLength = input.readUnsignedShort();
         final LineNumber[] lineNumberTable = new LineNumber[lineNumberTableLength];
 
         for(int i = 0; i < lineNumberTableLength; i++){
             lineNumberTable[i] = lineNumber.read(input);
         }
-        return new LineNumberTableAttribute(lineNumberTable);
+        return new LineNumberTableAttribute(length, lineNumberTable);
     }
 }

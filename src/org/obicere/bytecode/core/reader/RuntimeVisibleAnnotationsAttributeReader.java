@@ -19,12 +19,13 @@ public class RuntimeVisibleAnnotationsAttributeReader implements Reader<RuntimeV
 
     @Override
     public RuntimeVisibleAnnotationsAttribute read(final IndexedDataInputStream input) throws IOException {
+        final int length = input.readInt();
         final int numAnnotations = input.readUnsignedShort();
         final Annotation[] annotations = new Annotation[numAnnotations];
 
         for (int i = 0; i < numAnnotations; i++) {
             annotations[i] = annotation.read(input);
         }
-        return new RuntimeVisibleAnnotationsAttribute(annotations);
+        return new RuntimeVisibleAnnotationsAttribute(length, annotations);
     }
 }

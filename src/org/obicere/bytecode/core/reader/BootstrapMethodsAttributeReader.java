@@ -15,11 +15,12 @@ public class BootstrapMethodsAttributeReader implements Reader<BootstrapMethodsA
 
     @Override
     public BootstrapMethodsAttribute read(final IndexedDataInputStream input) throws IOException {
+        final int length = input.readInt();
         final int numBootstrapMethods = input.readUnsignedShort();
         final BootstrapMethod[] bootstrapMethods = new BootstrapMethod[numBootstrapMethods];
         for (int i = 0; i < numBootstrapMethods; i++) {
             bootstrapMethods[i] = bootstrapMethod.read(input);
         }
-        return new BootstrapMethodsAttribute(bootstrapMethods);
+        return new BootstrapMethodsAttribute(length, bootstrapMethods);
     }
 }

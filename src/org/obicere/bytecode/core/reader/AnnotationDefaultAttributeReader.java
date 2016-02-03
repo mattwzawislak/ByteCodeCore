@@ -18,6 +18,6 @@ public class AnnotationDefaultAttributeReader implements Reader<AnnotationDefaul
 
     @Override
     public AnnotationDefaultAttribute read(final IndexedDataInputStream input) throws IOException {
-        return new AnnotationDefaultAttribute(elementValue.read(input));
+        return new AnnotationDefaultAttribute(input.readInt(), elementValue.read(input));
     }
 }

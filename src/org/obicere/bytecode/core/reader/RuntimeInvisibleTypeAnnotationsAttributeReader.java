@@ -19,12 +19,13 @@ public class RuntimeInvisibleTypeAnnotationsAttributeReader implements Reader<Ru
 
     @Override
     public RuntimeInvisibleTypeAnnotationsAttribute read(final IndexedDataInputStream input) throws IOException {
+        final int length = input.readInt();
         final int numAnnotations = input.readUnsignedShort();
         final TypeAnnotation[] annotations = new TypeAnnotation[numAnnotations];
 
         for (int i = 0; i < numAnnotations; i++) {
             annotations[i] = annotation.read(input);
         }
-        return new RuntimeInvisibleTypeAnnotationsAttribute(annotations);
+        return new RuntimeInvisibleTypeAnnotationsAttribute(length, annotations);
     }
 }

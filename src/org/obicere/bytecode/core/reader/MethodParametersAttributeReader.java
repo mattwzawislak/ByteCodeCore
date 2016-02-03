@@ -15,11 +15,12 @@ public class MethodParametersAttributeReader implements Reader<MethodParametersA
 
     @Override
     public MethodParametersAttribute read(final IndexedDataInputStream input) throws IOException {
+        final int length = input.readInt();
         final int parametersCount = input.readUnsignedByte();
         final Parameter[] parameters = new Parameter[parametersCount];
         for(int i = 0; i < parametersCount; i++){
             parameters[i] = parameter.read(input);
         }
-        return new MethodParametersAttribute(parameters);
+        return new MethodParametersAttribute(length, parameters);
     }
 }

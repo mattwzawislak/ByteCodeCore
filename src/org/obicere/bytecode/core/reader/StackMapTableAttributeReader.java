@@ -15,11 +15,12 @@ public class StackMapTableAttributeReader implements Reader<StackMapTableAttribu
 
     @Override
     public StackMapTableAttribute read(final IndexedDataInputStream input) throws IOException {
+        final int length = input.readInt();
         final int numberOfEntries = input.readUnsignedShort();
         final StackMapFrame[] entries = new StackMapFrame[numberOfEntries];
         for (int i = 0; i < numberOfEntries; i++) {
             entries[i] = stackMapFrame.read(input);
         }
-        return new StackMapTableAttribute(entries);
+        return new StackMapTableAttribute(length, entries);
     }
 }

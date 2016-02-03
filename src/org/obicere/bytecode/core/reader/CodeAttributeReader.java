@@ -24,6 +24,7 @@ public class CodeAttributeReader implements Reader<CodeAttribute> {
 
     @Override
     public CodeAttribute read(final IndexedDataInputStream input) throws IOException {
+        final int length = input.readInt();
         final int maxStack = input.readUnsignedShort();
         final int maxLocals = input.readUnsignedShort();
         final int codeLength = input.readInt();
@@ -67,6 +68,6 @@ public class CodeAttributeReader implements Reader<CodeAttribute> {
         for (int i = 0; i < attributesCount; i++) {
             attributes[i] = attributeReader.read(input);
         }
-        return new CodeAttribute(maxStack, maxLocals, code, instructions, exceptionTable, attributes);
+        return new CodeAttribute(length, maxStack, maxLocals, code, instructions, exceptionTable, attributes);
     }
 }

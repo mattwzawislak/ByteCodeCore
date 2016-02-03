@@ -12,7 +12,8 @@ public class SourceFileAttributeReader implements Reader<SourceFileAttribute> {
 
     @Override
     public SourceFileAttribute read(final IndexedDataInputStream input) throws IOException {
+        final int length = input.readInt();
         final int sourceFileIndex = input.readUnsignedShort();
-        return new SourceFileAttribute(sourceFileIndex);
+        return new SourceFileAttribute(length, sourceFileIndex);
     }
 }

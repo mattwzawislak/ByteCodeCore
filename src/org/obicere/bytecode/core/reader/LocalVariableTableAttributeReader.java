@@ -15,12 +15,13 @@ public class LocalVariableTableAttributeReader implements Reader<LocalVariableTa
 
     @Override
     public LocalVariableTableAttribute read(final IndexedDataInputStream input) throws IOException {
+        final int length = input.readInt();
         final int localVariableTableLength = input.readUnsignedShort();
         final LocalVariable[] localVariableTable = new LocalVariable[localVariableTableLength];
 
         for (int i = 0; i < localVariableTableLength; i++) {
             localVariableTable[i] = localVariable.read(input);
         }
-        return new LocalVariableTableAttribute(localVariableTable);
+        return new LocalVariableTableAttribute(length, localVariableTable);
     }
 }

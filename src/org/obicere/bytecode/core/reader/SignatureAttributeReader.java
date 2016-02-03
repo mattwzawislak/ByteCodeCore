@@ -11,7 +11,8 @@ import java.io.IOException;
 public class SignatureAttributeReader implements Reader<SignatureAttribute> {
     @Override
     public SignatureAttribute read(final IndexedDataInputStream input) throws IOException {
+        final int length = input.readInt();
         final int signatureIndex = input.readUnsignedShort();
-        return new SignatureAttribute(signatureIndex);
+        return new SignatureAttribute(length, signatureIndex);
     }
 }

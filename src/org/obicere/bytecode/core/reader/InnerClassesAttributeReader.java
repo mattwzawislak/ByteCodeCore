@@ -15,6 +15,7 @@ public class InnerClassesAttributeReader implements Reader<InnerClassesAttribute
 
     @Override
     public InnerClassesAttribute read(final IndexedDataInputStream input) throws IOException {
+        final int length = input.readInt();
         final int numberOfClasses = input.readUnsignedShort();
         final InnerClass[] classes = new InnerClass[numberOfClasses];
         for (int i = 0; i < numberOfClasses; i++) {
@@ -26,6 +27,6 @@ public class InnerClassesAttributeReader implements Reader<InnerClassesAttribute
             classes[i] = cls;
 
         }
-        return new InnerClassesAttribute(classes);
+        return new InnerClassesAttribute(length, classes);
     }
 }
