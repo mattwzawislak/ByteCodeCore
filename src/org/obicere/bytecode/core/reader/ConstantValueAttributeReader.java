@@ -11,6 +11,8 @@ import java.io.IOException;
 public class ConstantValueAttributeReader implements Reader<ConstantValueAttribute> {
     @Override
     public ConstantValueAttribute read(final IndexedDataInputStream input) throws IOException {
-        return new ConstantValueAttribute(input.readInt(), input.readUnsignedShort());
+        final int length = input.readInt();
+        final int constantValueIndex = input.readUnsignedShort();
+        return new ConstantValueAttribute(length, constantValueIndex);
     }
 }

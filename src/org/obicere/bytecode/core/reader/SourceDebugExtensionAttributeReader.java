@@ -12,10 +12,11 @@ public class SourceDebugExtensionAttributeReader implements Reader<SourceDebugEx
     @Override
     public SourceDebugExtensionAttribute read(final IndexedDataInputStream input) throws IOException {
         final int length = input.readInt();
-        final byte[] debugExtension = new byte[length];
-        if (input.read(debugExtension) < 0) {
+        final byte[] debugExtensionBytes = new byte[length];
+        if (input.read(debugExtensionBytes) < 0) {
             throw new ClassFormatError("reached out of file when reading source debug extension");
         }
-        return new SourceDebugExtensionAttribute(length, new String(debugExtension));
+        final String debugExtension = new String(debugExtensionBytes, "UTF-8");
+        return new SourceDebugExtensionAttribute(length, debugExtension);
     }
 }
