@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class lcmp extends Instruction {
 
-    private static final String MNEMONIC = "lcmp";
+    public static final String IDENTIFIER = "lcmp";
     private static final int    OPCODE   = 0x94;
 
     public lcmp() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

@@ -7,14 +7,14 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
  */
 public class invokevirtual extends Instruction {
 
-    private static final String MNEMONIC = "invokevirtual";
+    public static final String IDENTIFIER = "invokevirtual";
     private static final int    OPCODE   = 0xb6;
 
     private final int indexbyte1;
     private final int indexbyte2;
 
     public invokevirtual(final int indexbyte1, final int indexbyte2) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         this.indexbyte1 = indexbyte1;
         this.indexbyte2 = indexbyte2;
     }

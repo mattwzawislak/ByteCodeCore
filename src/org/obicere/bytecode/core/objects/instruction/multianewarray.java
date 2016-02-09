@@ -8,7 +8,7 @@ import org.obicere.bytecode.viewer.dom.Modeler;
  */
 public class multianewarray extends Instruction implements Modeler {
 
-    private static final String MNEMONIC = "multianewarray";
+    public static final String IDENTIFIER = "multianewarray";
     private static final int    OPCODE   = 0xc5;
 
     private final int indexbyte1;
@@ -16,7 +16,7 @@ public class multianewarray extends Instruction implements Modeler {
     private final int dimensions;
 
     public multianewarray(final int indexbyte1, final int indexbyte2, final int dimensions) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         this.indexbyte1 = indexbyte1;
         this.indexbyte2 = indexbyte2;
         this.dimensions = dimensions;

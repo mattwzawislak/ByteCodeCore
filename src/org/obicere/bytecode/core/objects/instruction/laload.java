@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class laload extends Instruction {
 
-    private static final String MNEMONIC = "laload";
+    public static final String IDENTIFIER = "laload";
     private static final int    OPCODE   = 0x2f;
 
     public laload() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

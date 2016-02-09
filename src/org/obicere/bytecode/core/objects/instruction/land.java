@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class land extends Instruction {
 
-    private static final String MNEMONIC = "land";
+    public static final String IDENTIFIER = "land";
     private static final int    OPCODE   = 0x7f;
 
     public land() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

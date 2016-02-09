@@ -5,11 +5,11 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class drem extends Instruction {
 
-    private static final String MNEMONIC = "drem";
+    public static final String IDENTIFIER = "drem";
     private static final int    OPCODE   = 0x73;
 
     public drem() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 
 }

@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class ishl extends Instruction {
 
-    private static final String MNEMONIC = "ishl";
+    public static final String IDENTIFIER = "ishl";
     private static final int    OPCODE   = 0x78;
 
     public ishl() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

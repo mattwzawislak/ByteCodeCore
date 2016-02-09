@@ -7,13 +7,13 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
  */
 public class fload extends Instruction {
 
-    private static final String MNEMONIC = "fload";
+    public static final String IDENTIFIER = "fload";
     private static final int    OPCODE   = 0x17;
 
     private final int index;
 
     public fload(final int index) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         this.index = index;
     }
 

@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class lxor extends Instruction {
 
-    private static final String MNEMONIC = "lxor";
+    public static final String IDENTIFIER = "lxor";
     private static final int    OPCODE   = 0x83;
 
     public lxor() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

@@ -8,7 +8,7 @@ import org.obicere.bytecode.core.reader.instruction.InstructionReader;
  */
 public class wide extends Instruction {
 
-    private static final String MNEMONIC = "wide";
+    public static final String IDENTIFIER = "wide";
     private static final int    OPCODE   = 0xc4;
 
     private final int instruction;
@@ -20,7 +20,7 @@ public class wide extends Instruction {
     private final int constbyte2;
 
     public wide(final int instruction, final int indexbyte1, final int indexbyte2) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         this.instruction = instruction;
         this.indexbyte1 = indexbyte1;
         this.indexbyte2 = indexbyte2;
@@ -29,7 +29,7 @@ public class wide extends Instruction {
     }
 
     public wide(final int instruction, final int indexbyte1, final int indexbyte2, final int constbyte1, final int constbyte2) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         this.instruction = instruction;
         this.indexbyte1 = indexbyte1;
         this.indexbyte2 = indexbyte2;

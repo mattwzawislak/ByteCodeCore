@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class frem extends Instruction {
 
-    private static final String MNEMONIC = "frem";
+    public static final String IDENTIFIER = "frem";
     private static final int    OPCODE   = 0x72;
 
     public frem() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

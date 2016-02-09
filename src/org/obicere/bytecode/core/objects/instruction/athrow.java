@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class athrow extends Instruction {
 
-    private static final String MNEMONIC = "athrow";
+    public static final String IDENTIFIER = "athrow";
     private static final int    OPCODE   = 0xbf;
 
     public athrow() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

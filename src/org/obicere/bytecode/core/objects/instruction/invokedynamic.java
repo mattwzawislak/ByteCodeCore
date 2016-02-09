@@ -7,14 +7,14 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
  */
 public class invokedynamic extends Instruction {
 
-    private static final String MNEMONIC = "invokedynamic";
+    public static final String IDENTIFIER = "invokedynamic";
     private static final int    OPCODE   = 0xba;
 
     private final int indexbyte1;
     private final int indexbyte2;
 
     public invokedynamic(final int indexbyte1, final int indexbyte2, final int indexbyte3, final int indexbyte4) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         if (indexbyte3 != 0 || indexbyte4 != 0) {
             throw new ClassFormatError("invokedynamic bytes 3 and 4 must be set to 0.");
         }

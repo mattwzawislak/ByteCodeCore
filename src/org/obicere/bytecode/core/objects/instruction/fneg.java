@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class fneg extends Instruction {
 
-    private static final String MNEMONIC = "fneg";
+    public static final String IDENTIFIER = "fneg";
     private static final int    OPCODE   = 0x76;
 
     public fneg() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

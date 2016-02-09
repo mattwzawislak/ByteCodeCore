@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class castore extends Instruction {
 
-    private static final String MNEMONIC = "castore";
+    public static final String IDENTIFIER = "castore";
     private static final int    OPCODE   = 0x55;
 
     public castore() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

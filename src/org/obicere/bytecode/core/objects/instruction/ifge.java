@@ -8,14 +8,14 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
  */
 public class ifge extends Instruction {
 
-    private static final String MNEMONIC = "ifge";
+    public static final String IDENTIFIER = "ifge";
     private static final int    OPCODE   = 0x9c;
 
     private final int branchbyte1;
     private final int branchbyte2;
 
     public ifge(final int branchbyte1, final int branchbyte2) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         this.branchbyte1 = branchbyte1;
         this.branchbyte2 = branchbyte2;
     }

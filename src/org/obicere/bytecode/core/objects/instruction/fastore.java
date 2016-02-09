@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class fastore extends Instruction {
 
-    private static final String MNEMONIC = "fastore";
+    public static final String IDENTIFIER = "fastore";
     private static final int    OPCODE   = 0x51;
 
     public fastore() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

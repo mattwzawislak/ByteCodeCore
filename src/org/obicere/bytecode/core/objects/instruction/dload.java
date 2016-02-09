@@ -7,13 +7,13 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
  */
 public class dload extends Instruction {
 
-    private static final String MNEMONIC = "dload";
+    public static final String IDENTIFIER = "dload";
     private static final int    OPCODE   = 0x18;
 
     private final int index;
 
     public dload(final int index) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         this.index = index;
     }
 

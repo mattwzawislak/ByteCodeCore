@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class iand extends Instruction {
 
-    private static final String MNEMONIC = "iand";
+    public static final String IDENTIFIER = "iand";
     private static final int    OPCODE   = 0x7e;
 
     public iand() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

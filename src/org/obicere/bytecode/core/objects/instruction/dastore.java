@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class dastore extends Instruction {
 
-    private static final String MNEMONIC = "dastore";
+    public static final String IDENTIFIER = "dastore";
     private static final int    OPCODE   = 0x52;
 
     public dastore() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

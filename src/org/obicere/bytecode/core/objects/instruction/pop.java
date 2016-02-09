@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class pop extends Instruction {
 
-    private static final String MNEMONIC = "pop";
+    public static final String IDENTIFIER = "pop";
     private static final int    OPCODE   = 0x57;
 
     public pop() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

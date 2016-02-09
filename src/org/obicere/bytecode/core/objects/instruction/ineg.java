@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class ineg extends Instruction {
 
-    private static final String MNEMONIC = "ineg";
+    public static final String IDENTIFIER = "ineg";
     private static final int    OPCODE   = 0x74;
 
     public ineg() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

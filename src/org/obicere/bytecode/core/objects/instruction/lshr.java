@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class lshr extends Instruction {
 
-    private static final String MNEMONIC = "lshr";
+    public static final String IDENTIFIER = "lshr";
     private static final int    OPCODE   = 0x7b;
 
     public lshr() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

@@ -18,10 +18,4 @@ public class aload extends Instruction {
     public int getIndex() {
         return index;
     }
-
-    @Override
-    public String getIdentifier() {
-        return IDENTIFIER;
-    }
-
 }

@@ -27,4 +27,9 @@ public abstract class Instruction extends ByteCodeElement {
         return opcode;
     }
 
+    @Override
+    public String getIdentifier() {
+        return mnemonic;
+    }
+
 }

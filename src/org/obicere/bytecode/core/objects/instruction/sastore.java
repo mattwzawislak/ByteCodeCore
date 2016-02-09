@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class sastore extends Instruction {
 
-    private static final String MNEMONIC = "sastore";
+    public static final String IDENTIFIER = "sastore";
     private static final int    OPCODE   = 0x56;
 
     public sastore() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

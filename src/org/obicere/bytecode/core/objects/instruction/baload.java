@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class baload extends Instruction {
 
-    private static final String MNEMONIC = "baload";
+    public static final String IDENTIFIER = "baload";
     private static final int    OPCODE   = 0x33;
 
     public baload() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

@@ -7,7 +7,7 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
  */
 public class invokeinterface extends Instruction {
 
-    private static final String MNEMONIC = "invokeinterface";
+    public static final String IDENTIFIER = "invokeinterface";
     private static final int    OPCODE   = 0xb9;
 
     private final int indexbyte1;
@@ -15,7 +15,7 @@ public class invokeinterface extends Instruction {
     private final int count;
 
     public invokeinterface(final int indexbyte1, final int indexbyte2, final int count, final int indexbyte4) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         if (count == 0) {
             throw new ClassFormatError("count operand must not be 0.");
         }

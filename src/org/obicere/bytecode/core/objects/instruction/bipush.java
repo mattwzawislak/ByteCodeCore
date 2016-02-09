@@ -7,13 +7,13 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
  */
 public class bipush extends Instruction {
 
-    private static final String MNEMONIC = "bipush";
+    public static final String IDENTIFIER = "bipush";
     private static final int    OPCODE   = 0x10;
 
     private final int value;
 
     public bipush(final int value) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         this.value = value;
     }
 

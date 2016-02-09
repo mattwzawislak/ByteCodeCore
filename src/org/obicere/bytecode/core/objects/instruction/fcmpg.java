@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class fcmpg extends Instruction {
 
-    private static final String MNEMONIC = "fcmpg";
+    public static final String IDENTIFIER = "fcmpg";
     private static final int    OPCODE   = 0x96;
 
     public fcmpg() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

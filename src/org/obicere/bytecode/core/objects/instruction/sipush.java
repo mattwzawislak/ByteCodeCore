@@ -7,14 +7,14 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
  */
 public class sipush extends Instruction {
 
-    private static final String MNEMONIC = "sipush";
+    public static final String IDENTIFIER = "sipush";
     private static final int    OPCODE   = 0x11;
 
     private final int byte1;
     private final int byte2;
 
     public sipush(final int byte1, final int byte2) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         this.byte1 = byte1;
         this.byte2 = byte2;
     }

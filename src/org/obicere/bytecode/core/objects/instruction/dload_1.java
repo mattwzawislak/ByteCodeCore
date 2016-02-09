@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class dload_1 extends Instruction {
 
-    private static final String MNEMONIC = "dload_1";
+    public static final String IDENTIFIER = "dload_1";
     private static final int    OPCODE   = 0x27;
 
     public dload_1() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

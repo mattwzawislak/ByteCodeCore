@@ -5,11 +5,11 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class aload_3 extends Instruction {
 
-    private static final String MNEMONIC = "aload_3";
+    public static final String IDENTIFIER = "aload_3";
     private static final int    OPCODE   = 0x2d;
 
     public aload_3() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 
 }

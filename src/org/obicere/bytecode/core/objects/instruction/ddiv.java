@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class ddiv extends Instruction {
 
-    private static final String MNEMONIC = "ddiv";
+    public static final String IDENTIFIER = "ddiv";
     private static final int    OPCODE   = 0x6f;
 
     public ddiv() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

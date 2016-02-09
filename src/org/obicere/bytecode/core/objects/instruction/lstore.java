@@ -7,13 +7,13 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
  */
 public class lstore extends Instruction {
 
-    private static final String MNEMONIC = "lstore";
+    public static final String IDENTIFIER = "lstore";
     private static final int    OPCODE   = 0x37;
 
     private final int index;
 
     public lstore(final int index) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         this.index = index;
     }
 

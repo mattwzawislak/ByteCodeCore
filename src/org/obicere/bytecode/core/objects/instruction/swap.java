@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class swap extends Instruction {
 
-    private static final String MNEMONIC = "swap";
+    public static final String IDENTIFIER = "swap";
     private static final int    OPCODE   = 0x5f;
 
     public swap() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

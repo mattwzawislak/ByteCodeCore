@@ -7,14 +7,14 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
  */
 public class iinc extends Instruction {
 
-    private static final String MNEMONIC = "iinc";
+    public static final String IDENTIFIER = "iinc";
     private static final int    OPCODE   = 0x84;
 
     private final int index;
     private final int constant;
 
     public iinc(final int index, final int constant) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         this.index = index;
         this.constant = constant;
     }

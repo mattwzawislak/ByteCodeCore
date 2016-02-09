@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class ior extends Instruction {
 
-    private static final String MNEMONIC = "ior";
+    public static final String IDENTIFIER = "ior";
     private static final int    OPCODE   = 0x80;
 
     public ior() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

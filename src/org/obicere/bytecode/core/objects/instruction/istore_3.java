@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class istore_3 extends Instruction {
 
-    private static final String MNEMONIC = "istore_3";
+    public static final String IDENTIFIER = "istore_3";
     private static final int    OPCODE   = 0x3e;
 
     public istore_3() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

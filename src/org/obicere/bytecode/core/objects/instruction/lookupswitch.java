@@ -7,7 +7,7 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
  */
 public class lookupswitch extends Instruction {
 
-    private static final String MNEMONIC = "lookupswitch";
+    public static final String IDENTIFIER = "lookupswitch";
     private static final int    OPCODE   = 0xab;
 
     private final int defaultbyte1;
@@ -23,7 +23,7 @@ public class lookupswitch extends Instruction {
     private final int[][] matchOffsetPairs;
 
     public lookupswitch(final int defaultbyte1, final int defaultbyte2, final int defaultbyte3, final int defaultbyte4, final int npairs1, final int npairs2, final int npairs3, final int npairs4, final int[][] matchOffsetPairs) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
 
         this.defaultbyte1 = defaultbyte1;
         this.defaultbyte2 = defaultbyte2;

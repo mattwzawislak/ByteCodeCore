@@ -11,9 +11,4 @@ public class aconst_null extends Instruction {
     public aconst_null() {
         super(IDENTIFIER, OPCODE);
     }
-
-    @Override
-    public String getIdentifier() {
-        return IDENTIFIER;
-    }
 }

@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class irem extends Instruction {
 
-    private static final String MNEMONIC = "irem";
+    public static final String IDENTIFIER = "irem";
     private static final int    OPCODE   = 0x70;
 
     public irem() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

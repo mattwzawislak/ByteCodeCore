@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class lushr extends Instruction {
 
-    private static final String MNEMONIC = "lushr";
+    public static final String IDENTIFIER = "lushr";
     private static final int    OPCODE   = 0x7d;
 
     public lushr() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

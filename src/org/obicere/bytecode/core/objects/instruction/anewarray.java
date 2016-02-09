@@ -1,20 +1,18 @@
 package org.obicere.bytecode.core.objects.instruction;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
 public class anewarray extends Instruction {
 
-    private static final String MNEMONIC = "anewarray";
-    private static final int    OPCODE   = 0xbd;
+    public static final  String IDENTIFIER = "anewarray";
+    private static final int    OPCODE     = 0xbd;
 
     private final int indexbyte1;
     private final int indexbyte2;
 
     public anewarray(final int indexbyte1, final int indexbyte2) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         this.indexbyte1 = indexbyte1;
         this.indexbyte2 = indexbyte2;
     }
@@ -29,12 +27,5 @@ public class anewarray extends Instruction {
 
     public int getIndex() {
         return (indexbyte1 << 8) | indexbyte2;
-    }
-
-    @Override
-    public void model(final DocumentBuilder builder) {
-        super.model(builder);
-        builder.tab();
-        builder.getConstantPool().get(getIndex()).modelValue(builder);
     }
 }

@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class arraylength extends Instruction {
 
-    private static final String MNEMONIC = "arraylength";
+    public static final String IDENTIFIER = "arraylength";
     private static final int    OPCODE   = 0xbe;
 
     public arraylength() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

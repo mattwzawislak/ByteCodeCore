@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public final class UnknownInstruction extends Instruction {
 
-    private static final String MNEMONIC = "unknown";
+    public static final String IDENTIFIER = "unknown";
     private static final int OPCODE = -1;
 
     public UnknownInstruction(){
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class dmul extends Instruction {
 
-    private static final String MNEMONIC = "dmul";
+    public static final String IDENTIFIER = "dmul";
     private static final int    OPCODE   = 0x6b;
 
     public dmul() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

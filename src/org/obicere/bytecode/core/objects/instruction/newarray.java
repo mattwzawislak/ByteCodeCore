@@ -7,13 +7,13 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
  */
 public class newarray extends Instruction {
 
-    private static final String MNEMONIC = "newarray";
+    public static final String IDENTIFIER = "newarray";
     private static final int    OPCODE   = 0xbc;
 
     private final int atype;
 
     public newarray(final int atype) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         this.atype = atype;
     }
 

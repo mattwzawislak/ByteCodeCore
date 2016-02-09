@@ -7,7 +7,7 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
  */
 public class tableswitch extends Instruction {
 
-    private static final String MNEMONIC = "tableswitch";
+    public static final String IDENTIFIER = "tableswitch";
     private static final int    OPCODE   = 0xaa;
 
     private final int defaultbyte1;
@@ -28,7 +28,7 @@ public class tableswitch extends Instruction {
     private final int[] jumpOffsets;
 
     public tableswitch(final int defaultbyte1, final int defaultbyte2, final int defaultbyte3, final int defaultbyte4, final int lowbyte1, final int lowbyte2, final int lowbyte3, final int lowbyte4, final int highbyte1, final int highbyte2, final int highbyte3, final int highbyte4, final int[] jumpOffests) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
 
         this.defaultbyte1 = defaultbyte1;
         this.defaultbyte2 = defaultbyte2;

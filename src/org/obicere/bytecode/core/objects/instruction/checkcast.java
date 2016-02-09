@@ -7,14 +7,14 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
  */
 public class checkcast extends Instruction {
 
-    private static final String MNEMONIC = "checkcast";
+    public static final String IDENTIFIER = "checkcast";
     private static final int    OPCODE   = 0xc0;
 
     private final int indexbyte1;
     private final int indexbyte2;
 
     public checkcast(final int indexbyte1, final int indexbyte2) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         this.indexbyte1 = indexbyte1;
         this.indexbyte2 = indexbyte2;
     }

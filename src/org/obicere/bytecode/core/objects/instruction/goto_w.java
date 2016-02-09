@@ -8,7 +8,7 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
  */
 public class goto_w extends Instruction {
 
-    private static final String MNEMONIC = "goto_w";
+    public static final String IDENTIFIER = "goto_w";
     private static final int    OPCODE   = 0xc8;
 
     private final int branchbyte1;
@@ -17,7 +17,7 @@ public class goto_w extends Instruction {
     private final int branchbyte4;
 
     public goto_w(final int branchbyte1, final int branchbyte2, final int branchbyte3, final int branchbyte4) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         this.branchbyte1 = branchbyte1;
         this.branchbyte2 = branchbyte2;
         this.branchbyte3 = branchbyte3;

@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class nop extends Instruction {
 
-    private static final String MNEMONIC = "nop";
+    public static final String IDENTIFIER = "nop";
     private static final int    OPCODE   = 0x00;
 
     public nop() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class fsub extends Instruction {
 
-    private static final String MNEMONIC = "fsub";
+    public static final String IDENTIFIER = "fsub";
     private static final int    OPCODE   = 0x66;
 
     public fsub() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

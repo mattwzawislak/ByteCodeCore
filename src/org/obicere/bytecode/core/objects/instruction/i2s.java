@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class i2s extends Instruction {
 
-    private static final String MNEMONIC = "i2s";
+    public static final String IDENTIFIER = "i2s";
     private static final int    OPCODE   = 0x93;
 
     public i2s() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

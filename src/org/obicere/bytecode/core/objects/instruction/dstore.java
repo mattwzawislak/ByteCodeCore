@@ -7,13 +7,13 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
  */
 public class dstore extends Instruction {
 
-    private static final String MNEMONIC = "dstore";
+    public static final String IDENTIFIER = "dstore";
     private static final int    OPCODE   = 0x39;
 
     private final int index;
 
     public dstore(final int index) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         this.index = index;
     }
 

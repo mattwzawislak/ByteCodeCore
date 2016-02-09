@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class l2f extends Instruction {
 
-    private static final String MNEMONIC = "l2f";
+    public static final String IDENTIFIER = "l2f";
     private static final int    OPCODE   = 0x89;
 
     public l2f() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

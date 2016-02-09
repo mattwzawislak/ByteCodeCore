@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class fmul extends Instruction {
 
-    private static final String MNEMONIC = "fmul";
+    public static final String IDENTIFIER = "fmul";
     private static final int    OPCODE   = 0x6a;
 
     public fmul() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

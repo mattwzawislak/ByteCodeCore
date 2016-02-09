@@ -11,9 +11,4 @@ public class aaload extends Instruction {
     public aaload() {
         super(IDENTIFIER, OPCODE);
     }
-
-    @Override
-    public String getIdentifier() {
-        return IDENTIFIER;
-    }
 }

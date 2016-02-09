@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class fconst_2 extends Instruction {
 
-    private static final String MNEMONIC = "fconst_2";
+    public static final String IDENTIFIER = "fconst_2";
     private static final int    OPCODE   = 0x0d;
 
     public fconst_2() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

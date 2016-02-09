@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class dup2 extends Instruction {
 
-    private static final String MNEMONIC = "dup2";
+    public static final String IDENTIFIER = "dup2";
     private static final int    OPCODE   = 0x5c;
 
     public dup2() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

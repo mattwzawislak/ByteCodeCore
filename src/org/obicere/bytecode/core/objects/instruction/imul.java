@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class imul extends Instruction {
 
-    private static final String MNEMONIC = "imul";
+    public static final String IDENTIFIER = "imul";
     private static final int    OPCODE   = 0x74;
 
     public imul() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }

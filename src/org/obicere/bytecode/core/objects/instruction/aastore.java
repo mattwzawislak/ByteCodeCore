@@ -11,9 +11,4 @@ public class aastore extends Instruction {
     public aastore() {
         super(IDENTIFIER, OPCODE);
     }
-
-    @Override
-    public String getIdentifier() {
-        return IDENTIFIER;
-    }
 }

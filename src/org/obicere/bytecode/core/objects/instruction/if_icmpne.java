@@ -8,14 +8,14 @@ import org.obicere.bytecode.viewer.dom.DocumentBuilder;
  */
 public class if_icmpne extends Instruction {
 
-    private static final String MNEMONIC = "if_icmpne";
+    public static final String IDENTIFIER = "if_icmpne";
     private static final int    OPCODE   = 0xa0;
 
     private final int branchbyte1;
     private final int branchbyte2;
 
     public if_icmpne(final int branchbyte1, final int branchbyte2) {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
         this.branchbyte1 = branchbyte1;
         this.branchbyte2 = branchbyte2;
     }

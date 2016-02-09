@@ -5,10 +5,10 @@ package org.obicere.bytecode.core.objects.instruction;
  */
 public class monitorexit extends Instruction {
 
-    private static final String MNEMONIC = "monitorexit";
+    public static final String IDENTIFIER = "monitorexit";
     private static final int    OPCODE   = 0xc3;
 
     public monitorexit() {
-        super(MNEMONIC, OPCODE);
+        super(IDENTIFIER, OPCODE);
     }
 }
