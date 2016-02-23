@@ -1,15 +1,15 @@
 package org.obicere.bytecode.core.objects.signature;
 
-import org.obicere.bytecode.core.objects.Annotation;
 import org.obicere.bytecode.core.objects.Path;
 import org.obicere.bytecode.core.objects.TypeAnnotation;
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 
 import java.util.Iterator;
 
 /**
  */
 public class BaseType extends JavaTypeSignature {
+
+    public static final String IDENTIFIER = "BaseType";
 
     private final String type;
 
@@ -26,39 +26,38 @@ public class BaseType extends JavaTypeSignature {
             return null;
         }
         final char next = string.next();
-        final String type;
-        switch (next) {
+        final String type = getType(next);
+
+        if (type == null) {
+            return null;
+        }
+
+        return new BaseType(type);
+    }
+
+    private static String getType(final char value) {
+        switch (value) {
             case 'B':
-                type = "byte";
-                break;
+                return "byte";
             case 'C':
-                type = "char";
-                break;
+                return "char";
             case 'D':
-                type = "double";
-                break;
+                return "double";
             case 'F':
-                type = "float";
-                break;
+                return "float";
             case 'I':
-                type = "int";
-                break;
+                return "int";
             case 'J':
-                type = "long";
-                break;
+                return "long";
             case 'S':
-                type = "short";
-                break;
+                return "short";
             case 'V':
-                type = "void";
-                break;
+                return "void";
             case 'Z':
-                type = "boolean";
-                break;
+                return "boolean";
             default:
                 return null;
         }
-        return new BaseType(type);
     }
 
     @Override
@@ -71,10 +70,7 @@ public class BaseType extends JavaTypeSignature {
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        for (final Annotation annotation : getAnnotations()) {
-            annotation.model(builder);
-        }
-        builder.addKeyword(type);
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }
