@@ -439,7 +439,7 @@ public class InstructionReader extends MultiReader<Integer, Instruction> {
         final Instruction instruction;
         if (reader == null) {
             Logger.getGlobal().log(Level.WARNING, "Found an unknown instruction with operand code: " + next + " at " + start);
-            instruction = new UnknownInstruction();
+            instruction = new UnknownInstruction(next);
         } else {
             instruction = reader.read(input);
         }
