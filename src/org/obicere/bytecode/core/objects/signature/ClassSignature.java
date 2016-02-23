@@ -5,7 +5,6 @@ import org.obicere.bytecode.core.objects.SuperTypeTarget;
 import org.obicere.bytecode.core.objects.TypeAnnotation;
 import org.obicere.bytecode.core.objects.TypeParameterBoundTarget;
 import org.obicere.bytecode.core.objects.TypeParameterTarget;
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -15,6 +14,8 @@ import java.util.List;
 /**
  */
 public class ClassSignature extends AnnotationTarget {
+
+    public static final String IDENTIFIER = "ClassSignature";
 
     private final TypeParameters typeParameters;
 
@@ -131,60 +132,7 @@ public class ClassSignature extends AnnotationTarget {
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        modelClass(builder);
-    }
-
-    public void modelClass(final DocumentBuilder builder) {
-        modelTypeParameters(builder);
-
-        modelSuperclass(builder);
-
-        modelSuperinterfaces(builder);
-    }
-
-    public void modelInterface(final DocumentBuilder builder) {
-        modelTypeParameters(builder);
-
-        modelSuperinterfaces(builder);
-    }
-
-    private void modelTypeParameters(final DocumentBuilder builder) {
-        final TypeParameters parameters = typeParameters;
-        final TypeParameter[] types = parameters.getTypeParameters();
-        if (types.length == 0) {
-            return;
-        }
-        builder.add("<");
-        boolean first = true;
-        for (final TypeParameter type : types) {
-            if (!first) {
-                builder.comma();
-            }
-            type.model(builder);
-            first = false;
-        }
-        builder.add(">");
-    }
-
-    private void modelSuperclass(final DocumentBuilder builder) {
-        final ClassTypeSignature signature = superclassSignature.getClassTypeSignature();
-
-        signature.model(builder, true);
-    }
-
-    private void modelSuperinterfaces(final DocumentBuilder builder) {
-        boolean first = true;
-
-        for (final SuperinterfaceSignature signature : superinterfaceSignatures) {
-            if (first) {
-                builder.addKeyword(" implements ");
-            } else {
-                builder.comma();
-            }
-
-            signature.model(builder);
-            first = false;
-        }
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }
