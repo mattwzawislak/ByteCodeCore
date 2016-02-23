@@ -1,8 +1,10 @@
 package org.obicere.bytecode.core.objects.signature;
 
+import org.obicere.bytecode.core.objects.ByteCodeElement;
+
 /**
  */
-public class SimpleClassTypeSignature {
+public class SimpleClassTypeSignature extends ByteCodeElement {
 
     private final String        identifier;
     private final TypeArguments typeArguments;

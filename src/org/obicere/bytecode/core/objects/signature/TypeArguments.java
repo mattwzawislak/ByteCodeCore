@@ -1,10 +1,12 @@
 package org.obicere.bytecode.core.objects.signature;
 
+import org.obicere.bytecode.core.objects.ByteCodeElement;
+
 import java.util.LinkedList;
 
 /**
  */
-public class TypeArguments {
+public class TypeArguments extends ByteCodeElement {
 
     private final TypeArgument[] typeArguments;
 

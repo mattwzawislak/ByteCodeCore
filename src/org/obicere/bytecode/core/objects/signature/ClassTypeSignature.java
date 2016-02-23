@@ -1,10 +1,7 @@
 package org.obicere.bytecode.core.objects.signature;
 
-import org.obicere.bytecode.core.objects.Annotation;
 import org.obicere.bytecode.core.objects.Path;
 import org.obicere.bytecode.core.objects.TypeAnnotation;
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-import org.obicere.bytecode.viewer.settings.Settings;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -105,83 +102,5 @@ public class ClassTypeSignature extends ReferenceTypeSignature {
                 return;
             }
         }
-    }
-
-    @Override
-    public void model(final DocumentBuilder builder) {
-        model(builder, false);
-    }
-
-    public void model(final DocumentBuilder builder, final boolean includeExtends) {
-        final Settings settings = builder.getDomain().getSettingsController().getSettings();
-        final boolean modelObject = settings.getBoolean("code.extendsObject");
-
-        for (final Annotation annotation : getAnnotations()) {
-            annotation.model(builder);
-        }
-
-        if(includeExtends) {
-            if (simpleClassTypeSignature.getIdentifier().equals("Object") && !modelObject) {
-                // class name is "Object"
-                // need to check to see if the package is "java.lang"
-
-                final String[] packageIdentifiers = packageSpecifier.getIdentifiers();
-                if (packageIdentifiers.length == 2) {
-                    if (packageIdentifiers[0].equals("java") && packageIdentifiers[1].equals("lang")) {
-                        return;
-                    }
-                }
-            }
-            builder.addKeyword(" extends ");
-        }
-
-        if(!settings.getBoolean("code.importMode")){
-            modelPackage(builder);
-        }
-        modelSignature(builder);
-        modelSuffixes(builder);
-    }
-
-    private void modelPackage(final DocumentBuilder builder) {
-        final String[] packageIdentifiers = packageSpecifier.getIdentifiers();
-        for (final String identifier : packageIdentifiers) {
-            builder.add(identifier + ".");
-        }
-    }
-
-    private void modelSignature(final DocumentBuilder builder) {
-
-        builder.add(simpleClassTypeSignature.getIdentifier());
-
-        final TypeArguments arguments = simpleClassTypeSignature.getTypeArguments();
-        modelTypeArguments(builder, arguments);
-    }
-
-    private void modelSuffixes(final DocumentBuilder builder) {
-        for (final ClassTypeSignatureSuffix suffix : classTypeSignatureSuffix) {
-            final SimpleClassTypeSignature signature = suffix.getSimpleClassTypeSignature();
-
-            builder.add("." + signature.getIdentifier());
-
-            final TypeArguments arguments = signature.getTypeArguments();
-            modelTypeArguments(builder, arguments);
-        }
-    }
-
-    private void modelTypeArguments(final DocumentBuilder builder, final TypeArguments typeArguments) {
-        final TypeArgument[] types = typeArguments.getTypeArguments();
-        if (types.length == 0) {
-            return;
-        }
-        builder.add("<");
-        boolean first = true;
-        for (final TypeArgument type : types) {
-            if (!first) {
-                builder.comma();
-            }
-            type.getWildcardIndicator().model(builder);
-            first = false;
-        }
-        builder.add(">");
     }
 }

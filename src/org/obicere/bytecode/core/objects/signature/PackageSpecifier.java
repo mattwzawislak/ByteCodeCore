@@ -1,10 +1,12 @@
 package org.obicere.bytecode.core.objects.signature;
 
+import org.obicere.bytecode.core.objects.ByteCodeElement;
+
 import java.util.LinkedList;
 
 /**
  */
-public class PackageSpecifier {
+public class PackageSpecifier extends ByteCodeElement {
 
     private final String[] identifiers;
 

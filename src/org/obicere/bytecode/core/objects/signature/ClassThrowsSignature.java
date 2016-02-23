@@ -9,6 +9,8 @@ import java.util.Iterator;
  */
 public class ClassThrowsSignature extends ThrowsSignature {
 
+    public static final String IDENTIFIER = "ClassThrowsSignature";
+
     private final ClassTypeSignature classTypeSignature;
 
     private ClassThrowsSignature(final ClassTypeSignature classTypeSignature) {
@@ -30,5 +32,10 @@ public class ClassThrowsSignature extends ThrowsSignature {
     @Override
     public void walk(final TypeAnnotation annotation, final Iterator<Path> path) {
         classTypeSignature.walk(annotation, path);
+    }
+
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

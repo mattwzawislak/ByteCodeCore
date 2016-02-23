@@ -1,8 +1,10 @@
 package org.obicere.bytecode.core.objects.signature;
 
+import org.obicere.bytecode.core.objects.ByteCodeElement;
+
 /**
  */
-public class TypeArgument {
+public class TypeArgument extends ByteCodeElement {
 
     private final WildcardIndicator wildcardIndicator;
 
