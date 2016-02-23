@@ -1,7 +1,5 @@
 package org.obicere.bytecode.core.objects.instruction;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
@@ -29,13 +27,5 @@ public class invokevirtual extends Instruction {
 
     public int getIndex() {
         return (indexbyte1 << 8) | indexbyte2;
-    }
-
-    @Override
-    public void model(final DocumentBuilder builder) {
-        super.model(builder);
-        builder.tab();
-        builder.getConstantPool().get(getIndex()).modelValue(builder);
-        //builder.add(builder.getConstantPool().getAsString(getIndex()));
     }
 }

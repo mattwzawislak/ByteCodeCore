@@ -1,25 +1,33 @@
 package org.obicere.bytecode.core.objects.instruction;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Obicere
  */
 public class invokedynamic extends Instruction {
 
-    public static final String IDENTIFIER = "invokedynamic";
-    private static final int    OPCODE   = 0xba;
+    public static final  String IDENTIFIER = "invokedynamic";
+    private static final int    OPCODE     = 0xba;
 
     private final int indexbyte1;
     private final int indexbyte2;
+    private final int byte3;
+    private final int byte4;
 
-    public invokedynamic(final int indexbyte1, final int indexbyte2, final int indexbyte3, final int indexbyte4) {
+    public invokedynamic(final int indexbyte1, final int indexbyte2, final int byte3, final int byte4) {
         super(IDENTIFIER, OPCODE);
-        if (indexbyte3 != 0 || indexbyte4 != 0) {
-            throw new ClassFormatError("invokedynamic bytes 3 and 4 must be set to 0.");
+        if (byte3 != 0) {
+            Logger.getGlobal().log(Level.WARNING, "byte 3 of invokedynamic was not 0");
+        }
+        if (byte4 != 0) {
+            Logger.getGlobal().log(Level.WARNING, "byte 4 of invokedynamic was not 0");
         }
         this.indexbyte1 = indexbyte1;
         this.indexbyte2 = indexbyte2;
+        this.byte3 = byte3;
+        this.byte4 = byte4;
     }
 
     public int getIndexbyte1() {
@@ -30,18 +38,15 @@ public class invokedynamic extends Instruction {
         return indexbyte2;
     }
 
-    public int getIndex(){
+    public int getIndex() {
         return (indexbyte1 << 8) | indexbyte2;
     }
 
-    @Override
-    public void model(final DocumentBuilder builder) {
-        super.model(builder);
-        builder.tab();
-        builder.getConstantPool().get(getIndex()).modelValue(builder);
-        builder.tab();
-        builder.add(0);
-        builder.tab();
-        builder.add(0);
+    public int getByte3() {
+        return byte3;
+    }
+
+    public int getByte4() {
+        return byte4;
     }
 }
