@@ -1,10 +1,14 @@
 package org.obicere.bytecode.core.objects.signature;
 
+import org.obicere.bytecode.core.objects.ByteCodeElement;
+
 import java.util.LinkedList;
 
 /**
  */
-public class TypeParameters {
+public class TypeParameters extends ByteCodeElement {
+
+    public static final String IDENTIFIER = "TypeParameters";
 
     private final TypeParameter[] typeParameters;
 
@@ -44,4 +48,8 @@ public class TypeParameters {
         return new TypeParameters(typeParametersList.toArray(new TypeParameter[typeParametersList.size()]));
     }
 
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
+    }
 }

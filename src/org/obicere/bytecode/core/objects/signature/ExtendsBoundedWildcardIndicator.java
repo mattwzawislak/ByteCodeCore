@@ -1,15 +1,15 @@
 package org.obicere.bytecode.core.objects.signature;
 
-import org.obicere.bytecode.core.objects.Annotation;
 import org.obicere.bytecode.core.objects.Path;
 import org.obicere.bytecode.core.objects.TypeAnnotation;
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 
 import java.util.Iterator;
 
 /**
  */
 public class ExtendsBoundedWildcardIndicator extends WildcardIndicator {
+
+    public static final String IDENTIFIER = "ExtendsBoundedWildcardIndicator";
 
     private final ReferenceTypeSignature referenceTypeSignature;
 
@@ -61,14 +61,7 @@ public class ExtendsBoundedWildcardIndicator extends WildcardIndicator {
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        for(final Annotation annotation : getAnnotations()){
-            annotation.model(builder);
-        }
-        if (wildcardPresent) {
-            builder.add("?");
-            builder.addKeyword(" extends ");
-        }
-        referenceTypeSignature.model(builder);
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

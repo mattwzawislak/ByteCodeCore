@@ -41,6 +41,9 @@ public class QueueString {
     }
 
     public boolean hasNext(final char symbol) {
+        if(!hasNext()){
+            return false;
+        }
         final int storeIndex = index;
 
         boolean found = false;

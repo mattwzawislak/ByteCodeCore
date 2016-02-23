@@ -10,6 +10,8 @@ import java.util.LinkedList;
  */
 public class ClassTypeSignature extends ReferenceTypeSignature {
 
+    public static final String IDENTIFIER = "ClassTypeSignature";
+
     private final PackageSpecifier           packageSpecifier;
     private final SimpleClassTypeSignature   simpleClassTypeSignature;
     private final ClassTypeSignatureSuffix[] classTypeSignatureSuffix;
@@ -75,11 +77,7 @@ public class ClassTypeSignature extends ReferenceTypeSignature {
         if (kind == Path.KIND_NESTED) {
             walkNested(annotation, path);
         } else if (kind == Path.KIND_TYPE_ARGUMENT) {
-            final TypeArguments typeArguments = simpleClassTypeSignature.getTypeArguments();
-            final TypeArgument[] types = typeArguments.getTypeArguments();
-            final TypeArgument type = types[next.getTypeArgumentIndex()];
-            final WildcardIndicator wildcardIndicator = type.getWildcardIndicator();
-            wildcardIndicator.walk(annotation, path);
+            walkTypeArgument(annotation, path, simpleClassTypeSignature, next);
         }
     }
 
@@ -87,6 +85,7 @@ public class ClassTypeSignature extends ReferenceTypeSignature {
 
         int i = 0;
         ClassTypeSignatureSuffix suffix = classTypeSignatureSuffix[0];
+
         while (path.hasNext()) {
             final Path next = path.next();
             final int kind = next.getTypePathKind();
@@ -94,13 +93,28 @@ public class ClassTypeSignature extends ReferenceTypeSignature {
                 suffix = classTypeSignatureSuffix[++i];
             } else if (kind == Path.KIND_TYPE_ARGUMENT) {
                 final SimpleClassTypeSignature simple = suffix.getSimpleClassTypeSignature();
-                final TypeArguments typeArguments = simple.getTypeArguments();
-                final TypeArgument[] types = typeArguments.getTypeArguments();
-                final TypeArgument type = types[next.getTypeArgumentIndex()];
-                final WildcardIndicator wildcardIndicator = type.getWildcardIndicator();
-                wildcardIndicator.walk(annotation, path);
+
+                walkTypeArgument(annotation, path, simple, next);
+
                 return;
             }
         }
+    }
+
+    private void walkTypeArgument(final TypeAnnotation annotation, final Iterator<Path> path, final SimpleClassTypeSignature simpleClassTypeSignature, final Path next){
+        final TypeArguments typeArguments = simpleClassTypeSignature.getTypeArguments();
+
+        final TypeArgument[] types = typeArguments.getTypeArguments();
+
+        final int typeArgumentIndex = next.getTypeArgumentIndex();
+        final TypeArgument type = types[typeArgumentIndex];
+
+        final WildcardIndicator wildcardIndicator = type.getWildcardIndicator();
+        wildcardIndicator.walk(annotation, path);
+    }
+
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

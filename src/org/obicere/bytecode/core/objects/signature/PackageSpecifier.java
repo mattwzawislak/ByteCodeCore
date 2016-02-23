@@ -8,14 +8,12 @@ import java.util.LinkedList;
  */
 public class PackageSpecifier extends ByteCodeElement {
 
+    public static final String IDENTIFIER = "PackageSpecifier";
+
     private final String[] identifiers;
 
     private PackageSpecifier(final String[] identifiers) {
         this.identifiers = identifiers;
-    }
-
-    public String[] getIdentifiers() {
-        return identifiers;
     }
 
     public static PackageSpecifier parse(final QueueString string) {
@@ -41,4 +39,12 @@ public class PackageSpecifier extends ByteCodeElement {
         return new PackageSpecifier(identifiers.toArray(new String[identifiers.size()]));
     }
 
+    public String[] getIdentifiers() {
+        return identifiers;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
+    }
 }

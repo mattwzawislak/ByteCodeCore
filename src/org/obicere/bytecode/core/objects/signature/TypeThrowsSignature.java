@@ -2,13 +2,14 @@ package org.obicere.bytecode.core.objects.signature;
 
 import org.obicere.bytecode.core.objects.Path;
 import org.obicere.bytecode.core.objects.TypeAnnotation;
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 
 import java.util.Iterator;
 
 /**
  */
 public class TypeThrowsSignature extends ThrowsSignature {
+
+    public static final String IDENTIFIER = "TypeThrowsSignature";
 
     private final TypeVariableSignature typeVariableSignature;
 
@@ -34,7 +35,7 @@ public class TypeThrowsSignature extends ThrowsSignature {
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        typeVariableSignature.model(builder);
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

@@ -19,5 +19,4 @@ public abstract class ReferenceTypeSignature extends JavaTypeSignature {
         string.restoreTo(save);
         return ArrayTypeSignature.parse(string);
     }
-
 }

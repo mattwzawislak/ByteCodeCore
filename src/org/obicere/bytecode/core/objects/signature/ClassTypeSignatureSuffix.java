@@ -6,6 +6,8 @@ import org.obicere.bytecode.core.objects.ByteCodeElement;
  */
 public class ClassTypeSignatureSuffix extends ByteCodeElement {
 
+    public static final String IDENTIFIER = "ClassTypeSignatureSuffix";
+
     private final SimpleClassTypeSignature simpleClassTypeSignature;
 
     private ClassTypeSignatureSuffix(final SimpleClassTypeSignature simpleClassTypeSignature) {
@@ -27,4 +29,8 @@ public class ClassTypeSignatureSuffix extends ByteCodeElement {
         return new ClassTypeSignatureSuffix(simpleClassTypeSignature);
     }
 
+    @Override
+    public String getIdentifier(){
+        return IDENTIFIER;
+    }
 }

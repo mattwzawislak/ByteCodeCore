@@ -15,5 +15,4 @@ public abstract class JavaTypeSignature extends AnnotationTarget {
 
         return BaseType.parse(string);
     }
-
 }

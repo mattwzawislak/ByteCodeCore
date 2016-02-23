@@ -6,14 +6,14 @@ public abstract class WildcardIndicator extends AnnotationTarget {
 
     public static WildcardIndicator parse(final QueueString string){
         final QueueString save = string.save();
-        final WildcardIndicator ebwi = ExtendsBoundedWildcardIndicator.parse(string);
-        if (ebwi != null) {
-            return ebwi;
+        final WildcardIndicator extendsBoundedWildcardIndicator = ExtendsBoundedWildcardIndicator.parse(string);
+        if (extendsBoundedWildcardIndicator != null) {
+            return extendsBoundedWildcardIndicator;
         }
         string.restoreTo(save);
-        final WildcardIndicator sbwi = SuperBoundedWildcardIndicator.parse(string);
-        if (sbwi != null) {
-            return sbwi;
+        final WildcardIndicator superBoundedWildcardIndicator = SuperBoundedWildcardIndicator.parse(string);
+        if (superBoundedWildcardIndicator != null) {
+            return superBoundedWildcardIndicator;
         }
         string.restoreTo(save);
 

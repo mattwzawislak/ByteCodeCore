@@ -1,9 +1,7 @@
 package org.obicere.bytecode.core.objects.signature;
 
-import org.obicere.bytecode.core.objects.Annotation;
 import org.obicere.bytecode.core.objects.Path;
 import org.obicere.bytecode.core.objects.TypeAnnotation;
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -12,20 +10,22 @@ import java.util.LinkedList;
  */
 public class TypeParameter extends AnnotationTarget {
 
-    private final String identifier;
+    public static final String IDENTIFIER = "TypeParameter";
+
+    private final String name;
 
     private final ClassBound classBound;
 
     private final InterfaceBound[] interfaceBounds;
 
-    private TypeParameter(final String identifier, final ClassBound classBound, final InterfaceBound[] interfaceBounds) {
-        this.identifier = identifier;
+    private TypeParameter(final String name, final ClassBound classBound, final InterfaceBound[] interfaceBounds) {
+        this.name = name;
         this.classBound = classBound;
         this.interfaceBounds = interfaceBounds;
     }
 
-    public String getIdentifier() {
-        return identifier;
+    public String getName() {
+        return name;
     }
 
     public ClassBound getClassBound() {
@@ -92,32 +92,7 @@ public class TypeParameter extends AnnotationTarget {
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        for (final Annotation annotation : getAnnotations()) {
-            annotation.model(builder);
-        }
-        builder.addType(identifier);
-
-        boolean classModeled = false;
-        final ReferenceTypeSignature classReference = classBound.getReferenceTypeSignature();
-        if (classReference != null) {
-            if (classReference instanceof ClassTypeSignature) {
-                final ClassTypeSignature signature = (ClassTypeSignature) classReference;
-                signature.model(builder, true);
-            } else {
-                classReference.model(builder);
-            }
-            classModeled = true;
-        }
-
-        for (final InterfaceBound bound : interfaceBounds) {
-            if (!classModeled) {
-                builder.addKeyword(" extends ");
-            } else {
-                builder.add(" & ");
-            }
-            final ReferenceTypeSignature interfaceReference = bound.getReferenceTypeSignature();
-            interfaceReference.model(builder);
-        }
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

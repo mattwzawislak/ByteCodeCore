@@ -2,7 +2,6 @@ package org.obicere.bytecode.core.objects.signature;
 
 import org.obicere.bytecode.core.objects.Path;
 import org.obicere.bytecode.core.objects.TypeAnnotation;
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -11,6 +10,8 @@ import java.util.List;
 /**
  */
 public class FieldSignature extends AnnotationTarget {
+
+    public static final String IDENTIFIER = "FieldSignature";
 
     private final JavaTypeSignature javaTypeSignature;
 
@@ -50,7 +51,7 @@ public class FieldSignature extends AnnotationTarget {
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        javaTypeSignature.model(builder);
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

@@ -2,13 +2,14 @@ package org.obicere.bytecode.core.objects.signature;
 
 import org.obicere.bytecode.core.objects.Path;
 import org.obicere.bytecode.core.objects.TypeAnnotation;
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 
 import java.util.Iterator;
 
 /**
  */
 public class SuperinterfaceSignature extends AnnotationTarget {
+
+    public static final String IDENTIFIER = "SuperinterfaceSignature";
 
     private final ClassTypeSignature classTypeSignature;
 
@@ -37,7 +38,7 @@ public class SuperinterfaceSignature extends AnnotationTarget {
     }
 
     @Override
-    public void model(final DocumentBuilder builder){
-        classTypeSignature.model(builder);
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

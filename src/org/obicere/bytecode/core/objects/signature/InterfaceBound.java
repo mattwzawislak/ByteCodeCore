@@ -9,6 +9,8 @@ import java.util.Iterator;
  */
 public class InterfaceBound extends AnnotationTarget {
 
+    public static final String IDENTIFIER = "InterfaceBound";
+
     private final ReferenceTypeSignature referenceTypeSignature;
 
     private InterfaceBound(final ReferenceTypeSignature referenceTypeSignature) {
@@ -33,5 +35,10 @@ public class InterfaceBound extends AnnotationTarget {
     @Override
     public void walk(final TypeAnnotation annotation, final Iterator<Path> path) {
         referenceTypeSignature.walk(annotation, path);
+    }
+
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

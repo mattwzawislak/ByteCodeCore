@@ -1,9 +1,7 @@
 package org.obicere.bytecode.core.objects.signature;
 
-import org.obicere.bytecode.core.objects.Annotation;
 import org.obicere.bytecode.core.objects.Path;
 import org.obicere.bytecode.core.objects.TypeAnnotation;
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 
 import java.util.Iterator;
 
@@ -11,14 +9,16 @@ import java.util.Iterator;
  */
 public class TypeVariableSignature extends ReferenceTypeSignature {
 
-    private final String identifier;
+    public static final String IDENTIFIER = "TypeVariableSignature";
 
-    private TypeVariableSignature(final String identifier) {
-        this.identifier = identifier;
+    private final String name;
+
+    private TypeVariableSignature(final String name) {
+        this.name = name;
     }
 
-    public String getIdentifier() {
-        return identifier;
+    public String getName() {
+        return name;
     }
 
     public static TypeVariableSignature parse(final QueueString string) {
@@ -44,11 +44,7 @@ public class TypeVariableSignature extends ReferenceTypeSignature {
     }
 
     @Override
-    public void model(final DocumentBuilder builder) {
-        for (final Annotation annotation : getAnnotations()) {
-            annotation.model(builder);
-        }
-        builder.addType(identifier);
-
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 }

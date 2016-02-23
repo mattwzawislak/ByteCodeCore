@@ -6,14 +6,12 @@ import org.obicere.bytecode.core.objects.ByteCodeElement;
  */
 public class TypeArgument extends ByteCodeElement {
 
+    public static final String IDENTIFIER = "TypeArgument";
+
     private final WildcardIndicator wildcardIndicator;
 
     public TypeArgument(final WildcardIndicator wildcardIndicator) {
         this.wildcardIndicator = wildcardIndicator;
-    }
-
-    public WildcardIndicator getWildcardIndicator() {
-        return wildcardIndicator;
     }
 
     public static TypeArgument parse(final QueueString string) {
@@ -24,4 +22,12 @@ public class TypeArgument extends ByteCodeElement {
         return new TypeArgument(wildcardIndicator);
     }
 
+    public WildcardIndicator getWildcardIndicator() {
+        return wildcardIndicator;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
+    }
 }

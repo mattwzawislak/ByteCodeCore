@@ -6,20 +6,27 @@ import org.obicere.bytecode.core.objects.ByteCodeElement;
  */
 public class SimpleClassTypeSignature extends ByteCodeElement {
 
-    private final String        identifier;
+    public static final String IDENTIFIER = "SimpleClassTypeSignature";
+
+    private final String        name;
     private final TypeArguments typeArguments;
 
-    public SimpleClassTypeSignature(final String identifier, final TypeArguments typeArguments) {
-        this.identifier = identifier;
+    public SimpleClassTypeSignature(final String name, final TypeArguments typeArguments) {
+        this.name = name;
         this.typeArguments = typeArguments;
     }
 
-    public String getIdentifier() {
-        return identifier;
+    public String getName() {
+        return name;
     }
 
     public TypeArguments getTypeArguments() {
         return typeArguments;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return IDENTIFIER;
     }
 
     public static SimpleClassTypeSignature parse(final QueueString string) {
