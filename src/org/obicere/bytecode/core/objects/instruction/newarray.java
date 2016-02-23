@@ -1,31 +1,28 @@
 package org.obicere.bytecode.core.objects.instruction;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
 public class newarray extends Instruction {
 
-    public static final String IDENTIFIER = "newarray";
-    private static final int    OPCODE   = 0xbc;
+    public static final  String IDENTIFIER = "newarray";
+    private static final int    OPCODE     = 0xbc;
 
-    private final int atype;
+    private final int    atype;
+    private final String type;
 
     public newarray(final int atype) {
         super(IDENTIFIER, OPCODE);
         this.atype = atype;
+        this.type = getTypeOfAType();
     }
 
     public int getAtype() {
         return atype;
     }
 
-    @Override
-    public void model(final DocumentBuilder builder) {
-        super.model(builder);
-        builder.tab();
-        builder.add(getTypeOfAType());
+    public String getType() {
+        return type;
     }
 
     private String getTypeOfAType() {

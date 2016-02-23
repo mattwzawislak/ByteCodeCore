@@ -1,7 +1,5 @@
 package org.obicere.bytecode.core.objects.instruction;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
@@ -110,28 +108,5 @@ public class tableswitch extends Instruction {
 
     public int[] getJumpOffsets() {
         return jumpOffsets;
-    }
-
-    @Override
-    public void model(final DocumentBuilder builder) {
-        super.model(builder);
-        builder.tab();
-        builder.add(getDefault());
-        builder.tab();
-        builder.add(((long) getHigh() << 32L) | getLow());
-        builder.tab();
-
-        builder.add("[");
-        boolean first = true;
-
-        for(final int jump : jumpOffsets){
-            if(!first){
-                builder.comma();
-            }
-            builder.add(jump);
-            first = false;
-        }
-
-        builder.add("]");
     }
 }

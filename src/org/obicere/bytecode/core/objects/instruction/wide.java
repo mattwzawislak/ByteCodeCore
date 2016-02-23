@@ -1,6 +1,5 @@
 package org.obicere.bytecode.core.objects.instruction;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
 import org.obicere.bytecode.core.reader.instruction.InstructionReader;
 
 /**
@@ -11,6 +10,8 @@ public class wide extends Instruction {
     public static final String IDENTIFIER = "wide";
     private static final int    OPCODE   = 0xc4;
 
+    private final String instructionName;
+
     private final int instruction;
 
     private final int indexbyte1;
@@ -20,12 +21,7 @@ public class wide extends Instruction {
     private final int constbyte2;
 
     public wide(final int instruction, final int indexbyte1, final int indexbyte2) {
-        super(IDENTIFIER, OPCODE);
-        this.instruction = instruction;
-        this.indexbyte1 = indexbyte1;
-        this.indexbyte2 = indexbyte2;
-        this.constbyte1 = 0;
-        this.constbyte2 = 0;
+        this(instruction, indexbyte1, indexbyte2, 0, 0);
     }
 
     public wide(final int instruction, final int indexbyte1, final int indexbyte2, final int constbyte1, final int constbyte2) {
@@ -35,6 +31,7 @@ public class wide extends Instruction {
         this.indexbyte2 = indexbyte2;
         this.constbyte1 = constbyte1;
         this.constbyte2 = constbyte2;
+        this.instructionName = getName();
     }
 
     public int getIndexbyte1() {
@@ -65,20 +62,11 @@ public class wide extends Instruction {
         return instruction;
     }
 
-    @Override
-    public void model(final DocumentBuilder builder) {
-        super.model(builder);
-        builder.tab();
-        builder.addKeyword(getInstructionName());
-        builder.tab();
-        builder.add(getIndex());
-        if (instruction == InstructionReader.OPCODE_IINC) {
-            builder.tab();
-            builder.add(getConst());
-        }
+    public String getInstructionName(){
+        return instructionName;
     }
 
-    private String getInstructionName(){
+    private String getName(){
         switch (instruction){
             case InstructionReader.OPCODE_IINC:
                 return "iinc";
@@ -105,7 +93,7 @@ public class wide extends Instruction {
             case InstructionReader.OPCODE_RET:
                 return "ret";
             default:
-                throw new AssertionError("illegal operand for wide: " + instruction);
+                throw new IllegalArgumentException("illegal operand for wide: " + instruction);
 
         }
     }

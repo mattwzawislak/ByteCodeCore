@@ -1,12 +1,9 @@
 package org.obicere.bytecode.core.objects.instruction;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-import org.obicere.bytecode.viewer.dom.Modeler;
-
 /**
  * @author Obicere
  */
-public class new_ extends Instruction implements Modeler {
+public class new_ extends Instruction {
 
     public static final String IDENTIFIER = "new";
     private static final int    OPCODE   = 0xbb;
@@ -30,12 +27,5 @@ public class new_ extends Instruction implements Modeler {
 
     public int getIndex() {
         return (indexbyte1 << 8) | indexbyte2;
-    }
-
-    @Override
-    public void model(final DocumentBuilder builder) {
-        super.model(builder);
-        builder.tab();
-        builder.getConstantPool().get(getIndex()).modelValue(builder);
     }
 }

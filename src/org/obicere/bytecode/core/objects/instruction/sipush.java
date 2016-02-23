@@ -1,7 +1,5 @@
 package org.obicere.bytecode.core.objects.instruction;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
@@ -29,12 +27,5 @@ public class sipush extends Instruction {
 
     public int getValue(){
         return (byte1 << 8) | byte2;
-    }
-
-    @Override
-    public void model(final DocumentBuilder builder) {
-        super.model(builder);
-        builder.tab();
-        builder.add((short) getValue());
     }
 }

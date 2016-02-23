@@ -1,12 +1,9 @@
 package org.obicere.bytecode.core.objects.instruction;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-import org.obicere.bytecode.viewer.dom.Modeler;
-
 /**
  * @author Obicere
  */
-public class multianewarray extends Instruction implements Modeler {
+public class multianewarray extends Instruction {
 
     public static final String IDENTIFIER = "multianewarray";
     private static final int    OPCODE   = 0xc5;
@@ -36,15 +33,5 @@ public class multianewarray extends Instruction implements Modeler {
 
     public int getDimensions() {
         return dimensions;
-    }
-
-    @Override
-    public void model(final DocumentBuilder builder) {
-        super.model(builder);
-        builder.newLine();
-        builder.tab();
-        builder.add(getIndex());
-        builder.tab();
-        builder.add(dimensions);
     }
 }

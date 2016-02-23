@@ -1,7 +1,5 @@
 package org.obicere.bytecode.core.objects.instruction;
 
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
@@ -80,30 +78,5 @@ public class lookupswitch extends Instruction {
 
     public int[][] getMatchOffsetPairs() {
         return matchOffsetPairs;
-    }
-
-    @Override
-    public void model(final DocumentBuilder builder) {
-        super.model(builder);
-        builder.tab();
-        builder.add(getDefault());
-        builder.tab();
-        builder.add(getNpairs());
-        builder.tab();
-
-        boolean first = true;
-        builder.add("[");
-
-        for(final int[] pair : matchOffsetPairs){
-            if(!first){
-                builder.comma();
-            }
-            builder.add(pair[0]);
-            builder.add("->");
-            builder.add(pair[1]);
-            first = false;
-        }
-
-        builder.add("]");
     }
 }

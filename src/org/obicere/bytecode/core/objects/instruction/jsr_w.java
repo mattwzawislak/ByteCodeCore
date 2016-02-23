@@ -1,8 +1,5 @@
 package org.obicere.bytecode.core.objects.instruction;
 
-import org.obicere.bytecode.core.objects.CodeAttribute;
-import org.obicere.bytecode.viewer.dom.DocumentBuilder;
-
 /**
  * @author Obicere
  */
@@ -42,18 +39,5 @@ public class jsr_w extends Instruction {
 
     public int getBranchOffset(){
         return (branchbyte1 << 24) | (branchbyte2 << 16) | (branchbyte3 << 8) | branchbyte4;
-    }
-
-    @Override
-    public void model(final DocumentBuilder builder) {
-        super.model(builder);
-        builder.tab();
-        final CodeAttribute code = (CodeAttribute) builder.getProperty("code");
-        final String line = code.getBlockName(getStart(), getBranchOffset());
-        if (line == null) {
-            builder.add(getBranchOffset());
-        } else {
-            builder.add(line);
-        }
     }
 }

@@ -6,9 +6,8 @@ package org.obicere.bytecode.core.objects.instruction;
 public final class UnknownInstruction extends Instruction {
 
     public static final String IDENTIFIER = "unknown";
-    private static final int OPCODE = -1;
 
-    public UnknownInstruction(){
-        super(IDENTIFIER, OPCODE);
+    public UnknownInstruction(final int opcode){
+        super(IDENTIFIER, opcode);
     }
 }
