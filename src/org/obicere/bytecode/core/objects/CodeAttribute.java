@@ -21,7 +21,7 @@ public class CodeAttribute extends Attribute {
 
     private final int maxLocals;
 
-    private final byte[] code;
+    private final int codeSize;
 
     private final Instruction[] instructions;
 
@@ -33,7 +33,7 @@ public class CodeAttribute extends Attribute {
 
     private final Map<Integer, CodeBlock> startPCToLine = new TreeMap<>();
 
-    public CodeAttribute(final int length, final int maxStack, final int maxLocals, final byte[] code, final Instruction[] instructions, final CodeException[] exceptions, final Attribute[] attributes) {
+    public CodeAttribute(final int length, final int maxStack, final int maxLocals, final int codeSize, final Instruction[] instructions, final CodeException[] exceptions, final Attribute[] attributes) {
         super(length);
         if (instructions == null) {
             throw new NullPointerException("instructions must be non-null");
@@ -46,7 +46,7 @@ public class CodeAttribute extends Attribute {
         }
         this.maxStack = maxStack;
         this.maxLocals = maxLocals;
-        this.code = code;
+        this.codeSize = codeSize;
         this.instructions = instructions;
         this.exceptions = exceptions;
         this.attributes = attributes;
@@ -67,8 +67,8 @@ public class CodeAttribute extends Attribute {
         return exceptions;
     }
 
-    public byte[] getCode() {
-        return code;
+    public int getCodeSize() {
+        return codeSize;
     }
 
     public Instruction[] getInstructions() {
@@ -95,7 +95,7 @@ public class CodeAttribute extends Attribute {
         // the 14 bytes in their offset values
         final int pc = startPC + offset - 14;
         final int searchPC = pc - getStart();
-        if (searchPC == code.length) {
+        if (searchPC == codeSize) {
             return "end";
         }
 

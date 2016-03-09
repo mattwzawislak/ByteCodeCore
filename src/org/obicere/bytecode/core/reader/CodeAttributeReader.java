@@ -68,6 +68,6 @@ public class CodeAttributeReader implements Reader<CodeAttribute> {
         for (int i = 0; i < attributesCount; i++) {
             attributes[i] = attributeReader.read(input);
         }
-        return new CodeAttribute(length, maxStack, maxLocals, code, instructions, exceptionTable, attributes);
+        return new CodeAttribute(length, maxStack, maxLocals, code.length, instructions, exceptionTable, attributes);
     }
 }
