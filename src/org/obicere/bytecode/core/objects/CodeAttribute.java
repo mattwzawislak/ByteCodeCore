@@ -1,14 +1,20 @@
 package org.obicere.bytecode.core.objects;
 
 import org.obicere.bytecode.core.objects.instruction.Instruction;
+import org.obicere.bytecode.core.reader.instruction.InstructionReader;
+import org.obicere.bytecode.core.util.IndexedDataInputStream;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Obicere
@@ -23,8 +29,6 @@ public class CodeAttribute extends Attribute {
 
     private final int codeSize;
 
-    private final Instruction[] instructions;
-
     private final CodeException[] exceptions;
 
     private final Attribute[] attributes;
@@ -33,10 +37,12 @@ public class CodeAttribute extends Attribute {
 
     private final Map<Integer, CodeBlock> startPCToLine = new TreeMap<>();
 
-    public CodeAttribute(final int length, final int maxStack, final int maxLocals, final int codeSize, final Instruction[] instructions, final CodeException[] exceptions, final Attribute[] attributes) {
+    private final InstructionReader instructionReader = new InstructionReader();
+
+    public CodeAttribute(final int length, final int maxStack, final int maxLocals, final int codeSize, final byte[] code, final CodeException[] exceptions, final Attribute[] attributes) {
         super(length);
-        if (instructions == null) {
-            throw new NullPointerException("instructions must be non-null");
+        if (code == null) {
+            throw new NullPointerException("code must be non-null");
         }
         if (exceptions == null) {
             throw new NullPointerException("exceptions must be non-null");
@@ -47,12 +53,11 @@ public class CodeAttribute extends Attribute {
         this.maxStack = maxStack;
         this.maxLocals = maxLocals;
         this.codeSize = codeSize;
-        this.instructions = instructions;
         this.exceptions = exceptions;
         this.attributes = attributes;
         this.attributeSet = new AttributeSet(attributes);
 
-        buildBlocks();
+        buildBlocks(code);
     }
 
     public int getMaxLocals() {
@@ -71,10 +76,6 @@ public class CodeAttribute extends Attribute {
         return codeSize;
     }
 
-    public Instruction[] getInstructions() {
-        return instructions;
-    }
-
     public Attribute[] getAttributes() {
         return attributes;
     }
@@ -84,22 +85,16 @@ public class CodeAttribute extends Attribute {
     }
 
     public String getBlockName(final int startPC) {
-        return getBlockName(startPC, 14);
+        return getBlockName(startPC, 0);
     }
 
     public String getBlockName(final int startPC, final int offset) {
-        // could use a nicer way to get the code offset. By summing the
-        // offsets from the start of the attribute we get this:
-        // u2 + u4 + u2 + u2 + u4 = 14 bytes of information before code.
-        // We then have to subtract this, as instructions include
-        // the 14 bytes in their offset values
-        final int pc = startPC + offset - 14;
-        final int searchPC = pc - getStart();
-        if (searchPC == codeSize) {
+        final int pc = startPC + offset;
+        if (pc == codeSize) {
             return "end";
         }
 
-        CodeBlock block = startPCToLine.get(searchPC);
+        CodeBlock block = startPCToLine.get(pc);
 
         if (block != null) {
             return block.getName();
@@ -108,7 +103,7 @@ public class CodeAttribute extends Attribute {
         // if the block is null, find the best fit
         int closest = Integer.MAX_VALUE;
         for (final CodeBlock nearest : startPCToLine.values()) {
-            final int delta = searchPC - nearest.getStartPC();
+            final int delta = pc - nearest.getStartPC();
             if (delta >= 0 && delta < closest) {
                 closest = delta;
                 block = nearest;
@@ -128,7 +123,7 @@ public class CodeAttribute extends Attribute {
         return startPCToLine.values();
     }
 
-    private void buildBlocks() {
+    private void buildBlocks(final byte[] code) {
         final LineNumber[] lines = getLines();
         for (final LineNumber line : lines) {
             final LineCodeBlock block = new LineCodeBlock(line);
@@ -148,42 +143,56 @@ public class CodeAttribute extends Attribute {
             startPCToLine.put(block.getStartPC(), block);
         }
 
-        distributeInstructions(startPCToLine.values());
+        distributeInstructions(code, startPCToLine.values());
     }
 
-    private List<CodeBlock> distributeInstructions(final Iterable<CodeBlock> staggeredMap) {
+    private List<CodeBlock> distributeInstructions(final byte[] code, final Iterable<CodeBlock> staggeredMap) {
         final Iterator<CodeBlock> iterator = staggeredMap.iterator();
         if (!iterator.hasNext()) {
             return new ArrayList<>();
         }
         final ArrayList<CodeBlock> blocks = new ArrayList<>();
-        int instruction = 0;
         CodeBlock currentBlock = iterator.next();
 
-        while (iterator.hasNext()) {
-            final CodeBlock nextBlock = iterator.next();
-            int start = currentBlock.getStartPC();
-            final int endPC = nextBlock.getStartPC();
+        try {
+            final IndexedDataInputStream codeReader = new IndexedDataInputStream(code);
 
-            final List<Instruction> lineInstructions = currentBlock.getInstructions();
+            while (iterator.hasNext() && codeReader.available() > 0) {
+                final CodeBlock nextBlock = iterator.next();
+                int start = currentBlock.getStartPC();
+                final int endPC = nextBlock.getStartPC();
 
-            while (start < endPC) {
-                final Instruction next = instructions[instruction++];
+                final List<Instruction> lineInstructions = new LinkedList<>();
 
-                lineInstructions.add(next);
+                while (start < endPC) {
+                    final Instruction next = instructionReader.read(codeReader);
 
-                start += next.getLength();
+                    lineInstructions.add(next);
+
+                    start += next.getLength();
+                }
+
+                final Instruction[] instructions = new Instruction[lineInstructions.size()];
+                currentBlock.setInstructions(lineInstructions.toArray(instructions));
+
+                currentBlock = nextBlock;
+                blocks.add(currentBlock);
             }
-            currentBlock = nextBlock;
-            blocks.add(currentBlock);
-        }
 
-        // dump the remaining instructions into last line
-        final List<Instruction> list = currentBlock.getInstructions();
-        while (instruction < instructions.length) {
-            list.add(instructions[instruction++]);
+            // dump the remaining instructions into last line
+            final List<Instruction> lineInstructions = new LinkedList<>();
+            while (codeReader.available() > 0) {
+                final Instruction next = instructionReader.read(codeReader);
+                lineInstructions.add(next);
+            }
+            final Instruction[] instructions = new Instruction[lineInstructions.size()];
+            currentBlock.setInstructions(lineInstructions.toArray(instructions));
+
+            blocks.add(currentBlock);
+        } catch (final IOException e) {
+            Logger.getGlobal().log(Level.SEVERE, "Error while building code blocks", e);
+            return null;
         }
-        blocks.add(currentBlock);
         return blocks;
     }
 
