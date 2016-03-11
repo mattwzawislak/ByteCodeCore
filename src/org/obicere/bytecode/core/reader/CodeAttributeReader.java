@@ -3,6 +3,7 @@ package org.obicere.bytecode.core.reader;
 import org.obicere.bytecode.core.objects.Attribute;
 import org.obicere.bytecode.core.objects.CodeAttribute;
 import org.obicere.bytecode.core.objects.CodeException;
+import org.obicere.bytecode.core.reader.instruction.InstructionReader;
 import org.obicere.bytecode.core.util.IndexedDataInputStream;
 
 import java.io.IOException;
@@ -14,8 +15,11 @@ public class CodeAttributeReader implements Reader<CodeAttribute> {
 
     private final AttributeReader attributeReader;
 
-    public CodeAttributeReader(final AttributeReader attributeReader) {
+    private final InstructionReader instructionReader;
+
+    public CodeAttributeReader(final AttributeReader attributeReader, final InstructionReader instructionReader) {
         this.attributeReader = attributeReader;
+        this.instructionReader = instructionReader;
     }
 
     @Override
@@ -50,6 +54,6 @@ public class CodeAttributeReader implements Reader<CodeAttribute> {
         for (int i = 0; i < attributesCount; i++) {
             attributes[i] = attributeReader.read(input);
         }
-        return new CodeAttribute(length, maxStack, maxLocals, code.length, code, exceptionTable, attributes);
+        return new CodeAttribute(length, maxStack, maxLocals, code.length, code, exceptionTable, attributes, instructionReader);
     }
 }
