@@ -1,46 +1,40 @@
 package org.obicere.bytecode.core.objects;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
  */
 public class AttributeSet {
 
-    private final Map<Class<? extends Attribute>, Set<Attribute>> map;
+    private final Attribute[] attributes;
 
     public AttributeSet(final Attribute[] attributes) {
-        final Map<Class<? extends Attribute>, Set<Attribute>> map = new HashMap<>();
-        for (final Attribute attribute : attributes) {
-            final Class<? extends Attribute> cls = attribute.getClass();
-            final Set<Attribute> set = map.get(cls);
-            final Set<Attribute> setToAddTo;
-            if (set == null) {
-                setToAddTo = new HashSet<>();
-                map.put(cls, setToAddTo);
-            } else {
-                setToAddTo = set;
-            }
-            setToAddTo.add(attribute);
-        }
-        this.map = map;
+        this.attributes = attributes;
     }
 
     @SuppressWarnings("unchecked")
     public <T extends Attribute> Set<T> getAttributes(final Class<T> cls) {
-        // This should be checked as the attributes are divided up by name
-        // when loading. Therefore if this isn't null, then every element
-        // in the set will be of type T.
-        return (Set<T>) map.get(cls);
+        final Set<T> result = new HashSet<>();
+        for (final Attribute attribute : attributes) {
+            if (cls.isInstance(attribute)) {
+                result.add((T) attribute);
+            }
+        }
+        return result;
     }
 
+    @SuppressWarnings("unchecked")
     public <T extends Attribute> T getAttribute(final Class<T> cls) {
-        final Set<T> attributes = getAttributes(cls);
-        if (attributes == null) {
-            return null;
+        for (final Attribute attribute : attributes) {
+            if (cls.isInstance(attribute)) {
+                return (T) attribute;
+            }
         }
-        return attributes.iterator().next();
+        return null;
+    }
+
+    public Attribute[] getAttributes() {
+        return attributes;
     }
 }
