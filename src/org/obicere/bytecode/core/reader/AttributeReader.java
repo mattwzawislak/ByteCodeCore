@@ -2,6 +2,7 @@ package org.obicere.bytecode.core.reader;
 
 import org.obicere.bytecode.core.objects.Attribute;
 import org.obicere.bytecode.core.objects.ConstantPool;
+import org.obicere.bytecode.core.reader.instruction.InstructionReader;
 import org.obicere.bytecode.core.util.IndexedDataInputStream;
 
 import java.io.IOException;
@@ -43,9 +44,10 @@ public class AttributeReader extends MultiReader<String, Attribute> {
         final AnnotationReader annotation = new AnnotationReader();
         final ElementValueReader elementValue = new ElementValueReader(annotation);
         final TypeAnnotationReader typeAnnotation = new TypeAnnotationReader(elementValue);
+        final InstructionReader instructionReader = new InstructionReader();
 
         add(CONSTANT_VALUE_ATTRIBUTE_NAME, new ConstantValueAttributeReader());
-        add(CODE_ATTRIBUTE_NAME, new CodeAttributeReader(this));
+        add(CODE_ATTRIBUTE_NAME, new CodeAttributeReader(this, instructionReader));
         add(EXCEPTIONS_ATTRIBUTE_NAME, new ExceptionsAttributeReader());
         add(SOURCE_FILE_ATTRIBUTE_NAME, new SourceFileAttributeReader());
         add(LINE_NUMBER_TABLE_ATTRIBUTE_NAME, new LineNumberTableAttributeReader());
