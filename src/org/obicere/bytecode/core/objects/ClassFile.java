@@ -25,8 +25,6 @@ public class ClassFile extends ByteCodeElement {
 
     private final Method[] methods;
 
-    private final Attribute[] attributes;
-
     private final AttributeSet attributeSet;
 
     public ClassFile(final int minorVersion, final int majorVersion, final ConstantPool constantPool, final int accessFlags, final int thisClass, final int superClass, final int[] interfaces, final Field[] fields, final Method[] methods, final Attribute[] attributes) {
@@ -52,7 +50,6 @@ public class ClassFile extends ByteCodeElement {
         this.interfaces = interfaces;
         this.fields = fields;
         this.methods = methods;
-        this.attributes = attributes;
         this.attributeSet = new AttributeSet(attributes);
     }
 
@@ -102,10 +99,6 @@ public class ClassFile extends ByteCodeElement {
 
     public Method[] getMethods() {
         return methods;
-    }
-
-    public Attribute[] getAttributes() {
-        return attributes;
     }
 
     public AttributeSet getAttributeSet() {

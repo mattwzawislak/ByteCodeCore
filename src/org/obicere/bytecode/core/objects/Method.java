@@ -13,8 +13,6 @@ public class Method extends ByteCodeElement {
 
     private final int descriptorIndex;
 
-    private final Attribute[] attributes;
-
     private final AttributeSet attributeSet;
 
     public Method(final int accessFlags, final int nameIndex, final int descriptorIndex, final Attribute[] attributes) {
@@ -24,7 +22,6 @@ public class Method extends ByteCodeElement {
         this.accessFlags = accessFlags;
         this.nameIndex = nameIndex;
         this.descriptorIndex = descriptorIndex;
-        this.attributes = attributes;
         this.attributeSet = new AttributeSet(attributes);
     }
 
@@ -38,10 +35,6 @@ public class Method extends ByteCodeElement {
 
     public int getDescriptorIndex() {
         return descriptorIndex;
-    }
-
-    public Attribute[] getAttributes() {
-        return attributes;
     }
 
     public AttributeSet getAttributeSet() {

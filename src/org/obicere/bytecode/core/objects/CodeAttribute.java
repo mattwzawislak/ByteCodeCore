@@ -31,15 +31,13 @@ public class CodeAttribute extends Attribute {
 
     private final CodeException[] exceptions;
 
-    private final Attribute[] attributes;
-
     private final AttributeSet attributeSet;
 
     private final Map<Integer, CodeBlock> startPCToLine = new TreeMap<>();
 
-    private final InstructionReader instructionReader = new InstructionReader();
+    private final InstructionReader instructionReader;
 
-    public CodeAttribute(final int length, final int maxStack, final int maxLocals, final int codeSize, final byte[] code, final CodeException[] exceptions, final Attribute[] attributes) {
+    public CodeAttribute(final int length, final int maxStack, final int maxLocals, final int codeSize, final byte[] code, final CodeException[] exceptions, final Attribute[] attributes, final InstructionReader instructionReader) {
         super(length);
         if (code == null) {
             throw new NullPointerException("code must be non-null");
@@ -54,8 +52,8 @@ public class CodeAttribute extends Attribute {
         this.maxLocals = maxLocals;
         this.codeSize = codeSize;
         this.exceptions = exceptions;
-        this.attributes = attributes;
         this.attributeSet = new AttributeSet(attributes);
+        this.instructionReader = instructionReader;
 
         buildBlocks(code);
     }
@@ -74,10 +72,6 @@ public class CodeAttribute extends Attribute {
 
     public int getCodeSize() {
         return codeSize;
-    }
-
-    public Attribute[] getAttributes() {
-        return attributes;
     }
 
     public AttributeSet getAttributeSet() {
