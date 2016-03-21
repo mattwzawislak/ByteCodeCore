@@ -49,7 +49,12 @@ public class SuperBoundedWildcardIndicator extends WildcardIndicator {
     }
 
     @Override
-    public String getIdentifier(){
+    public String getIdentifier() {
         return IDENTIFIER;
+    }
+
+    @Override
+    public String toString() {
+        return "? super " + referenceTypeSignature;
     }
 }

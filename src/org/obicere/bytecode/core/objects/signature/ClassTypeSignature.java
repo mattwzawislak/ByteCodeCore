@@ -101,7 +101,7 @@ public class ClassTypeSignature extends ReferenceTypeSignature {
         }
     }
 
-    private void walkTypeArgument(final TypeAnnotation annotation, final Iterator<Path> path, final SimpleClassTypeSignature simpleClassTypeSignature, final Path next){
+    private void walkTypeArgument(final TypeAnnotation annotation, final Iterator<Path> path, final SimpleClassTypeSignature simpleClassTypeSignature, final Path next) {
         final TypeArguments typeArguments = simpleClassTypeSignature.getTypeArguments();
 
         final TypeArgument[] types = typeArguments.getTypeArguments();
@@ -116,5 +116,17 @@ public class ClassTypeSignature extends ReferenceTypeSignature {
     @Override
     public String getIdentifier() {
         return IDENTIFIER;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(packageSpecifier);
+        builder.append(simpleClassTypeSignature);
+        for (final ClassTypeSignatureSuffix suffix : classTypeSignatureSuffix) {
+            builder.append('.');
+            builder.append(suffix);
+        }
+        return builder.toString();
     }
 }

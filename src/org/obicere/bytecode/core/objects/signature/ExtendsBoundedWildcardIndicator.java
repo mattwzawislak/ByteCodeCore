@@ -64,4 +64,14 @@ public class ExtendsBoundedWildcardIndicator extends WildcardIndicator {
     public String getIdentifier() {
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        if (wildcardPresent) {
+            builder.append("? extends ");
+        }
+        builder.append(referenceTypeSignature);
+        return builder.toString();
+    }
 }

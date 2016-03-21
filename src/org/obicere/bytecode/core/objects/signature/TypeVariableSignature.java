@@ -47,4 +47,9 @@ public class TypeVariableSignature extends ReferenceTypeSignature {
     public String getIdentifier() {
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

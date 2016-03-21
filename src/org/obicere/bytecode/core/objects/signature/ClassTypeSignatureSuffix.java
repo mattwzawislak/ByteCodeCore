@@ -33,4 +33,9 @@ public class ClassTypeSignatureSuffix extends ByteCodeElement {
     public String getIdentifier(){
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString(){
+        return simpleClassTypeSignature.toString();
+    }
 }

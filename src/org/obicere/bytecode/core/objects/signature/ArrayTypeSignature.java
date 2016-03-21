@@ -48,4 +48,9 @@ public class ArrayTypeSignature extends ReferenceTypeSignature {
     public String getIdentifier() {
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString(){
+        return signature + "[]";
+    }
 }

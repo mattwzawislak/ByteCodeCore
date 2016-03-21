@@ -47,4 +47,15 @@ public class PackageSpecifier extends ByteCodeElement {
     public String getIdentifier() {
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString(){
+        final StringBuilder builder = new StringBuilder();
+
+        for(final String identifier : identifiers){
+            builder.append(identifier);
+            builder.append('.');
+        }
+        return builder.toString();
+    }
 }

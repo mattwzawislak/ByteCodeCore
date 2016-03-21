@@ -73,4 +73,9 @@ public class BaseType extends JavaTypeSignature {
     public String getIdentifier() {
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString() {
+        return type;
+    }
 }

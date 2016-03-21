@@ -30,4 +30,9 @@ public class TypeArgument extends ByteCodeElement {
     public String getIdentifier() {
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString() {
+        return wildcardIndicator.toString();
+    }
 }

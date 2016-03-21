@@ -45,4 +45,8 @@ public class SimpleClassTypeSignature extends ByteCodeElement {
         return new SimpleClassTypeSignature(identifier, typeArguments);
     }
 
+    @Override
+    public String toString() {
+        return name + typeArguments;
+    }
 }

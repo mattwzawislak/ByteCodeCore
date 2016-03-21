@@ -41,4 +41,9 @@ public class SuperclassSignature extends AnnotationTarget {
     public String getIdentifier() {
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString() {
+        return classTypeSignature.toString();
+    }
 }

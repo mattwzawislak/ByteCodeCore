@@ -49,4 +49,25 @@ public class TypeArguments extends ByteCodeElement {
         }
         return new TypeArguments(typeArguments.toArray(new TypeArgument[typeArguments.size()]));
     }
+
+    @Override
+    public String toString() {
+        if (typeArguments.length == 0) {
+            return "";
+        }
+        final StringBuilder builder = new StringBuilder();
+        builder.append('<');
+
+        boolean first = true;
+        for (final TypeArgument argument : typeArguments) {
+            if (!first) {
+                builder.append(", ");
+            }
+            builder.append(argument);
+            first = false;
+        }
+
+        builder.append('>');
+        return builder.toString();
+    }
 }

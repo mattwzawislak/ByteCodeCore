@@ -34,4 +34,9 @@ public class UnboundedWildcardIndicator extends WildcardIndicator {
     public String getIdentifier() {
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString() {
+        return "?";
+    }
 }
