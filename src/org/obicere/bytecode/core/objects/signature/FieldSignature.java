@@ -23,16 +23,28 @@ public class FieldSignature extends AnnotationTarget {
         return javaTypeSignature;
     }
 
+    public static FieldSignature parse(final String string) {
+        return parse(new QueueString(string));
+    }
+
     public static FieldSignature parse(final QueueString string) {
         if (!string.hasNext()) {
             return null;
         }
         final JavaTypeSignature javaTypeSignature = JavaTypeSignature.parse(string);
 
-        if (javaTypeSignature == null) {
-            return null;
+        if (javaTypeSignature != null) {
+            return new FieldSignature(javaTypeSignature);
         }
-        return new FieldSignature(javaTypeSignature);
+
+        string.reset();
+        final QueueString asClass = new QueueString("L" + string + ";");
+        final JavaTypeSignature alternative = JavaTypeSignature.parse(asClass);
+        if (alternative != null) {
+            return new FieldSignature(alternative);
+        }
+
+        return null;
     }
 
     public void addAnnotations(final TypeAnnotation[] types) {
