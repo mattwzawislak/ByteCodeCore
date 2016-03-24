@@ -42,15 +42,21 @@ public class SignatureAttribute extends Attribute {
     }
 
     public static FieldSignature parseField(final String signature) {
-        return FieldSignature.parse(new QueueString(signature));
+        final FieldSignature s = FieldSignature.parse(new QueueString(signature));
+        System.out.println("Field ("+signature+"): " + s);
+        return s;
     }
 
     public static MethodSignature parseMethod(final String signature) {
-        return MethodSignature.parse(new QueueString(signature));
+        MethodSignature s =  MethodSignature.parse(new QueueString(signature));
+        System.out.println("Method ("+signature+"): " + s);
+        return s;
     }
 
     public static ClassSignature parseClass(final String signature) {
-        return ClassSignature.parse(new QueueString(signature));
+        ClassSignature s =  ClassSignature.parse(new QueueString(signature));
+        System.out.println("Class ("+signature+"): " + s);
+        return s;
     }
 
 }

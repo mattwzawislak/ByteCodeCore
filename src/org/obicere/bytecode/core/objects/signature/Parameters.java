@@ -46,12 +46,12 @@ public class Parameters extends ByteCodeElement {
         return signatures;
     }
 
-    public Parameter[] getParameters(){
+    public Parameter[] getParameters() {
         return parameters;
     }
 
-    public void setParameters(final Parameter[] parameters){
-        if(parameters.length != signatures.length){
+    public void setParameters(final Parameter[] parameters) {
+        if (parameters.length != signatures.length) {
             throw new IllegalArgumentException("number of parameters must match the number of signatures.");
         }
         this.parameters = parameters;
@@ -68,5 +68,20 @@ public class Parameters extends ByteCodeElement {
     @Override
     public String getIdentifier() {
         return IDENTIFIER;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append('(');
+        for (int i = 0; i < signatures.length; i++) {
+            if (i != 0) {
+                builder.append(", ");
+            }
+            builder.append(signatures[i]);
+        }
+        builder.append(')');
+        return builder.toString();
     }
 }

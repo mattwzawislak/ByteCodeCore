@@ -135,4 +135,27 @@ public class ClassSignature extends AnnotationTarget {
     public String getIdentifier() {
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append(typeParameters);
+        builder.append(' ');
+
+        builder.append(superclassSignature);
+
+        boolean first = true;
+        for (final SuperinterfaceSignature signature : superinterfaceSignatures) {
+            if (first) {
+                builder.append(" & ");
+                first = false;
+            } else {
+                builder.append(", ");
+            }
+            builder.append(signature);
+        }
+
+        return builder.toString();
+    }
 }

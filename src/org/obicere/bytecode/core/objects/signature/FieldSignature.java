@@ -54,4 +54,9 @@ public class FieldSignature extends AnnotationTarget {
     public String getIdentifier() {
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString() {
+        return javaTypeSignature.toString();
+    }
 }

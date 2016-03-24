@@ -69,7 +69,7 @@ public class MethodSignature extends AnnotationTarget {
         }
 
         final ThrowsSignatures throwsSignatures = ThrowsSignatures.parse(string);
-        if(throwsSignatures == null){
+        if (throwsSignatures == null) {
             return null;
         }
 
@@ -178,5 +178,20 @@ public class MethodSignature extends AnnotationTarget {
     @Override
     public String getIdentifier() {
         return IDENTIFIER;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append(typeParameters);
+        builder.append(' ');
+        builder.append(result);
+        builder.append(' ');
+        builder.append(parameters);
+        builder.append(' ');
+        builder.append(throwsSignatures);
+
+        return builder.toString();
     }
 }

@@ -38,4 +38,9 @@ public class TypeThrowsSignature extends ThrowsSignature {
     public String getIdentifier() {
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString() {
+        return typeVariableSignature.toString();
+    }
 }

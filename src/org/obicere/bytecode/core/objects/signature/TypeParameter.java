@@ -95,4 +95,30 @@ public class TypeParameter extends AnnotationTarget {
     public String getIdentifier() {
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append(name);
+
+        boolean extendsAdded = false;
+        final String classBoundValue = classBound.toString();
+        if (!classBoundValue.equals("")) {
+            builder.append(" extends ");
+            builder.append(classBoundValue);
+
+            extendsAdded = true;
+        }
+
+        for (int i = 0; i < interfaceBounds.length; i++) {
+            if (i == 0 && !extendsAdded) {
+                builder.append(" extends ");
+            } else {
+                builder.append(", ");
+            }
+            builder.append(interfaceBounds[i]);
+        }
+        return builder.toString();
+    }
 }

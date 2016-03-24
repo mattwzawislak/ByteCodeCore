@@ -41,4 +41,9 @@ public class InterfaceBound extends AnnotationTarget {
     public String getIdentifier() {
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString(){
+        return referenceTypeSignature.toString();
+    }
 }

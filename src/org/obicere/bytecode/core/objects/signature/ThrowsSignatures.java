@@ -41,4 +41,19 @@ public class ThrowsSignatures extends ByteCodeElement {
     public String getIdentifier() {
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < signatures.length; i++) {
+            if (i == 0) {
+                builder.append("throws ");
+            } else {
+                builder.append(", ");
+            }
+            builder.append(signatures[i]);
+        }
+        return builder.toString();
+    }
 }

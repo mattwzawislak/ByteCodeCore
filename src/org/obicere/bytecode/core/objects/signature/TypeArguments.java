@@ -58,13 +58,11 @@ public class TypeArguments extends ByteCodeElement {
         final StringBuilder builder = new StringBuilder();
         builder.append('<');
 
-        boolean first = true;
-        for (final TypeArgument argument : typeArguments) {
-            if (!first) {
+        for (int i = 0; i < typeArguments.length; i++) {
+            if (i != 0) {
                 builder.append(", ");
             }
-            builder.append(argument);
-            first = false;
+            builder.append(typeArguments[i]);
         }
 
         builder.append('>');

@@ -41,4 +41,9 @@ public class Result extends AnnotationTarget {
     public String getIdentifier() {
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString() {
+        return javaTypeSignature.toString();
+    }
 }

@@ -48,4 +48,13 @@ public class ClassBound extends AnnotationTarget {
     public String getIdentifier() {
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString() {
+        if (referenceTypeSignature == null) {
+            return "";
+        } else {
+            return referenceTypeSignature.toString();
+        }
+    }
 }

@@ -52,4 +52,23 @@ public class TypeParameters extends ByteCodeElement {
     public String getIdentifier() {
         return IDENTIFIER;
     }
+
+    @Override
+    public String toString() {
+        if (typeParameters.length == 0) {
+            return "";
+        }
+        final StringBuilder builder = new StringBuilder();
+        builder.append('<');
+
+        for (int i = 0; i < typeParameters.length; i++) {
+            if (i != 0) {
+                builder.append(", ");
+            }
+            builder.append(typeParameters[i]);
+        }
+
+        builder.append('>');
+        return builder.toString();
+    }
 }
