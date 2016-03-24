@@ -49,6 +49,10 @@ public class MethodSignature extends AnnotationTarget {
         return throwsSignatures;
     }
 
+    public static MethodSignature parse(final String string){
+        return parse(new QueueString(string));
+    }
+
     public static MethodSignature parse(final QueueString string) {
         if (!string.hasNext()) {
             return null;

@@ -41,6 +41,10 @@ public class ClassSignature extends AnnotationTarget {
         return superinterfaceSignatures;
     }
 
+    public static ClassSignature parse(final String string){
+        return parse(new QueueString(string));
+    }
+
     public static ClassSignature parse(final QueueString string) {
         if (!string.hasNext()) {
             return null;
