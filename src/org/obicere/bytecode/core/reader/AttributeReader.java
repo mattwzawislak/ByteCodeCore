@@ -79,7 +79,7 @@ public class AttributeReader extends MultiReader<String, Attribute> {
         final String attributeName = constantPool.getAsString(attributeNameIndex);
         final Reader<? extends Attribute> reader = get(attributeName);
         if (reader == null) {
-            throw new ClassFormatError("unknown attribute reached and no way to handle it available.");
+            throw new ClassFormatError("unknown attribute reached and no way to handle it available. \"" + attributeName + "\"");
         }
         final Attribute attribute = reader.read(input);
         final int end = input.getLogicalIndex();
