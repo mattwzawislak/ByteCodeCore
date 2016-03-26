@@ -1,14 +1,21 @@
 package org.obicere.bytecode.core.objects.instruction;
 
+import org.obicere.bytecode.core.reader.instruction.InstructionReader;
+
 /**
  * @author Obicere
  */
 public class areturn extends Instruction {
 
     public static final String IDENTIFIER = "areturn";
-    private static final int    OPCODE   = 0xb0;
 
-    public areturn() {
-        super(IDENTIFIER, OPCODE);
+    @Override
+    public String getMnemonic() {
+        return IDENTIFIER;
+    }
+
+    @Override
+    public byte getOpcode() {
+        return InstructionReader.OPCODE_ARETURN;
     }
 }

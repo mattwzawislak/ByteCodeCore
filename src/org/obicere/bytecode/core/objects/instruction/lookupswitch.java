@@ -1,12 +1,13 @@
 package org.obicere.bytecode.core.objects.instruction;
 
+import org.obicere.bytecode.core.reader.instruction.InstructionReader;
+
 /**
  * @author Obicere
  */
 public class lookupswitch extends Instruction {
 
     public static final String IDENTIFIER = "lookupswitch";
-    private static final int    OPCODE   = 0xab;
 
     private final int defaultbyte1;
     private final int defaultbyte2;
@@ -21,8 +22,6 @@ public class lookupswitch extends Instruction {
     private final int[][] matchOffsetPairs;
 
     public lookupswitch(final int defaultbyte1, final int defaultbyte2, final int defaultbyte3, final int defaultbyte4, final int npairs1, final int npairs2, final int npairs3, final int npairs4, final int[][] matchOffsetPairs) {
-        super(IDENTIFIER, OPCODE);
-
         this.defaultbyte1 = defaultbyte1;
         this.defaultbyte2 = defaultbyte2;
         this.defaultbyte3 = defaultbyte3;
@@ -78,5 +77,15 @@ public class lookupswitch extends Instruction {
 
     public int[][] getMatchOffsetPairs() {
         return matchOffsetPairs;
+    }
+
+    @Override
+    public String getMnemonic() {
+        return IDENTIFIER;
+    }
+
+    @Override
+    public byte getOpcode() {
+        return InstructionReader.OPCODE_LOOKUPSWITCH;
     }
 }

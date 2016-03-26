@@ -13,7 +13,7 @@ public class wideReader implements Reader<wide> {
 
     @Override
     public wide read(final IndexedDataInputStream input) throws IOException {
-        final int opcode = input.readUnsignedByte();
+        final byte opcode = input.readByte();
         if (!isValidWideTag(opcode)) {
             throw new ClassFormatError("invalid operation after a wide instruction listing: " + opcode);
         }

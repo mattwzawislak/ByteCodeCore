@@ -1,14 +1,21 @@
 package org.obicere.bytecode.core.objects.instruction;
 
+import org.obicere.bytecode.core.reader.instruction.InstructionReader;
+
 /**
  * @author Obicere
  */
 public class lxor extends Instruction {
 
     public static final String IDENTIFIER = "lxor";
-    private static final int    OPCODE   = 0x83;
 
-    public lxor() {
-        super(IDENTIFIER, OPCODE);
+    @Override
+    public String getMnemonic() {
+        return IDENTIFIER;
+    }
+
+    @Override
+    public byte getOpcode() {
+        return InstructionReader.OPCODE_LXOR;
     }
 }

@@ -1,5 +1,7 @@
 package org.obicere.bytecode.core.objects.instruction;
 
+import org.obicere.bytecode.core.reader.instruction.InstructionReader;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -9,7 +11,6 @@ import java.util.logging.Logger;
 public class invokeinterface extends Instruction {
 
     public static final String IDENTIFIER = "invokeinterface";
-    private static final int    OPCODE   = 0xb9;
 
     private final int indexbyte1;
     private final int indexbyte2;
@@ -17,7 +18,6 @@ public class invokeinterface extends Instruction {
     private final int byte4;
 
     public invokeinterface(final int indexbyte1, final int indexbyte2, final int count, final int byte4) {
-        super(IDENTIFIER, OPCODE);
         if (count <= 0) {
             Logger.getGlobal().log(Level.WARNING, "count of invokeinterface must be positive");
         }
@@ -48,5 +48,15 @@ public class invokeinterface extends Instruction {
 
     public int getByte4(){
         return byte4;
+    }
+
+    @Override
+    public String getMnemonic() {
+        return IDENTIFIER;
+    }
+
+    @Override
+    public byte getOpcode() {
+        return InstructionReader.OPCODE_INVOKEINTERFACE;
     }
 }

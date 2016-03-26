@@ -1,18 +1,18 @@
 package org.obicere.bytecode.core.objects.instruction;
 
+import org.obicere.bytecode.core.reader.instruction.InstructionReader;
+
 /**
  * @author Obicere
  */
 public class newarray extends Instruction {
 
     public static final  String IDENTIFIER = "newarray";
-    private static final int    OPCODE     = 0xbc;
 
     private final int    atype;
     private final String type;
 
     public newarray(final int atype) {
-        super(IDENTIFIER, OPCODE);
         this.atype = atype;
         this.type = getTypeOfAType();
     }
@@ -47,5 +47,15 @@ public class newarray extends Instruction {
             default:
                 throw new IllegalArgumentException("illegal aType value.");
         }
+    }
+
+    @Override
+    public String getMnemonic() {
+        return IDENTIFIER;
+    }
+
+    @Override
+    public byte getOpcode() {
+        return InstructionReader.OPCODE_NEWARRAY;
     }
 }

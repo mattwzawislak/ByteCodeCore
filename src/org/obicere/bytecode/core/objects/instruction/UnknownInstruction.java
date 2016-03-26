@@ -7,7 +7,19 @@ public final class UnknownInstruction extends Instruction {
 
     public static final String IDENTIFIER = "unknown";
 
-    public UnknownInstruction(final int opcode){
-        super(IDENTIFIER, opcode);
+    private final byte opcode;
+
+    public UnknownInstruction(final byte opcode){
+        this.opcode = opcode;
+    }
+
+    @Override
+    public String getMnemonic() {
+        return IDENTIFIER;
+    }
+
+    @Override
+    public byte getOpcode() {
+        return opcode;
     }
 }

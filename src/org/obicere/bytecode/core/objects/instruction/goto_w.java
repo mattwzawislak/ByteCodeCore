@@ -1,12 +1,13 @@
 package org.obicere.bytecode.core.objects.instruction;
 
+import org.obicere.bytecode.core.reader.instruction.InstructionReader;
+
 /**
  * @author Obicere
  */
 public class goto_w extends Instruction {
 
     public static final String IDENTIFIER = "goto_w";
-    private static final int    OPCODE   = 0xc8;
 
     private final int branchbyte1;
     private final int branchbyte2;
@@ -14,7 +15,6 @@ public class goto_w extends Instruction {
     private final int branchbyte4;
 
     public goto_w(final int branchbyte1, final int branchbyte2, final int branchbyte3, final int branchbyte4) {
-        super(IDENTIFIER, OPCODE);
         this.branchbyte1 = branchbyte1;
         this.branchbyte2 = branchbyte2;
         this.branchbyte3 = branchbyte3;
@@ -39,5 +39,15 @@ public class goto_w extends Instruction {
 
     public int getBranchOffset() {
         return (branchbyte1 << 24) | (branchbyte2 << 16) | (branchbyte3 << 8) | branchbyte4;
+    }
+
+    @Override
+    public String getMnemonic() {
+        return IDENTIFIER;
+    }
+
+    @Override
+    public byte getOpcode() {
+        return InstructionReader.OPCODE_GOTO_W;
     }
 }

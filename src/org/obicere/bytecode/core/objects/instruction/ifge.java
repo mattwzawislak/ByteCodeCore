@@ -1,18 +1,18 @@
 package org.obicere.bytecode.core.objects.instruction;
 
+import org.obicere.bytecode.core.reader.instruction.InstructionReader;
+
 /**
  * @author Obicere
  */
 public class ifge extends Instruction {
 
     public static final String IDENTIFIER = "ifge";
-    private static final int    OPCODE   = 0x9c;
 
     private final int branchbyte1;
     private final int branchbyte2;
 
     public ifge(final int branchbyte1, final int branchbyte2) {
-        super(IDENTIFIER, OPCODE);
         this.branchbyte1 = branchbyte1;
         this.branchbyte2 = branchbyte2;
     }
@@ -27,5 +27,15 @@ public class ifge extends Instruction {
 
     public int getBranchOffset(){
         return (branchbyte1 << 8) | branchbyte2;
+    }
+
+    @Override
+    public String getMnemonic() {
+        return IDENTIFIER;
+    }
+
+    @Override
+    public byte getOpcode() {
+        return InstructionReader.OPCODE_IFGE;
     }
 }

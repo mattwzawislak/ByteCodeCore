@@ -1,12 +1,13 @@
 package org.obicere.bytecode.core.objects.instruction;
 
+import org.obicere.bytecode.core.reader.instruction.InstructionReader;
+
 /**
  * @author Obicere
  */
 public class tableswitch extends Instruction {
 
     public static final String IDENTIFIER = "tableswitch";
-    private static final int    OPCODE   = 0xaa;
 
     private final int defaultbyte1;
     private final int defaultbyte2;
@@ -26,8 +27,6 @@ public class tableswitch extends Instruction {
     private final int[] jumpOffsets;
 
     public tableswitch(final int defaultbyte1, final int defaultbyte2, final int defaultbyte3, final int defaultbyte4, final int lowbyte1, final int lowbyte2, final int lowbyte3, final int lowbyte4, final int highbyte1, final int highbyte2, final int highbyte3, final int highbyte4, final int[] jumpOffests) {
-        super(IDENTIFIER, OPCODE);
-
         this.defaultbyte1 = defaultbyte1;
         this.defaultbyte2 = defaultbyte2;
         this.defaultbyte3 = defaultbyte3;
@@ -109,4 +108,15 @@ public class tableswitch extends Instruction {
     public int[] getJumpOffsets() {
         return jumpOffsets;
     }
+
+    @Override
+    public String getMnemonic() {
+        return IDENTIFIER;
+    }
+
+    @Override
+    public byte getOpcode() {
+        return InstructionReader.OPCODE_TABLESWITCH;
+    }
+
 }

@@ -1,18 +1,18 @@
 package org.obicere.bytecode.core.objects.instruction;
 
+import org.obicere.bytecode.core.reader.instruction.InstructionReader;
+
 /**
  * @author Obicere
  */
 public class getfield extends Instruction {
 
     public static final String IDENTIFIER = "getfield";
-    private static final int    OPCODE   = 0xb2;
 
     private final int indexbyte1;
     private final int indexbyte2;
 
     public getfield(final int indexbyte1, final int indexbyte2) {
-        super(IDENTIFIER, OPCODE);
         this.indexbyte1 = indexbyte1;
         this.indexbyte2 = indexbyte2;
     }
@@ -27,6 +27,16 @@ public class getfield extends Instruction {
 
     public int getIndex() {
         return (indexbyte1 << 8) | indexbyte2;
+    }
+
+    @Override
+    public String getMnemonic() {
+        return IDENTIFIER;
+    }
+
+    @Override
+    public byte getOpcode() {
+        return InstructionReader.OPCODE_GETFIELD;
     }
 
 }
