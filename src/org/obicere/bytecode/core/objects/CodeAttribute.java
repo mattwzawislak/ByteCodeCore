@@ -33,7 +33,7 @@ public class CodeAttribute extends Attribute {
 
     private final AttributeSet attributeSet;
 
-    private final Map<Integer, CodeBlock> startPCToLine = new TreeMap<>();
+    private final TreeMap<Integer, CodeBlock> startPCToLine = new TreeMap<>();
 
     private final InstructionReader instructionReader;
 
@@ -88,28 +88,24 @@ public class CodeAttribute extends Attribute {
             return "end";
         }
 
-        CodeBlock block = startPCToLine.get(pc);
+        Map.Entry<Integer, CodeBlock> closest = startPCToLine.floorEntry(pc);
 
-        if (block != null) {
+        if (closest == null) {
+            return null;
+        }
+
+        final CodeBlock block = closest.getValue();
+        final int delta = pc - closest.getKey();
+
+        if (delta == 0) {
             return block.getName();
-        }
-
-        // if the block is null, find the best fit
-        int closest = Integer.MAX_VALUE;
-        for (final CodeBlock nearest : startPCToLine.values()) {
-            final int delta = pc - nearest.getStartPC();
-            if (delta >= 0 && delta < closest) {
-                closest = delta;
-                block = nearest;
-            }
-        }
-
-        // if the best fit is null, then wtf happened here
-        if (block == null) {
-            return "?";
+        } else if (block instanceof ImplicitCodeBlock) {
+            // implicit start pc = 0
+            // so this is the offset from the start
+            // this should always be positive
+            return String.valueOf(delta);
         } else {
-            // include the offset
-            return block.getName() + "+" + closest;
+            return block.getName() + "+" + delta;
         }
     }
 
@@ -119,9 +115,14 @@ public class CodeAttribute extends Attribute {
 
     private void buildBlocks(final byte[] code) {
         final LineNumber[] lines = getLines();
-        for (final LineNumber line : lines) {
-            final LineCodeBlock block = new LineCodeBlock(line);
-            startPCToLine.put(line.getStartPC(), block);
+        if (lines.length == 0) {
+            final ImplicitCodeBlock block = new ImplicitCodeBlock();
+            startPCToLine.put(0, block);
+        } else {
+            for (final LineNumber line : lines) {
+                final LineCodeBlock block = new LineCodeBlock(line);
+                startPCToLine.put(line.getStartPC(), block);
+            }
         }
 
         boolean firstFrame = true; // first frame has different offset calc
