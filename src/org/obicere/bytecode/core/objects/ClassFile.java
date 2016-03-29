@@ -105,6 +105,10 @@ public class ClassFile extends ByteCodeElement {
         return attributeSet;
     }
 
+    public boolean isMeta(){
+        return false;
+    }
+
     @Override
     public String getIdentifier() {
         return IDENTIFIER;
