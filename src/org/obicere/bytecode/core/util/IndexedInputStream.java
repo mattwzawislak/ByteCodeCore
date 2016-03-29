@@ -57,4 +57,9 @@ public class IndexedInputStream extends InputStream implements IndexedStream {
     public void close() throws IOException {
         stream.close();
     }
+
+    @Override
+    public int available() throws IOException {
+        return stream.available();
+    }
 }
