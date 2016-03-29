@@ -19,7 +19,7 @@ import java.io.ByteArrayInputStream;
  * @see IndexedDataInputStream
  * @since 0.0
  */
-public class IndexedByteArrayInputStream extends ByteArrayInputStream {
+public class IndexedByteArrayInputStream extends ByteArrayInputStream implements IndexedStream {
 
     /**
      * {@inheritDoc}
@@ -51,29 +51,17 @@ public class IndexedByteArrayInputStream extends ByteArrayInputStream {
      *
      * @return The current index of the stream.
      */
+    @Override
     public int getIndex() {
         return pos;
     }
 
-    /**
-     * Moves a certain amount of <code>byte</code>s in the stream in
-     * either direction (forward or backwards). This will have no affect
-     * if the current index of the stream is equal to <code>0</code>. This
-     * method can therefore be used to counteract the effect of an initial
-     * offset. This can therefore also be used to skip a certain amount of
-     * <code>byte</code>s without the cost of reading them.
-     * <p>
-     * The resulting offset is not checked against the length of the
-     * stream to allow uninterrupted operations on the stream that might
-     * trigger an exception.
-     *
-     * @param offset The offset to move, either forward or backward.
-     */
-    public void step(final int offset) {
-        if (pos >= offset) {
-            pos -= offset;
-        } else {
-            pos = 0;
+    @Override
+    public int peek() {
+        final int next = read();
+        if (next > 0) {
+            pos--;
         }
+        return next;
     }
 }

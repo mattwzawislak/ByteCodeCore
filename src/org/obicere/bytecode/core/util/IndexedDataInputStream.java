@@ -1,6 +1,8 @@
 package org.obicere.bytecode.core.util;
 
 import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * A modified {@link java.io.DataInputStream} that provides capabilities
@@ -69,7 +71,7 @@ public class IndexedDataInputStream extends DataInputStream {
      * index of the stream. This is also the stream that contains all of
      * the data to be processed.
      */
-    private final IndexedByteArrayInputStream input;
+    private final IndexedStream input;
 
     /**
      * Constructs a new stream with no logical offset. This will read all
@@ -100,9 +102,21 @@ public class IndexedDataInputStream extends DataInputStream {
      * @param bytes The list of bytes for the stream to process.
      */
     public IndexedDataInputStream(final int offset, final byte[] bytes) {
-        super(new IndexedByteArrayInputStream(bytes));
+        this(new IndexedByteArrayInputStream(bytes), offset);
+    }
+
+    public IndexedDataInputStream(final InputStream stream) {
+        this(stream, 0);
+    }
+
+    public IndexedDataInputStream(final InputStream stream, final int offset) {
+        this(new IndexedInputStream(stream), offset);
+    }
+
+    private IndexedDataInputStream(final IndexedInputStream stream, final int offset) {
+        super(stream);
         this.offset = offset;
-        this.input = (IndexedByteArrayInputStream) in;
+        this.input = stream;
     }
 
     /**
@@ -140,21 +154,12 @@ public class IndexedDataInputStream extends DataInputStream {
         return input.getIndex();
     }
 
-    /**
-     * Moves a certain amount of <code>byte</code>s in the stream in
-     * either direction (forward or backwards). This will have no affect
-     * if the current index of the stream is equal to <code>0</code>. This
-     * method can therefore be used to counteract the effect of an initial
-     * offset. This can therefore also be used to skip a certain amount of
-     * <code>byte</code>s without the cost of reading them.
-     * <p>
-     * The resulting offset is not checked against the length of the
-     * stream to allow uninterrupted operations on the stream that might
-     * trigger an exception.
-     *
-     * @param offset The offset to move, either forward or backward.
-     */
-    public void step(final int offset) {
-        input.step(offset);
+    public int peek() throws IOException {
+        return input.peek();
+    }
+
+    @Override
+    public void close() throws IOException {
+        input.close();
     }
 }
