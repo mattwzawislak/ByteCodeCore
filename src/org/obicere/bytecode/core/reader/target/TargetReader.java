@@ -1,6 +1,7 @@
-package org.obicere.bytecode.core.reader;
+package org.obicere.bytecode.core.reader.target;
 
-import org.obicere.bytecode.core.objects.Target;
+import org.obicere.bytecode.core.objects.target.Target;
+import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.IndexedDataInputStream;
 
 import java.io.IOException;

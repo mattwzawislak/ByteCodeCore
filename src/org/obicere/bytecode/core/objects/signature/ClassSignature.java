@@ -1,10 +1,10 @@
 package org.obicere.bytecode.core.objects.signature;
 
 import org.obicere.bytecode.core.objects.Path;
-import org.obicere.bytecode.core.objects.SuperTypeTarget;
+import org.obicere.bytecode.core.objects.target.SuperTypeTarget;
 import org.obicere.bytecode.core.objects.TypeAnnotation;
-import org.obicere.bytecode.core.objects.TypeParameterBoundTarget;
-import org.obicere.bytecode.core.objects.TypeParameterTarget;
+import org.obicere.bytecode.core.objects.target.TypeParameterBoundTarget;
+import org.obicere.bytecode.core.objects.target.TypeParameterTarget;
 
 import java.util.Arrays;
 import java.util.Iterator;

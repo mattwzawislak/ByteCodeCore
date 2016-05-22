@@ -2,9 +2,10 @@ package org.obicere.bytecode.core.reader;
 
 import org.obicere.bytecode.core.objects.ElementValue;
 import org.obicere.bytecode.core.objects.ElementValuePair;
-import org.obicere.bytecode.core.objects.Target;
 import org.obicere.bytecode.core.objects.TypeAnnotation;
 import org.obicere.bytecode.core.objects.TypePath;
+import org.obicere.bytecode.core.objects.target.Target;
+import org.obicere.bytecode.core.reader.target.TargetReader;
 import org.obicere.bytecode.core.util.IndexedDataInputStream;
 
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class TypeAnnotationReader implements Reader<TypeAnnotation> {
         final int numElementValuePairs = input.readUnsignedShort();
 
         final ElementValuePair[] elementValuePairs = new ElementValuePair[numElementValuePairs];
-        for(int i = 0;i < numElementValuePairs; i++){
+        for (int i = 0; i < numElementValuePairs; i++) {
             final int elementNameIndex = input.readUnsignedShort();
             final ElementValue value = elementValue.read(input);
 

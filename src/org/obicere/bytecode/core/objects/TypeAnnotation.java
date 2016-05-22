@@ -1,5 +1,7 @@
 package org.obicere.bytecode.core.objects;
 
+import org.obicere.bytecode.core.objects.target.Target;
+
 /**
  * @author Obicere
  */

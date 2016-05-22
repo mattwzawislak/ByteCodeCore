@@ -1,4 +1,4 @@
-package org.obicere.bytecode.core.objects;
+package org.obicere.bytecode.core.objects.target;
 
 /**
  * @author Obicere

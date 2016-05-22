@@ -1,6 +1,7 @@
-package org.obicere.bytecode.core.reader;
+package org.obicere.bytecode.core.reader.target;
 
-import org.obicere.bytecode.core.objects.TypeParameterBoundTarget;
+import org.obicere.bytecode.core.objects.target.TypeParameterBoundTarget;
+import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.IndexedDataInputStream;
 
 import java.io.IOException;

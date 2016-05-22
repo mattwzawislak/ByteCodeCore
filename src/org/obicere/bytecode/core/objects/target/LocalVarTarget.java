@@ -1,11 +1,13 @@
-package org.obicere.bytecode.core.objects;
+package org.obicere.bytecode.core.objects.target;
+
+import org.obicere.bytecode.core.objects.LocalVar;
 
 /**
  * @author Obicere
  */
 public class LocalVarTarget implements Target {
 
-    private final int targetType;
+    private final int        targetType;
     private final LocalVar[] table;
 
     public LocalVarTarget(final int targetType, final LocalVar[] table) {
