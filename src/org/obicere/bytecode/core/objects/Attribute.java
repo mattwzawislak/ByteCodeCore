@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects;
 /**
  * @author Obicere
  */
-public abstract class Attribute extends ByteCodeElement {
+public abstract class Attribute implements Identifiable {
 
     private final int length;
 
@@ -11,7 +11,7 @@ public abstract class Attribute extends ByteCodeElement {
         this.length = length;
     }
 
-    public int getAttributeLength() {
+    public final int getLength() {
         return length;
     }
 }

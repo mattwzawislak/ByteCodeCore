@@ -4,7 +4,7 @@ import org.obicere.bytecode.core.objects.instruction.Instruction;
 
 /**
  */
-public abstract class CodeBlock extends ByteCodeElement {
+public abstract class CodeBlock implements Identifiable {
 
     protected Instruction[] instructions;
 

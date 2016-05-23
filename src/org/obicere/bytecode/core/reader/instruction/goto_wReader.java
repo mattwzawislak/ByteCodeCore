@@ -13,6 +13,7 @@ public class goto_wReader implements Reader<goto_w> {
 
     @Override
     public goto_w read(final IndexedDataInputStream input) throws IOException {
-        return new goto_w(input.readUnsignedByte(), input.readUnsignedByte(), input.readUnsignedByte(), input.readUnsignedByte());
+        final int index = input.getIndex() - 1;
+        return new goto_w(input.readWideLabel(index));
     }
 }

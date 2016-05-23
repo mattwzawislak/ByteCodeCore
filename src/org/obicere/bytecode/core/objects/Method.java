@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects;
 /**
  * @author Obicere
  */
-public class Method extends ByteCodeElement {
+public class Method implements Identifiable {
 
     public static final String IDENTIFIER = "Method";
 

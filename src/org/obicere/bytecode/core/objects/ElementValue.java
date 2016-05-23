@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects;
 /**
  * @author Obicere
  */
-public abstract class ElementValue extends ByteCodeElement {
+public abstract class ElementValue implements Identifiable {
 
     private final int tag;
 

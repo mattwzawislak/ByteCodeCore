@@ -13,6 +13,7 @@ public class ifgtReader implements Reader<ifgt> {
 
     @Override
     public ifgt read(final IndexedDataInputStream input) throws IOException {
-        return new ifgt(input.readUnsignedByte(), input.readUnsignedByte());
+        final int index = input.getIndex() - 1;
+        return new ifgt(input.readLabel(index));
     }
 }

@@ -13,6 +13,7 @@ public class jsr_wReader implements Reader<jsr_w> {
 
     @Override
     public jsr_w read(final IndexedDataInputStream input) throws IOException {
-        return new jsr_w(input.readUnsignedByte(), input.readUnsignedByte(), input.readUnsignedByte(), input.readUnsignedByte());
+        final int index = input.getIndex() - 1;
+        return new jsr_w(input.readWideLabel(index));
     }
 }

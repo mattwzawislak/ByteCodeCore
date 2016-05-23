@@ -13,6 +13,7 @@ public class if_acmpneReader implements Reader<if_acmpne> {
 
     @Override
     public if_acmpne read(final IndexedDataInputStream input) throws IOException {
-        return new if_acmpne(input.readUnsignedByte(), input.readUnsignedByte());
+        final int index = input.getIndex() - 1;
+        return new if_acmpne(input.readLabel(index));
     }
 }

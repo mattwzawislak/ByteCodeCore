@@ -3,6 +3,7 @@ package org.obicere.bytecode.core.reader;
 import org.obicere.bytecode.core.objects.Attribute;
 import org.obicere.bytecode.core.objects.CodeAttribute;
 import org.obicere.bytecode.core.objects.CodeException;
+import org.obicere.bytecode.core.objects.label.LazyLabel;
 import org.obicere.bytecode.core.reader.instruction.InstructionReader;
 import org.obicere.bytecode.core.util.IndexedDataInputStream;
 
@@ -38,16 +39,12 @@ public class CodeAttributeReader implements Reader<CodeAttribute> {
         final CodeException[] exceptionTable = new CodeException[exceptionTableLength];
 
         for (int i = 0; i < exceptionTableLength; i++) {
-            final int startIndex = input.getLogicalIndex();
-            final int startPC = input.readUnsignedShort();
-            final int endPC = input.readUnsignedShort();
-            final int handlerPC = input.readUnsignedShort();
+            final LazyLabel start = input.readLazyLabel();
+            final LazyLabel end = input.readLazyLabel();
+            final LazyLabel handler = input.readLazyLabel();
             final int catchType = input.readUnsignedShort();
-            final CodeException exception = new CodeException(startPC, endPC, handlerPC, catchType);
-            final int endIndex = input.getLogicalIndex();
 
-            exception.setBounds(startIndex, endIndex);
-            exceptionTable[i] = exception;
+            exceptionTable[i] = new CodeException(start, end, handler, catchType);
         }
         final int attributesCount = input.readUnsignedShort();
         final Attribute[] attributes = new Attribute[attributesCount];

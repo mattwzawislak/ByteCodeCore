@@ -1,34 +1,44 @@
 package org.obicere.bytecode.core.objects;
 
+import org.obicere.bytecode.core.objects.label.Label;
+import org.obicere.bytecode.core.objects.label.LabelFactory;
+import org.obicere.bytecode.core.objects.label.LazyLabel;
+
 /**
  * @author Obicere
  */
-public class CodeException extends ByteCodeElement {
+public class CodeException implements Identifiable {
 
     public static final String IDENTIFIER = "CodeException";
 
-    private final int startPC;
-    private final int endPC;
-    private final int handlerPC;
+    private final LazyLabel start;
+    private final LazyLabel end;
+    private final LazyLabel handler;
     private final int catchType;
 
-    public CodeException(final int startPC, final int endPC, final int handlerPC, final int catchType) {
-        this.startPC = startPC;
-        this.endPC = endPC;
-        this.handlerPC = handlerPC;
+    public CodeException(final LazyLabel start, final LazyLabel end, final LazyLabel handler, final int catchType) {
+        this.start = start;
+        this.end = end;
+        this.handler = handler;
         this.catchType = catchType;
     }
 
-    public int getStartPC() {
-        return startPC;
+    public void initializeLabels(final LabelFactory factory) {
+        start.initialize(factory);
+        end.initialize(factory);
+        handler.initialize(factory);
     }
 
-    public int getHandlerPC() {
-        return handlerPC;
+    public Label getStart() {
+        return start;
     }
 
-    public int getEndPC() {
-        return endPC;
+    public Label getEnd() {
+        return end;
+    }
+
+    public Label getHandler() {
+        return handler;
     }
 
     public int getCatchType() {

@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects;
 /**
  * @author Obicere
  */
-public abstract class StackMapFrame extends ByteCodeElement {
+public abstract class StackMapFrame implements Identifiable {
 
     private final int frameType;
 

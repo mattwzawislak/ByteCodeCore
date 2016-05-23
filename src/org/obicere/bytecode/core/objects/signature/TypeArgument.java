@@ -1,10 +1,10 @@
 package org.obicere.bytecode.core.objects.signature;
 
-import org.obicere.bytecode.core.objects.ByteCodeElement;
+import org.obicere.bytecode.core.objects.Identifiable;
 
 /**
  */
-public class TypeArgument extends ByteCodeElement {
+public class TypeArgument implements Identifiable {
 
     public static final String IDENTIFIER = "TypeArgument";
 

@@ -13,6 +13,7 @@ public class ifneReader implements Reader<ifne> {
 
     @Override
     public ifne read(final IndexedDataInputStream input) throws IOException {
-        return new ifne(input.readUnsignedByte(), input.readUnsignedByte());
+        final int index = input.getIndex() - 1;
+        return new ifne(input.readLabel(index));
     }
 }

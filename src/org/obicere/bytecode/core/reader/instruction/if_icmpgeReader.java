@@ -13,6 +13,7 @@ public class if_icmpgeReader implements Reader<if_icmpge> {
 
     @Override
     public if_icmpge read(final IndexedDataInputStream input) throws IOException {
-        return new if_icmpge(input.readUnsignedByte(), input.readUnsignedByte());
+        final int index = input.getIndex() - 1;
+        return new if_icmpge(input.readLabel(index));
     }
 }

@@ -1,5 +1,7 @@
 package org.obicere.bytecode.core.objects;
 
+import org.obicere.bytecode.core.objects.label.LabelFactory;
+
 /**
  * @author Obicere
  */
@@ -20,6 +22,12 @@ public class LocalVariableTypeTableAttribute extends Attribute {
 
     public LocalVariableType[] getLocalVariableTypeTable() {
         return localVariableTypeTable;
+    }
+
+    public void initializeLabels(final LabelFactory factory){
+        for(final LocalVariableType local : localVariableTypeTable){
+            local.initializeLabels(factory);
+        }
     }
 
     @Override

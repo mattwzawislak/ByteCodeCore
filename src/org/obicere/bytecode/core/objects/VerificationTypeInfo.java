@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects;
 /**
  * @author Obicere
  */
-public abstract class VerificationTypeInfo extends ByteCodeElement {
+public abstract class VerificationTypeInfo implements Identifiable {
 
     private final int tag;
 

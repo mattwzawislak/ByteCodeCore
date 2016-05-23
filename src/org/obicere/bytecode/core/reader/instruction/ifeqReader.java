@@ -13,6 +13,7 @@ public class ifeqReader implements Reader<ifeq> {
 
     @Override
     public ifeq read(final IndexedDataInputStream input) throws IOException {
-        return new ifeq(input.readUnsignedByte(), input.readUnsignedByte());
+        final int index = input.getIndex() - 1;
+        return new ifeq(input.readLabel(index));
     }
 }

@@ -13,6 +13,7 @@ public class if_acmpeqReader implements Reader<if_acmpeq> {
 
     @Override
     public if_acmpeq read(final IndexedDataInputStream input) throws IOException {
-        return new if_acmpeq(input.readUnsignedByte(), input.readUnsignedByte());
+        final int index = input.getIndex() - 1;
+        return new if_acmpeq(input.readLabel(index));
     }
 }

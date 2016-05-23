@@ -1,11 +1,11 @@
 package org.obicere.bytecode.core.objects.instruction;
 
-import org.obicere.bytecode.core.objects.ByteCodeElement;
+import org.obicere.bytecode.core.objects.Identifiable;
 
 /**
  * @author Obicere
  */
-public abstract class Instruction extends ByteCodeElement {
+public abstract class Instruction implements Identifiable {
 
     public abstract String getMnemonic();
 

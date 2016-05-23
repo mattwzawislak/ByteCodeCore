@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects;
 /**
  * @author Obicere
  */
-public class ClassFile extends ByteCodeElement {
+public class ClassFile implements Identifiable {
 
     public static final String IDENTIFIER = "ClassFile";
 

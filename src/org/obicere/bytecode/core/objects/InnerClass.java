@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects;
 /**
  * @author Obicere
  */
-public class InnerClass extends ByteCodeElement {
+public class InnerClass implements Identifiable {
 
     public static final String IDENTIFIER = "InnerClass";
 

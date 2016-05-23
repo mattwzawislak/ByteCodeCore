@@ -1,12 +1,12 @@
 package org.obicere.bytecode.core.objects.signature;
 
-import org.obicere.bytecode.core.objects.ByteCodeElement;
+import org.obicere.bytecode.core.objects.Identifiable;
 
 import java.util.LinkedList;
 
 /**
  */
-public class TypeArguments extends ByteCodeElement {
+public class TypeArguments implements Identifiable {
 
     public static final String IDENTIFIER = "TypeArguments";
 

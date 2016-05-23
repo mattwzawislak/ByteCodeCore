@@ -13,6 +13,7 @@ public class if_icmpleReader implements Reader<if_icmple> {
 
     @Override
     public if_icmple read(final IndexedDataInputStream input) throws IOException {
-        return new if_icmple(input.readUnsignedByte(), input.readUnsignedByte());
+        final int index = input.getIndex() - 1;
+        return new if_icmple(input.readLabel(index));
     }
 }

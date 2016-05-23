@@ -1,14 +1,14 @@
 package org.obicere.bytecode.core.objects.signature;
 
 import org.obicere.bytecode.core.objects.Annotation;
-import org.obicere.bytecode.core.objects.ByteCodeElement;
+import org.obicere.bytecode.core.objects.Identifiable;
 import org.obicere.bytecode.core.objects.Parameter;
 
 import java.util.LinkedList;
 
 /**
  */
-public class Parameters extends ByteCodeElement {
+public class Parameters implements Identifiable {
 
     public static final String IDENTIFIER = "Parameters";
 

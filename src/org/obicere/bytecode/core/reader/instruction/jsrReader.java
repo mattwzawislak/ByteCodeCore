@@ -13,6 +13,7 @@ public class jsrReader implements Reader<jsr> {
 
     @Override
     public jsr read(final IndexedDataInputStream input) throws IOException {
-        return new jsr(input.readUnsignedByte(), input.readUnsignedByte());
+        final int index = input.getIndex() - 1;
+        return new jsr(input.readLabel(index));
     }
 }

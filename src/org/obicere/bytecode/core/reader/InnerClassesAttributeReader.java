@@ -19,12 +19,7 @@ public class InnerClassesAttributeReader implements Reader<InnerClassesAttribute
         final int numberOfClasses = input.readUnsignedShort();
         final InnerClass[] classes = new InnerClass[numberOfClasses];
         for (int i = 0; i < numberOfClasses; i++) {
-            final int startIndex = input.getLogicalIndex();
-            final InnerClass cls = innerClass.read(input);
-            final int endIndex = input.getLogicalIndex();
-            cls.setBounds(startIndex, endIndex);
-
-            classes[i] = cls;
+            classes[i] = innerClass.read(input);
 
         }
         return new InnerClassesAttribute(length, classes);

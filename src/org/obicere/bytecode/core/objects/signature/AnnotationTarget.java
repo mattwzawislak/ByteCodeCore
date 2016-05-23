@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.signature;
 
 import org.obicere.bytecode.core.objects.Annotation;
-import org.obicere.bytecode.core.objects.ByteCodeElement;
+import org.obicere.bytecode.core.objects.Identifiable;
 import org.obicere.bytecode.core.objects.Path;
 import org.obicere.bytecode.core.objects.TypeAnnotation;
 
@@ -11,7 +11,7 @@ import java.util.Set;
 
 /**
  */
-public abstract class AnnotationTarget extends ByteCodeElement {
+public abstract class AnnotationTarget implements Identifiable {
 
     private final Set<Annotation> annotations = new LinkedHashSet<>();
 

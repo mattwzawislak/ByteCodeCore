@@ -13,6 +13,7 @@ public class ifltReader implements Reader<iflt> {
 
     @Override
     public iflt read(final IndexedDataInputStream input) throws IOException {
-        return new iflt(input.readUnsignedByte(), input.readUnsignedByte());
+        final int index = input.getIndex() - 1;
+        return new iflt(input.readLabel(index));
     }
 }

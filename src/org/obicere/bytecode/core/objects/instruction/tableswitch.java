@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.objects.instruction;
 
+import org.obicere.bytecode.core.objects.label.Label;
 import org.obicere.bytecode.core.reader.instruction.InstructionReader;
 
 /**
@@ -9,10 +10,7 @@ public class tableswitch extends Instruction {
 
     public static final String IDENTIFIER = "tableswitch";
 
-    private final int defaultbyte1;
-    private final int defaultbyte2;
-    private final int defaultbyte3;
-    private final int defaultbyte4;
+    private final Label defaultOffset;
 
     private final int lowbyte1;
     private final int lowbyte2;
@@ -24,13 +22,10 @@ public class tableswitch extends Instruction {
     private final int highbyte3;
     private final int highbyte4;
 
-    private final int[] jumpOffsets;
+    private final Label[] offsets;
 
-    public tableswitch(final int defaultbyte1, final int defaultbyte2, final int defaultbyte3, final int defaultbyte4, final int lowbyte1, final int lowbyte2, final int lowbyte3, final int lowbyte4, final int highbyte1, final int highbyte2, final int highbyte3, final int highbyte4, final int[] jumpOffests) {
-        this.defaultbyte1 = defaultbyte1;
-        this.defaultbyte2 = defaultbyte2;
-        this.defaultbyte3 = defaultbyte3;
-        this.defaultbyte4 = defaultbyte4;
+    public tableswitch(final Label defaultOffset, final int lowbyte1, final int lowbyte2, final int lowbyte3, final int lowbyte4, final int highbyte1, final int highbyte2, final int highbyte3, final int highbyte4, final Label[] offsets) {
+        this.defaultOffset = defaultOffset;
 
         this.lowbyte1 = lowbyte1;
         this.lowbyte2 = lowbyte2;
@@ -42,27 +37,11 @@ public class tableswitch extends Instruction {
         this.highbyte3 = highbyte3;
         this.highbyte4 = highbyte4;
 
-        this.jumpOffsets = jumpOffests;
+        this.offsets = offsets;
     }
 
-    public int getDefaultbyte1() {
-        return defaultbyte1;
-    }
-
-    public int getDefaultbyte2() {
-        return defaultbyte2;
-    }
-
-    public int getDefaultbyte3() {
-        return defaultbyte3;
-    }
-
-    public int getDefaultbyte4() {
-        return defaultbyte4;
-    }
-
-    public int getDefault(){
-        return (defaultbyte1 << 24) | (defaultbyte2 << 16) | (defaultbyte3 << 8) | defaultbyte4;
+    public Label getDefaultOffset() {
+        return defaultOffset;
     }
 
     public int getLowbyte1() {
@@ -81,7 +60,7 @@ public class tableswitch extends Instruction {
         return lowbyte4;
     }
 
-    public int getLow(){
+    public int getLow() {
         return (lowbyte1 << 24) | (lowbyte2 << 16) | (lowbyte3 << 8) | lowbyte4;
     }
 
@@ -101,12 +80,12 @@ public class tableswitch extends Instruction {
         return highbyte4;
     }
 
-    public int getHigh(){
+    public int getHigh() {
         return (highbyte1 << 24) | (highbyte2 << 16) | (highbyte3 << 8) | highbyte4;
     }
 
-    public int[] getJumpOffsets() {
-        return jumpOffsets;
+    public Label[] getOffsets() {
+        return offsets;
     }
 
     @Override

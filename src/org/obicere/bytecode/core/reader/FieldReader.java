@@ -19,7 +19,6 @@ public class FieldReader implements Reader<Field> {
 
     @Override
     public Field read(final IndexedDataInputStream input) throws IOException {
-        final int start = input.getLogicalIndex();
         final int accessFlags = input.readUnsignedShort();
         final int nameIndex = input.readUnsignedShort();
         final int descriptorIndex = input.readUnsignedShort();
@@ -30,9 +29,6 @@ public class FieldReader implements Reader<Field> {
             attributes[i] = attributeReader.read(input);
         }
 
-        final Field field = new Field(accessFlags, nameIndex, descriptorIndex, attributes);
-        final int end = input.getLogicalIndex();
-        field.setBounds(start, end);
-        return field;
+        return new Field(accessFlags, nameIndex, descriptorIndex, attributes);
     }
 }

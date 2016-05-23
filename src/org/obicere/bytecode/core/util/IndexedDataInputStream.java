@@ -1,5 +1,10 @@
 package org.obicere.bytecode.core.util;
 
+import org.obicere.bytecode.core.objects.label.Label;
+import org.obicere.bytecode.core.objects.label.LabelFactory;
+import org.obicere.bytecode.core.objects.label.LazyLabel;
+import org.obicere.bytecode.core.objects.label.OffsetLabel;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,6 +64,8 @@ import java.io.InputStream;
  * @since 0.0
  */
 public class IndexedDataInputStream extends DataInputStream {
+
+    private LabelFactory labelFactory;
 
     /**
      * The logical offset of the stream. This is combined with the current
@@ -156,6 +163,48 @@ public class IndexedDataInputStream extends DataInputStream {
 
     public int peek() throws IOException {
         return input.peek();
+    }
+
+    public void setLabelFactory(final LabelFactory labelFactory) {
+        this.labelFactory = labelFactory;
+    }
+
+    public LabelFactory getLabelFactory() {
+        return labelFactory;
+    }
+
+    public LazyLabel readLazyLabel() throws IOException {
+        return new LazyLabel(readShort());
+    }
+
+    public LazyLabel readWideLazyLabel() throws IOException {
+        return new LazyLabel(readInt());
+    }
+
+    public Label readLabel() throws IOException {
+        return readLabel(getIndex());
+    }
+
+    public Label readLabel(final int index) throws IOException {
+        final short offset = readShort();
+        return createLabel(index, offset);
+    }
+
+    public Label readWideLabel() throws IOException {
+        return readLabel(getIndex());
+    }
+
+    public Label readWideLabel(final int index) throws IOException {
+        final int offset = readInt();
+        return createLabel(index, offset);
+    }
+
+    private Label createLabel(final int index, final int offset) {
+        if (labelFactory == null) {
+            return new OffsetLabel(offset);
+        } else {
+            return labelFactory.getLabel(index, offset);
+        }
     }
 
     @Override

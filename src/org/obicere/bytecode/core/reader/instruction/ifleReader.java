@@ -12,6 +12,7 @@ import java.io.IOException;
 public class ifleReader implements Reader<ifle> {
     @Override
     public ifle read(final IndexedDataInputStream input) throws IOException {
-        return new ifle(input.readUnsignedByte(), input.readUnsignedByte());
+        final int index = input.getIndex() - 1;
+        return new ifle(input.readLabel(index));
     }
 }

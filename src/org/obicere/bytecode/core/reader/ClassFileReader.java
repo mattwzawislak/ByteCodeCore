@@ -20,7 +20,6 @@ public class ClassFileReader implements Reader<ClassFile> {
 
     @Override
     public ClassFile read(final IndexedDataInputStream input) throws IOException {
-        final int start = input.getLogicalIndex();
         final int magic = input.readInt();
         if (magic != MAGIC_NUMBER) {
             throw new ClassFormatError("invalid magic number constant: " + magic);
@@ -70,12 +69,7 @@ public class ClassFileReader implements Reader<ClassFile> {
             attributes[i] = attributeReader.read(input);
         }
 
-        final ClassFile file = new ClassFile(minor, major, constantPool, accessFlags, thisClass, superClass, interfaces, fields, methods, attributes);
-
-        final int end = input.getLogicalIndex();
-        file.setBounds(start, end);
-
-        return file;
+        return new ClassFile(minor, major, constantPool, accessFlags, thisClass, superClass, interfaces, fields, methods, attributes);
     }
 
     public ConstantPoolReader getConstantPoolReader() {

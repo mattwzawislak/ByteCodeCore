@@ -13,6 +13,7 @@ public class if_icmpltReader implements Reader<if_icmplt> {
 
     @Override
     public if_icmplt read(final IndexedDataInputStream input) throws IOException {
-        return new if_icmplt(input.readUnsignedByte(), input.readUnsignedByte());
+        final int index = input.getIndex() - 1;
+        return new if_icmplt(input.readLabel(index));
     }
 }

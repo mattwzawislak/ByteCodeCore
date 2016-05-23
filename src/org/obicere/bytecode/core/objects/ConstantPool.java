@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects;
 /**
  * @author Obicere
  */
-public class ConstantPool extends ByteCodeElement {
+public class ConstantPool implements Identifiable {
 
     public static final String IDENTIFIER = "ConstantPool";
 

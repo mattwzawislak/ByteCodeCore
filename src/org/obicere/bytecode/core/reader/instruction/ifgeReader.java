@@ -13,6 +13,7 @@ public class ifgeReader implements Reader<ifge> {
 
     @Override
     public ifge read(final IndexedDataInputStream input) throws IOException {
-        return new ifge(input.readUnsignedByte(), input.readUnsignedByte());
+        final int index = input.getIndex() - 1;
+        return new ifge(input.readLabel(index));
     }
 }

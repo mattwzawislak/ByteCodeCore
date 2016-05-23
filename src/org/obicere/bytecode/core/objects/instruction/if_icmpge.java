@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.objects.instruction;
 
+import org.obicere.bytecode.core.objects.label.Label;
 import org.obicere.bytecode.core.reader.instruction.InstructionReader;
 
 /**
@@ -8,26 +9,15 @@ import org.obicere.bytecode.core.reader.instruction.InstructionReader;
 public class if_icmpge extends Instruction {
 
     public static final String IDENTIFIER = "if_icmpge";
-    private static final int    OPCODE   = 0xa2;
 
-    private final int branchbyte1;
-    private final int branchbyte2;
+    private final Label label;
 
-    public if_icmpge(final int branchbyte1, final int branchbyte2) {
-        this.branchbyte1 = branchbyte1;
-        this.branchbyte2 = branchbyte2;
+    public if_icmpge(final Label label) {
+        this.label = label;
     }
 
-    public int getBranchbyte1(){
-        return branchbyte1;
-    }
-
-    public int getBranchbyte2(){
-        return branchbyte2;
-    }
-
-    public int getBranchOffset(){
-        return (branchbyte1 << 8) | branchbyte2;
+    public Label getLabel() {
+        return label;
     }
 
     @Override

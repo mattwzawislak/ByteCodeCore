@@ -446,8 +446,6 @@ public class InstructionReader extends MultiReader<Byte, Instruction> {
         }
 
         // make sure to set start and end indices
-        final int end = input.getLogicalIndex();
-        instruction.setBounds(start, end);
         return instruction;
     }
 }

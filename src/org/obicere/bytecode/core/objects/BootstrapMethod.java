@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects;
 /**
  * @author Obicere
  */
-public class BootstrapMethod extends ByteCodeElement {
+public class BootstrapMethod implements Identifiable {
 
     public static final String IDENTIFIER = "BootstrapMethod";
 

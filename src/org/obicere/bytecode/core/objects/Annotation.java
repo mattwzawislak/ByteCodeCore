@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects;
 /**
  * @author Obicere
  */
-public class Annotation extends ByteCodeElement {
+public class Annotation implements Identifiable {
 
     public static final String IDENTIFIER = "Annotation";
 

@@ -13,6 +13,7 @@ public class ifnonnullReader implements Reader<ifnonnull> {
 
     @Override
     public ifnonnull read(final IndexedDataInputStream input) throws IOException {
-        return new ifnonnull(input.readUnsignedByte(), input.readUnsignedByte());
+        final int index = input.getIndex() - 1;
+        return new ifnonnull(input.readLabel(index));
     }
 }

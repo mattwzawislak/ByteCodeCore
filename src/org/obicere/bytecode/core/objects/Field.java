@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects;
 /**
  * @author Obicere
  */
-public class Field extends ByteCodeElement {
+public class Field implements Identifiable {
 
     public static final String IDENTIFIER = "Field";
 

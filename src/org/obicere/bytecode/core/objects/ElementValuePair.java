@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects;
 /**
  * @author Obicere
  */
-public class ElementValuePair extends ByteCodeElement {
+public class ElementValuePair implements Identifiable {
 
     public static final String IDENTIFIER = "ElementValuePair";
 
