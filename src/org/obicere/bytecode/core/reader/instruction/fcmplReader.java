@@ -13,6 +13,6 @@ public class fcmplReader implements Reader<fcmpl> {
 
     @Override
     public fcmpl read(final IndexedDataInputStream input) throws IOException {
-        return new fcmpl();
+        return fcmpl.INSTANCE;
     }
 }

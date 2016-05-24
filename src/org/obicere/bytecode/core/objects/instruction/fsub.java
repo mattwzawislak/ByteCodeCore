@@ -9,6 +9,11 @@ public class fsub extends Instruction {
 
     public static final String IDENTIFIER = "fsub";
 
+    public static final fsub INSTANCE = new fsub();
+
+    private fsub() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

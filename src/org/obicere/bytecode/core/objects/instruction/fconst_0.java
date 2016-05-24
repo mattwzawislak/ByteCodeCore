@@ -9,6 +9,11 @@ public class fconst_0 extends Instruction {
 
     public static final String IDENTIFIER = "fconst_0";
 
+    public static final fconst_0 INSTANCE = new fconst_0();
+
+    private fconst_0() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

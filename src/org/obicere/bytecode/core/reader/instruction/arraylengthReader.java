@@ -13,6 +13,6 @@ public class arraylengthReader implements Reader<arraylength> {
 
     @Override
     public arraylength read(final IndexedDataInputStream input) throws IOException {
-        return new arraylength();
+        return arraylength.INSTANCE;
     }
 }

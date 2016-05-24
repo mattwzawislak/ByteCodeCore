@@ -13,6 +13,6 @@ public class laloadReader implements Reader<laload> {
 
     @Override
     public laload read(final IndexedDataInputStream input) throws IOException {
-        return new laload();
+        return laload.INSTANCE;
     }
 }

@@ -9,6 +9,11 @@ public class faload extends Instruction {
 
     public static final String IDENTIFIER = "faload";
 
+    public static final faload INSTANCE = new faload();
+
+    private faload() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

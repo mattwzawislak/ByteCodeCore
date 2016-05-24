@@ -9,6 +9,11 @@ public class saload extends Instruction {
 
     public static final String IDENTIFIER = "saload";
 
+    public static final saload INSTANCE = new saload();
+
+    private saload() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

@@ -9,6 +9,11 @@ public class areturn extends Instruction {
 
     public static final String IDENTIFIER = "areturn";
 
+    public static final areturn INSTANCE = new areturn();
+
+    private areturn() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

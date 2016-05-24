@@ -13,6 +13,6 @@ public class dup2_x2Reader implements Reader<dup2_x2> {
 
     @Override
     public dup2_x2 read(final IndexedDataInputStream input) throws IOException {
-        return new dup2_x2();
+        return dup2_x2.INSTANCE;
     }
 }

@@ -13,6 +13,6 @@ public class l2iReader implements Reader<l2i> {
 
     @Override
     public l2i read(final IndexedDataInputStream input) throws IOException {
-        return new l2i();
+        return l2i.INSTANCE;
     }
 }

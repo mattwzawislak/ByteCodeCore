@@ -13,6 +13,6 @@ public class daddReader implements Reader<dadd> {
 
     @Override
     public dadd read(final IndexedDataInputStream input) throws IOException {
-        return new dadd();
+        return dadd.INSTANCE;
     }
 }

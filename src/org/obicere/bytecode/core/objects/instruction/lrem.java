@@ -9,6 +9,11 @@ public class lrem extends Instruction {
 
     public static final String IDENTIFIER = "lrem";
 
+    public static final lrem INSTANCE = new lrem();
+
+    private lrem() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

@@ -13,6 +13,6 @@ public class areturnReader implements Reader<areturn> {
 
     @Override
     public areturn read(final IndexedDataInputStream input) throws IOException {
-        return new areturn();
+        return areturn.INSTANCE;
     }
 }

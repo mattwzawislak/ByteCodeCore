@@ -13,6 +13,6 @@ public class fload_3Reader implements Reader<fload_3> {
 
     @Override
     public fload_3 read(final IndexedDataInputStream input) throws IOException {
-        return new fload_3();
+        return fload_3.INSTANCE;
     }
 }

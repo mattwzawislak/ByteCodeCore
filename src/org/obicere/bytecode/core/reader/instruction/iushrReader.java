@@ -13,6 +13,6 @@ public class iushrReader implements Reader<iushr> {
 
     @Override
     public iushr read(final IndexedDataInputStream input) throws IOException {
-        return new iushr();
+        return iushr.INSTANCE;
     }
 }

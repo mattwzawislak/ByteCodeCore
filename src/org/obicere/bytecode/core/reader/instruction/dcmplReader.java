@@ -13,6 +13,6 @@ public class dcmplReader implements Reader<dcmpl> {
 
     @Override
     public dcmpl read(final IndexedDataInputStream input) throws IOException {
-        return new dcmpl();
+        return dcmpl.INSTANCE;
     }
 }

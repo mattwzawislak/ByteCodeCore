@@ -9,6 +9,11 @@ public class irem extends Instruction {
 
     public static final String IDENTIFIER = "irem";
 
+    public static final irem INSTANCE = new irem();
+
+    private irem() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

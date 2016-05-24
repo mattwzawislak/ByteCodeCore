@@ -9,6 +9,11 @@ public class iushr extends Instruction {
 
     public static final String IDENTIFIER = "iushr";
 
+    public static final iushr INSTANCE = new iushr();
+
+    private iushr() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

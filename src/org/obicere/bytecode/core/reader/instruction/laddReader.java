@@ -13,6 +13,6 @@ public class laddReader implements Reader<ladd> {
 
     @Override
     public ladd read(final IndexedDataInputStream input) throws IOException {
-        return new ladd();
+        return ladd.INSTANCE;
     }
 }

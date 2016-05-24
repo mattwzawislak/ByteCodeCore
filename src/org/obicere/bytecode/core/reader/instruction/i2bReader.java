@@ -13,6 +13,6 @@ public class i2bReader implements Reader<i2b> {
 
     @Override
     public i2b read(final IndexedDataInputStream input) throws IOException {
-        return new i2b();
+        return i2b.INSTANCE;
     }
 }

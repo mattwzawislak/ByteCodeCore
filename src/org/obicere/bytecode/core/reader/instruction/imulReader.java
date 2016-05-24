@@ -13,6 +13,6 @@ public class imulReader implements Reader<imul> {
 
     @Override
     public imul read(final IndexedDataInputStream input) throws IOException {
-        return new imul();
+        return imul.INSTANCE;
     }
 }

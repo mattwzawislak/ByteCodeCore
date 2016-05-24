@@ -9,6 +9,11 @@ public class ior extends Instruction {
 
     public static final String IDENTIFIER = "ior";
 
+    public static final ior INSTANCE = new ior();
+
+    private ior() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

@@ -13,6 +13,6 @@ public class istore_2Reader implements Reader<istore_2> {
 
     @Override
     public istore_2 read(final IndexedDataInputStream input) throws IOException {
-        return new istore_2();
+        return istore_2.INSTANCE;
     }
 }

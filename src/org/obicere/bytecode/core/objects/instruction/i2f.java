@@ -9,6 +9,11 @@ public class i2f extends Instruction {
 
     public static final String IDENTIFIER = "i2f";
 
+    public static final i2f INSTANCE = new i2f();
+
+    private i2f() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

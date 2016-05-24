@@ -9,6 +9,11 @@ public class dcmpg extends Instruction {
 
     public static final String IDENTIFIER = "dcmpg";
 
+    public static final dcmpg INSTANCE = new dcmpg();
+
+    private dcmpg() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

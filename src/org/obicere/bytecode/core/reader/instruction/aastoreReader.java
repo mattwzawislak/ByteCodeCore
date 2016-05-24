@@ -13,6 +13,6 @@ public class aastoreReader implements Reader<aastore> {
 
     @Override
     public aastore read(final IndexedDataInputStream input) throws IOException {
-        return new aastore();
+        return aastore.INSTANCE;
     }
 }

@@ -13,6 +13,6 @@ public class iorReader implements Reader<ior> {
 
     @Override
     public ior read(final IndexedDataInputStream input) throws IOException {
-        return new ior();
+        return ior.INSTANCE;
     }
 }

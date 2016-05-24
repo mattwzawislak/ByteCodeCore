@@ -13,6 +13,6 @@ public class dreturnReader implements Reader<dreturn> {
 
     @Override
     public dreturn read(final IndexedDataInputStream input) throws IOException {
-        return new dreturn();
+        return dreturn.INSTANCE;
     }
 }

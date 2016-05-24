@@ -9,6 +9,11 @@ public class drem extends Instruction {
 
     public static final String IDENTIFIER = "drem";
 
+    public static final drem INSTANCE = new drem();
+
+    private drem() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

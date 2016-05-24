@@ -9,6 +9,11 @@ public class arraylength extends Instruction {
 
     public static final String IDENTIFIER = "arraylength";
 
+    public static final arraylength INSTANCE = new arraylength();
+
+    private arraylength() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

@@ -13,6 +13,6 @@ public class fcmpgReader implements Reader<fcmpg> {
 
     @Override
     public fcmpg read(final IndexedDataInputStream input) throws IOException {
-        return new fcmpg();
+        return fcmpg.INSTANCE;
     }
 }

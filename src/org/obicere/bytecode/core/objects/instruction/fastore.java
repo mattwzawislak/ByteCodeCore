@@ -9,6 +9,11 @@ public class fastore extends Instruction {
 
     public static final String IDENTIFIER = "fastore";
 
+    public static final fastore INSTANCE = new fastore();
+
+    private fastore() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

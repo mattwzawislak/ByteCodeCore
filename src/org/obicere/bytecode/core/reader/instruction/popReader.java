@@ -13,6 +13,6 @@ public class popReader implements Reader<pop> {
 
     @Override
     public pop read(final IndexedDataInputStream input) throws IOException {
-        return new pop();
+        return pop.INSTANCE;
     }
 }

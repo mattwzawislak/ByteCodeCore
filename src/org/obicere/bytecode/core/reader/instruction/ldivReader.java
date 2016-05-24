@@ -13,6 +13,6 @@ public class ldivReader implements Reader<ldiv> {
 
     @Override
     public ldiv read(final IndexedDataInputStream input) throws IOException {
-        return new ldiv();
+        return ldiv.INSTANCE;
     }
 }

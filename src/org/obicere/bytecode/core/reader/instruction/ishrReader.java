@@ -13,6 +13,6 @@ public class ishrReader implements Reader<ishr> {
 
     @Override
     public ishr read(final IndexedDataInputStream input) throws IOException {
-        return new ishr();
+        return ishr.INSTANCE;
     }
 }

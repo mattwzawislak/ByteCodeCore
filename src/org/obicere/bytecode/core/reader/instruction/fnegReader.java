@@ -13,6 +13,6 @@ public class fnegReader implements Reader<fneg> {
 
     @Override
     public fneg read(final IndexedDataInputStream input) throws IOException {
-        return new fneg();
+        return fneg.INSTANCE;
     }
 }

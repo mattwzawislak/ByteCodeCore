@@ -13,6 +13,6 @@ public class faddReader implements Reader<fadd> {
 
     @Override
     public fadd read(final IndexedDataInputStream input) throws IOException {
-        return new fadd();
+        return fadd.INSTANCE;
     }
 }

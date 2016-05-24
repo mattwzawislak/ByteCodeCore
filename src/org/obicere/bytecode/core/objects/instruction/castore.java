@@ -9,6 +9,11 @@ public class castore extends Instruction {
 
     public static final String IDENTIFIER = "castore";
 
+    public static final castore INSTANCE = new castore();
+
+    private castore() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

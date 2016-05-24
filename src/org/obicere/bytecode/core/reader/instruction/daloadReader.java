@@ -13,6 +13,6 @@ public class daloadReader implements Reader<daload> {
 
     @Override
     public daload read(final IndexedDataInputStream input) throws IOException {
-        return new daload();
+        return daload.INSTANCE;
     }
 }

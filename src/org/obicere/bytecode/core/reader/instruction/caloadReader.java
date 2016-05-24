@@ -13,6 +13,6 @@ public class caloadReader implements Reader<caload> {
 
     @Override
     public caload read(final IndexedDataInputStream input) throws IOException {
-        return new caload();
+        return caload.INSTANCE;
     }
 }

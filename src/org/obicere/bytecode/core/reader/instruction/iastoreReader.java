@@ -13,6 +13,6 @@ public class iastoreReader implements Reader<iastore> {
 
     @Override
     public iastore read(final IndexedDataInputStream input) throws IOException {
-        return new iastore();
+        return iastore.INSTANCE;
     }
 }

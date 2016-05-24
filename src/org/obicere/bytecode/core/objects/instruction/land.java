@@ -9,6 +9,11 @@ public class land extends Instruction {
 
     public static final String IDENTIFIER = "land";
 
+    public static final land INSTANCE = new land();
+
+    private land() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

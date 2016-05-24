@@ -13,6 +13,6 @@ public class iload_1Reader implements Reader<iload_1> {
 
     @Override
     public iload_1 read(final IndexedDataInputStream input) throws IOException {
-        return new iload_1();
+        return iload_1.INSTANCE;
     }
 }

@@ -9,6 +9,11 @@ public class fload_1 extends Instruction {
 
     public static final String IDENTIFIER = "fload_1";
 
+    public static final fload_1 INSTANCE = new fload_1();
+
+    private fload_1() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

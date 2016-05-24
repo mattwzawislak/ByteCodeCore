@@ -13,6 +13,6 @@ public class inegReader implements Reader<ineg> {
 
     @Override
     public ineg read(final IndexedDataInputStream input) throws IOException {
-        return new ineg();
+        return ineg.INSTANCE;
     }
 }

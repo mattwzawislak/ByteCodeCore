@@ -13,6 +13,6 @@ public class monitorexitReader implements Reader<monitorexit> {
 
     @Override
     public monitorexit read(final IndexedDataInputStream input) throws IOException {
-        return new monitorexit();
+        return monitorexit.INSTANCE;
     }
 }

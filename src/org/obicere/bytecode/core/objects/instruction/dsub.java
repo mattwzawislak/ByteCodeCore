@@ -9,6 +9,11 @@ public class dsub extends Instruction {
 
     public static final String IDENTIFIER = "dsub";
 
+    public static final dsub INSTANCE = new dsub();
+
+    private dsub() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

@@ -13,6 +13,6 @@ public class i2cReader implements Reader<i2c> {
 
     @Override
     public i2c read(final IndexedDataInputStream input) throws IOException {
-        return new i2c();
+        return i2c.INSTANCE;
     }
 }

@@ -9,6 +9,11 @@ public class nop extends Instruction {
 
     public static final String IDENTIFIER = "nop";
 
+    public static final nop INSTANCE = new nop();
+
+    private nop() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

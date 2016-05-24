@@ -13,6 +13,6 @@ public class swapReader implements Reader<swap> {
 
     @Override
     public swap read(final IndexedDataInputStream input) throws IOException {
-        return new swap();
+        return swap.INSTANCE;
     }
 }

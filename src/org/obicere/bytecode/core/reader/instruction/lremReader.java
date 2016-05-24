@@ -13,6 +13,6 @@ public class lremReader implements Reader<lrem> {
 
     @Override
     public lrem read(final IndexedDataInputStream input) throws IOException {
-        return new lrem();
+        return lrem.INSTANCE;
     }
 }

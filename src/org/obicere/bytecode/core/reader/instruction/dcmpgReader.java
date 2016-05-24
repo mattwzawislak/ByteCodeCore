@@ -13,6 +13,6 @@ public class dcmpgReader implements Reader<dcmpg> {
 
     @Override
     public dcmpg read(final IndexedDataInputStream input) throws IOException {
-        return new dcmpg();
+        return dcmpg.INSTANCE;
     }
 }

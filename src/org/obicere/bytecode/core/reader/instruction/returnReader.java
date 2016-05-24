@@ -13,6 +13,6 @@ public class returnReader implements Reader<return_> {
 
     @Override
     public return_ read(final IndexedDataInputStream input) throws IOException {
-        return new return_();
+        return return_.INSTANCE;
     }
 }

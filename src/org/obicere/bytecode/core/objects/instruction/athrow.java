@@ -9,6 +9,11 @@ public class athrow extends Instruction {
 
     public static final String IDENTIFIER = "athrow";
 
+    public static final athrow INSTANCE = new athrow();
+
+    private athrow() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

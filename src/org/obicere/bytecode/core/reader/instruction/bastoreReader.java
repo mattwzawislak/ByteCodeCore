@@ -13,6 +13,6 @@ public class bastoreReader implements Reader<bastore> {
 
     @Override
     public bastore read(final IndexedDataInputStream input) throws IOException {
-        return new bastore();
+        return bastore.INSTANCE;
     }
 }

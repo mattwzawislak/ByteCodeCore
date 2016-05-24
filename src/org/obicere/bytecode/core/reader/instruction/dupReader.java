@@ -13,6 +13,6 @@ public class dupReader implements Reader<dup> {
 
     @Override
     public dup read(final IndexedDataInputStream input) throws IOException {
-        return new dup();
+        return dup.INSTANCE;
     }
 }

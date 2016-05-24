@@ -9,6 +9,11 @@ public class lor extends Instruction {
 
     public static final String IDENTIFIER = "lor";
 
+    public static final lor INSTANCE = new lor();
+
+    private lor() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

@@ -13,6 +13,6 @@ public class lshrReader implements Reader<lshr> {
 
     @Override
     public lshr read(final IndexedDataInputStream input) throws IOException {
-        return new lshr();
+        return lshr.INSTANCE;
     }
 }

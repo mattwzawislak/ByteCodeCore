@@ -13,6 +13,6 @@ public class fconst_2Reader implements Reader<fconst_2> {
 
     @Override
     public fconst_2 read(final IndexedDataInputStream input) throws IOException {
-        return new fconst_2();
+        return fconst_2.INSTANCE;
     }
 }

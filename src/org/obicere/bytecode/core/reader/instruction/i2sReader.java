@@ -13,6 +13,6 @@ public class i2sReader implements Reader<i2s> {
 
     @Override
     public i2s read(final IndexedDataInputStream input) throws IOException {
-        return new i2s();
+        return i2s.INSTANCE;
     }
 }

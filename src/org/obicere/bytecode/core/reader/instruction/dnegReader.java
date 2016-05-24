@@ -13,6 +13,6 @@ public class dnegReader implements Reader<dneg> {
 
     @Override
     public dneg read(final IndexedDataInputStream input) throws IOException {
-        return new dneg();
+        return dneg.INSTANCE;
     }
 }

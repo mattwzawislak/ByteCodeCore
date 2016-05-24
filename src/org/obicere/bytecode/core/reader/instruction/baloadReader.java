@@ -13,6 +13,6 @@ public class baloadReader implements Reader<baload> {
 
     @Override
     public baload read(final IndexedDataInputStream input) throws IOException {
-        return new baload();
+        return baload.INSTANCE;
     }
 }

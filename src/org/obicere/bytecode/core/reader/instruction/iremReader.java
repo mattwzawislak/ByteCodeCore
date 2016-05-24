@@ -13,6 +13,6 @@ public class iremReader implements Reader<irem> {
 
     @Override
     public irem read(final IndexedDataInputStream input) throws IOException {
-        return new irem();
+        return irem.INSTANCE;
     }
 }

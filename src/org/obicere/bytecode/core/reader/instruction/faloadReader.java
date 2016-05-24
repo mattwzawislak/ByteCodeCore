@@ -13,6 +13,6 @@ public class faloadReader implements Reader<faload> {
 
     @Override
     public faload read(final IndexedDataInputStream input) throws IOException {
-        return new faload();
+        return faload.INSTANCE;
     }
 }

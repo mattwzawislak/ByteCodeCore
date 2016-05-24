@@ -9,6 +9,11 @@ public class fneg extends Instruction {
 
     public static final String IDENTIFIER = "fneg";
 
+    public static final fneg INSTANCE = new fneg();
+
+    private fneg() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

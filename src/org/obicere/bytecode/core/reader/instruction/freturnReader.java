@@ -13,6 +13,6 @@ public class freturnReader implements Reader<freturn> {
 
     @Override
     public freturn read(final IndexedDataInputStream input) throws IOException {
-        return new freturn();
+        return freturn.INSTANCE;
     }
 }

@@ -13,6 +13,6 @@ public class aconst_nullReader implements Reader<aconst_null> {
 
     @Override
     public aconst_null read(final IndexedDataInputStream input) throws IOException {
-        return new aconst_null();
+        return aconst_null.INSTANCE;
     }
 }

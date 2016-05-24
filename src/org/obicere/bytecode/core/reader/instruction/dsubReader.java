@@ -13,6 +13,6 @@ public class dsubReader implements Reader<dsub> {
 
     @Override
     public dsub read(final IndexedDataInputStream input) throws IOException {
-        return new dsub();
+        return dsub.INSTANCE;
     }
 }

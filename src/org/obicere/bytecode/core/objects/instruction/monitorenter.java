@@ -9,6 +9,11 @@ public class monitorenter extends Instruction {
 
     public static final String IDENTIFIER = "monitorenter";
 
+    public static final monitorenter INSTANCE = new monitorenter();
+
+    private monitorenter() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

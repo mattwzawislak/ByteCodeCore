@@ -9,6 +9,11 @@ public class lshr extends Instruction {
 
     public static final String IDENTIFIER = "lshr";
 
+    public static final lshr INSTANCE = new lshr();
+
+    private lshr() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

@@ -13,6 +13,6 @@ public class fastoreReader implements Reader<fastore> {
 
     @Override
     public fastore read(final IndexedDataInputStream input) throws IOException {
-        return new fastore();
+        return fastore.INSTANCE;
     }
 }

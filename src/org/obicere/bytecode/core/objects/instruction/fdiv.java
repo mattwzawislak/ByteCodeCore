@@ -9,6 +9,11 @@ public class fdiv extends Instruction {
 
     public static final String IDENTIFIER = "fdiv";
 
+    public static final fdiv INSTANCE = new fdiv();
+
+    private fdiv() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

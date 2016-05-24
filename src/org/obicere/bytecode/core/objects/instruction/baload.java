@@ -9,6 +9,11 @@ public class baload extends Instruction {
 
     public static final String IDENTIFIER = "baload";
 
+    public static final baload INSTANCE = new baload();
+
+    private baload() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

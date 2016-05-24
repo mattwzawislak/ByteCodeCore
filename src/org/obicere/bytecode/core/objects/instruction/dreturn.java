@@ -9,6 +9,11 @@ public class dreturn extends Instruction {
 
     public static final String IDENTIFIER = "dreturn";
 
+    public static final dreturn INSTANCE = new dreturn();
+
+    private dreturn() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

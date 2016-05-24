@@ -13,6 +13,6 @@ public class saloadReader implements Reader<saload> {
 
     @Override
     public saload read(final IndexedDataInputStream input) throws IOException {
-        return new saload();
+        return saload.INSTANCE;
     }
 }

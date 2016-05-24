@@ -13,6 +13,6 @@ public class nopReader implements Reader<nop> {
 
     @Override
     public nop read(final IndexedDataInputStream input) throws IOException {
-        return new nop();
+        return nop.INSTANCE;
     }
 }

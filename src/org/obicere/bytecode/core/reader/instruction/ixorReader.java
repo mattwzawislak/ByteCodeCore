@@ -13,6 +13,6 @@ public class ixorReader implements Reader<ixor> {
 
     @Override
     public ixor read(final IndexedDataInputStream input) throws IOException {
-        return new ixor();
+        return ixor.INSTANCE;
     }
 }

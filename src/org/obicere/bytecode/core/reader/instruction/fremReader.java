@@ -13,6 +13,6 @@ public class fremReader implements Reader<frem> {
 
     @Override
     public frem read(final IndexedDataInputStream input) throws IOException {
-        return new frem();
+        return frem.INSTANCE;
     }
 }

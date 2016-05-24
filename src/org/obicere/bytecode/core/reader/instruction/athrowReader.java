@@ -13,6 +13,6 @@ public class athrowReader implements Reader<athrow> {
 
     @Override
     public athrow read(final IndexedDataInputStream input) throws IOException {
-        return new athrow();
+        return athrow.INSTANCE;
     }
 }

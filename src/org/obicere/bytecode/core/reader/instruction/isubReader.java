@@ -13,6 +13,6 @@ public class isubReader implements Reader<isub> {
 
     @Override
     public isub read(final IndexedDataInputStream input) throws IOException {
-        return new isub();
+        return isub.INSTANCE;
     }
 }

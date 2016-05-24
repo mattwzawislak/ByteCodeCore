@@ -13,6 +13,6 @@ public class dastoreReader implements Reader<dastore> {
 
     @Override
     public dastore read(final IndexedDataInputStream input) throws IOException {
-        return new dastore();
+        return dastore.INSTANCE;
     }
 }

@@ -13,6 +13,6 @@ public class fsubReader implements Reader<fsub> {
 
     @Override
     public fsub read(final IndexedDataInputStream input) throws IOException {
-        return new fsub();
+        return fsub.INSTANCE;
     }
 }

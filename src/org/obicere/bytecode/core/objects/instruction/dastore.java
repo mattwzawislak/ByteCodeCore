@@ -9,6 +9,11 @@ public class dastore extends Instruction {
 
     public static final String IDENTIFIER = "dastore";
 
+    public static final dastore INSTANCE = new dastore();
+
+    private dastore() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

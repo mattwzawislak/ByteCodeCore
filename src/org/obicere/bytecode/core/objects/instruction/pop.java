@@ -9,6 +9,11 @@ public class pop extends Instruction {
 
     public static final String IDENTIFIER = "pop";
 
+    public static final pop INSTANCE = new pop();
+
+    private pop() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

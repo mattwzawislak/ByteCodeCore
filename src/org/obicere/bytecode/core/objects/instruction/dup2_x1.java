@@ -9,6 +9,11 @@ public class dup2_x1 extends Instruction {
 
     public static final String IDENTIFIER = "dup2_x1";
 
+    public static final dup2_x1 INSTANCE = new dup2_x1();
+
+    private dup2_x1() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

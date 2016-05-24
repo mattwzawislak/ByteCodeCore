@@ -13,6 +13,6 @@ public class lreturnReader implements Reader<lreturn> {
 
     @Override
     public lreturn read(final IndexedDataInputStream input) throws IOException {
-        return new lreturn();
+        return lreturn.INSTANCE;
     }
 }

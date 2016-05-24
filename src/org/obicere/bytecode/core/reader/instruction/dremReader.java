@@ -13,6 +13,6 @@ public class dremReader implements Reader<drem> {
 
     @Override
     public drem read(final IndexedDataInputStream input) throws IOException {
-        return new drem();
+        return drem.INSTANCE;
     }
 }

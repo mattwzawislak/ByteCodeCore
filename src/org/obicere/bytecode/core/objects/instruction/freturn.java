@@ -9,6 +9,11 @@ public class freturn extends Instruction {
 
     public static final String IDENTIFIER = "freturn";
 
+    public static final freturn INSTANCE = new freturn();
+
+    private freturn() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

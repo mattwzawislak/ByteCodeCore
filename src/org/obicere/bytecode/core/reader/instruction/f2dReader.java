@@ -13,6 +13,6 @@ public class f2dReader implements Reader<f2d> {
 
     @Override
     public f2d read(final IndexedDataInputStream input) throws IOException {
-        return new f2d();
+        return f2d.INSTANCE;
     }
 }

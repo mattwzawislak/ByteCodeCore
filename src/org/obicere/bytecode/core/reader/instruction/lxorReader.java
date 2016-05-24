@@ -13,6 +13,6 @@ public class lxorReader implements Reader<lxor> {
 
     @Override
     public lxor read(final IndexedDataInputStream input) throws IOException {
-        return new lxor();
+        return lxor.INSTANCE;
     }
 }

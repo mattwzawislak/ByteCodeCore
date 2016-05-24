@@ -9,6 +9,11 @@ public class idiv extends Instruction {
 
     public static final String IDENTIFIER = "idiv";
 
+    public static final idiv INSTANCE = new idiv();
+
+    private idiv() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

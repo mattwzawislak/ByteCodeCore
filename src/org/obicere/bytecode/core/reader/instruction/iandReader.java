@@ -13,6 +13,6 @@ public class iandReader implements Reader<iand> {
 
     @Override
     public iand read(final IndexedDataInputStream input) throws IOException {
-        return new iand();
+        return iand.INSTANCE;
     }
 }

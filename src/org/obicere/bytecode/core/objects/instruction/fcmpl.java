@@ -9,6 +9,11 @@ public class fcmpl extends Instruction {
 
     public static final String IDENTIFIER = "fcmpl";
 
+    public static final fcmpl INSTANCE = new fcmpl();
+
+    private fcmpl() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

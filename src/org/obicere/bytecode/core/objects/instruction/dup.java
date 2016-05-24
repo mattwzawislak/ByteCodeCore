@@ -9,6 +9,11 @@ public class dup extends Instruction {
 
     public static final String IDENTIFIER = "dup";
 
+    public static final dup INSTANCE = new dup();
+
+    private dup() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

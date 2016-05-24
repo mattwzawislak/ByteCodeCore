@@ -13,6 +13,6 @@ public class f2lReader implements Reader<f2l> {
 
     @Override
     public f2l read(final IndexedDataInputStream input) throws IOException {
-        return new f2l();
+        return f2l.INSTANCE;
     }
 }

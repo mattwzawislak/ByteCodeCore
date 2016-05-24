@@ -9,6 +9,11 @@ public class lushr extends Instruction {
 
     public static final String IDENTIFIER = "lushr";
 
+    public static final lushr INSTANCE = new lushr();
+
+    private lushr() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

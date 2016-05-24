@@ -13,6 +13,6 @@ public class dstore_0Reader implements Reader<dstore_0> {
 
     @Override
     public dstore_0 read(final IndexedDataInputStream input) throws IOException {
-        return new dstore_0();
+        return dstore_0.INSTANCE;
     }
 }

@@ -13,6 +13,6 @@ public class fmulReader implements Reader<fmul> {
 
     @Override
     public fmul read(final IndexedDataInputStream input) throws IOException {
-        return new fmul();
+        return fmul.INSTANCE;
     }
 }

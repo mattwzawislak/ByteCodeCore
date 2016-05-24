@@ -13,6 +13,6 @@ public class l2fReader implements Reader<l2f> {
 
     @Override
     public l2f read(final IndexedDataInputStream input) throws IOException {
-        return new l2f();
+        return l2f.INSTANCE;
     }
 }

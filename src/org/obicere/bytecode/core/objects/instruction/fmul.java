@@ -9,6 +9,11 @@ public class fmul extends Instruction {
 
     public static final String IDENTIFIER = "fmul";
 
+    public static final fmul INSTANCE = new fmul();
+
+    private fmul() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

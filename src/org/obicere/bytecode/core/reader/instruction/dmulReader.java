@@ -13,6 +13,6 @@ public class dmulReader implements Reader<dmul> {
 
     @Override
     public dmul read(final IndexedDataInputStream input) throws IOException {
-        return new dmul();
+        return dmul.INSTANCE;
     }
 }

@@ -9,6 +9,11 @@ public class lsub extends Instruction {
 
     public static final String IDENTIFIER = "lsub";
 
+    public static final lsub INSTANCE = new lsub();
+
+    private lsub() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

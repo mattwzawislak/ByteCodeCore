@@ -13,6 +13,6 @@ public class lastoreReader implements Reader<lastore> {
 
     @Override
     public lastore read(final IndexedDataInputStream input) throws IOException {
-        return new lastore();
+        return lastore.INSTANCE;
     }
 }

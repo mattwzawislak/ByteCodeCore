@@ -13,6 +13,6 @@ public class lushrReader implements Reader<lushr> {
 
     @Override
     public lushr read(final IndexedDataInputStream input) throws IOException {
-        return new lushr();
+        return lushr.INSTANCE;
     }
 }

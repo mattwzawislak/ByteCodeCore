@@ -13,6 +13,6 @@ public class landReader implements Reader<land> {
 
     @Override
     public land read(final IndexedDataInputStream input) throws IOException {
-        return new land();
+        return land.INSTANCE;
     }
 }

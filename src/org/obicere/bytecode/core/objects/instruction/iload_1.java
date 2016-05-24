@@ -9,6 +9,11 @@ public class iload_1 extends Instruction {
 
     public static final String IDENTIFIER = "iload_1";
 
+    public static final iload_1 INSTANCE = new iload_1();
+
+    private iload_1() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

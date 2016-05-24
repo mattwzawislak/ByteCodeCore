@@ -13,6 +13,6 @@ public class ialoadReader implements Reader<iaload> {
 
     @Override
     public iaload read(final IndexedDataInputStream input) throws IOException {
-        return new iaload();
+        return iaload.INSTANCE;
     }
 }

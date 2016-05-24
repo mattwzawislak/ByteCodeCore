@@ -9,6 +9,11 @@ public class ineg extends Instruction {
 
     public static final String IDENTIFIER = "ineg";
 
+    public static final ineg INSTANCE = new ineg();
+
+    private ineg() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

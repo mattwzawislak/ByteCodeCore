@@ -13,6 +13,6 @@ public class lcmpReader implements Reader<lcmp> {
 
     @Override
     public lcmp read(final IndexedDataInputStream input) throws IOException {
-        return new lcmp();
+        return lcmp.INSTANCE;
     }
 }

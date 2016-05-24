@@ -9,6 +9,11 @@ public class lxor extends Instruction {
 
     public static final String IDENTIFIER = "lxor";
 
+    public static final lxor INSTANCE = new lxor();
+
+    private lxor() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

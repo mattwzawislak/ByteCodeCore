@@ -13,6 +13,6 @@ public class astore_3Reader implements Reader<astore_3> {
 
     @Override
     public astore_3 read(final IndexedDataInputStream input) throws IOException {
-        return new astore_3();
+        return astore_3.INSTANCE;
     }
 }

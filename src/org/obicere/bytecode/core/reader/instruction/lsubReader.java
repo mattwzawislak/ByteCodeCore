@@ -13,6 +13,6 @@ public class lsubReader implements Reader<lsub> {
 
     @Override
     public lsub read(final IndexedDataInputStream input) throws IOException {
-        return new lsub();
+        return lsub.INSTANCE;
     }
 }

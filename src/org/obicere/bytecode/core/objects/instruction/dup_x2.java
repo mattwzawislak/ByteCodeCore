@@ -8,7 +8,11 @@ import org.obicere.bytecode.core.reader.instruction.InstructionReader;
 public class dup_x2 extends Instruction {
 
     public static final String IDENTIFIER = "dup_x2";
-    private static final int    OPCODE   = 0x5b;
+
+    public static final dup_x2 INSTANCE = new dup_x2();
+
+    private dup_x2() {
+    }
 
     @Override
     public String getMnemonic() {

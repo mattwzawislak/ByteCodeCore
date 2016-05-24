@@ -9,6 +9,11 @@ public class dadd extends Instruction {
 
     public static final String IDENTIFIER = "dadd";
 
+    public static final dadd INSTANCE = new dadd();
+
+    private dadd() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

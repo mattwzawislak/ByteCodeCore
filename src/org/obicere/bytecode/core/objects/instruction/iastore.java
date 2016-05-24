@@ -9,6 +9,11 @@ public class iastore extends Instruction {
 
     public static final String IDENTIFIER = "iastore";
 
+    public static final iastore INSTANCE = new iastore();
+
+    private iastore() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

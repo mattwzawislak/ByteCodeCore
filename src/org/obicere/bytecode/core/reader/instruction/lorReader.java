@@ -13,6 +13,6 @@ public class lorReader implements Reader<lor> {
 
     @Override
     public lor read(final IndexedDataInputStream input) throws IOException {
-        return new lor();
+        return lor.INSTANCE;
     }
 }

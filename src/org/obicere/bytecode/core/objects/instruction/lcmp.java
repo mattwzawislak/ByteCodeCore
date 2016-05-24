@@ -9,6 +9,11 @@ public class lcmp extends Instruction {
 
     public static final String IDENTIFIER = "lcmp";
 
+    public static final lcmp INSTANCE = new lcmp();
+
+    private lcmp() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

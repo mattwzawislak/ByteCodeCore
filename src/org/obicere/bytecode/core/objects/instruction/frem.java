@@ -8,7 +8,11 @@ import org.obicere.bytecode.core.reader.instruction.InstructionReader;
 public class frem extends Instruction {
 
     public static final String IDENTIFIER = "frem";
-    private static final int    OPCODE   = 0x72;
+
+    public static final frem INSTANCE = new frem();
+
+    private frem() {
+    }
 
     @Override
     public String getMnemonic() {

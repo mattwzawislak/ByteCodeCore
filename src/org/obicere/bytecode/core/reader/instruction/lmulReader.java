@@ -13,6 +13,6 @@ public class lmulReader implements Reader<lmul> {
 
     @Override
     public lmul read(final IndexedDataInputStream input) throws IOException {
-        return new lmul();
+        return lmul.INSTANCE;
     }
 }

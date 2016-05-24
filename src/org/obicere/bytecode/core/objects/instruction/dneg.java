@@ -9,6 +9,11 @@ public class dneg extends Instruction {
 
     public static final String IDENTIFIER = "dneg";
 
+    public static final dneg INSTANCE = new dneg();
+
+    private dneg() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

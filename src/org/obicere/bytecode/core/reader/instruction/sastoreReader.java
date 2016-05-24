@@ -13,6 +13,6 @@ public class sastoreReader implements Reader<sastore> {
 
     @Override
     public sastore read(final IndexedDataInputStream input) throws IOException {
-        return new sastore();
+        return sastore.INSTANCE;
     }
 }

@@ -13,6 +13,6 @@ public class iconst_0Reader implements Reader<iconst_0> {
 
     @Override
     public iconst_0 read(final IndexedDataInputStream input) throws IOException {
-        return new iconst_0();
+        return iconst_0.INSTANCE;
     }
 }

@@ -9,6 +9,11 @@ public class dstore_0 extends Instruction {
 
     public static final String IDENTIFIER = "dstore_0";
 
+    public static final dstore_0 INSTANCE = new dstore_0();
+
+    private dstore_0() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

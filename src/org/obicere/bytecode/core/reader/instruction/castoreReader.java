@@ -13,6 +13,6 @@ public class castoreReader implements Reader<castore> {
 
     @Override
     public castore read(final IndexedDataInputStream input) throws IOException {
-        return new castore();
+        return castore.INSTANCE;
     }
 }

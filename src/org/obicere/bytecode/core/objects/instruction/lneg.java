@@ -9,6 +9,11 @@ public class lneg extends Instruction {
 
     public static final String IDENTIFIER = "lneg";
 
+    public static final lneg INSTANCE = new lneg();
+
+    private lneg() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

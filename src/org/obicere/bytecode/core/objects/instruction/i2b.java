@@ -9,6 +9,11 @@ public class i2b extends Instruction {
 
     public static final String IDENTIFIER = "i2b";
 
+    public static final i2b INSTANCE = new i2b();
+
+    private i2b() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

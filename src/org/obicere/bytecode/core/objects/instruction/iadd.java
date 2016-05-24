@@ -9,6 +9,11 @@ public class iadd extends Instruction {
 
     public static final String IDENTIFIER = "iadd";
 
+    public static final iadd INSTANCE = new iadd();
+
+    private iadd() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

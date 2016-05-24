@@ -9,6 +9,11 @@ public class daload extends Instruction {
 
     public static final String IDENTIFIER = "daload";
 
+    public static final daload INSTANCE = new daload();
+
+    private daload() {
+    }
+
     @Override
     public String getMnemonic() {
         return IDENTIFIER;

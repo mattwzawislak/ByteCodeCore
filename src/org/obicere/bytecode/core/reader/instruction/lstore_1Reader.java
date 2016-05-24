@@ -13,6 +13,6 @@ public class lstore_1Reader implements Reader<lstore_1> {
 
     @Override
     public lstore_1 read(final IndexedDataInputStream input) throws IOException {
-        return new lstore_1();
+        return lstore_1.INSTANCE;
     }
 }

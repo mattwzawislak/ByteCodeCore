@@ -13,6 +13,6 @@ public class lnegReader implements Reader<lneg> {
 
     @Override
     public lneg read(final IndexedDataInputStream input) throws IOException {
-        return new lneg();
+        return lneg.INSTANCE;
     }
 }

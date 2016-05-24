@@ -13,6 +13,6 @@ public class iaddReader implements Reader<iadd> {
 
     @Override
     public iadd read(final IndexedDataInputStream input) throws IOException {
-        return new iadd();
+        return iadd.INSTANCE;
     }
 }

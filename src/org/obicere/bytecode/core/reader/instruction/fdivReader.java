@@ -13,6 +13,6 @@ public class fdivReader implements Reader<fdiv> {
 
     @Override
     public fdiv read(final IndexedDataInputStream input) throws IOException {
-        return new fdiv();
+        return fdiv.INSTANCE;
     }
 }

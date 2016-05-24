@@ -13,6 +13,6 @@ public class lconst_1Reader implements Reader<lconst_1> {
 
     @Override
     public lconst_1 read(final IndexedDataInputStream input) throws IOException {
-        return new lconst_1();
+        return lconst_1.INSTANCE;
     }
 }

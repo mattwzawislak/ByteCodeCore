@@ -13,6 +13,6 @@ public class d2iReader implements Reader<d2i> {
 
     @Override
     public d2i read(final IndexedDataInputStream input) throws IOException {
-        return new d2i();
+        return d2i.INSTANCE;
     }
 }

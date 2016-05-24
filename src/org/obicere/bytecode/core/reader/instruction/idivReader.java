@@ -13,6 +13,6 @@ public class idivReader implements Reader<idiv> {
 
     @Override
     public idiv read(final IndexedDataInputStream input) throws IOException {
-        return new idiv();
+        return idiv.INSTANCE;
     }
 }
