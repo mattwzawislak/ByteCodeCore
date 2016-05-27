@@ -134,12 +134,18 @@ public class ZipArchiveSource implements BranchSource {
         return file;
     }
 
+    @Override
+    public String toString() {
+        return file;
+    }
+
     private ZipFile getZipFile() throws IOException {
         try {
             lock.lock();
             final ZipFile zip;
             if (closed) {
                 zip = new ZipFile(file);
+                openedFile = zip;
                 closed = false;
             } else {
                 zip = openedFile;
@@ -151,10 +157,12 @@ public class ZipArchiveSource implements BranchSource {
     }
 
     private void removeTask(final long task) throws IOException {
-        tasks.remove(task);
         try {
             lock.lock();
-            if (isComplete()) {
+
+            tasks.remove(task);
+
+            if (isComplete() && !closed) {
                 closed = true;
                 openedFile.close();
                 openedFile = null;

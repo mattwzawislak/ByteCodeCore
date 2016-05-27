@@ -83,6 +83,11 @@ public class FileSource implements LeafSource {
         return file;
     }
 
+    @Override
+    public String toString() {
+        return file;
+    }
+
     private File asFile() {
         return new File(file);
     }

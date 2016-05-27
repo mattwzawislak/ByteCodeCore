@@ -69,6 +69,11 @@ public class DirectorySource implements BranchSource {
         return path;
     }
 
+    @Override
+    public String toString() {
+        return path;
+    }
+
     private File asDirectory() {
         return new File(path);
     }

@@ -7,5 +7,4 @@ public interface Source {
     public boolean exists();
 
     public String getPath();
-
 }

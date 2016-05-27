@@ -50,7 +50,7 @@ public class ZipEntrySource implements LeafSource {
     }
 
     public byte[] read() throws IOException {
-        final ZipArchiveSource zipFile = system.getZipFile(file);
+        final ZipArchiveSource zipFile = getZipFile();
 
         final InputStream stream = zipFile.getInputStream(name);
         final byte[] bytes = IOUtils.readFully(stream, -1, true);
@@ -81,6 +81,11 @@ public class ZipEntrySource implements LeafSource {
     @Override
     public String getPath() {
         return file + "!" + name;
+    }
+
+    @Override
+    public String toString() {
+        return getPath();
     }
 
     private ZipArchiveSource getZipFile() throws IOException {
