@@ -1,0 +1,26 @@
+package org.obicere.bytecode.core.objects.code.instruction;
+
+import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+
+/**
+ * @author Obicere
+ */
+public class aload_3 extends Instruction {
+
+    public static final String IDENTIFIER = "aload_3";
+
+    public static final aload_3 INSTANCE = new aload_3();
+
+    private aload_3() {
+    }
+
+    @Override
+    public String getMnemonic() {
+        return IDENTIFIER;
+    }
+
+    @Override
+    public byte getOpcode() {
+        return InstructionReader.OPCODE_ALOAD_3;
+    }
+}

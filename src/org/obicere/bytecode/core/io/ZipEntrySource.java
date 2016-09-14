@@ -88,6 +88,26 @@ public class ZipEntrySource implements LeafSource {
         return getPath();
     }
 
+    @Override
+    public boolean equals(final Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null) {
+            return false;
+        }
+        if (other instanceof ZipEntrySource) {
+            final ZipEntrySource source = (ZipEntrySource) other;
+            return source.getPath().equals(getPath());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return file.hashCode();
+    }
+
     private ZipArchiveSource getZipFile() throws IOException {
         return system.getZipFile(file);
     }

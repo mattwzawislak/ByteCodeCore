@@ -1,8 +1,8 @@
 package org.obicere.bytecode.core.reader;
 
-import org.obicere.bytecode.core.objects.Attribute;
+import org.obicere.bytecode.core.objects.attribute.Attribute;
 import org.obicere.bytecode.core.objects.Method;
-import org.obicere.bytecode.core.util.IndexedDataInputStream;
+import org.obicere.bytecode.core.reader.attribute.AttributeReader;
 
 import java.io.IOException;
 
@@ -18,7 +18,7 @@ public class MethodReader implements Reader<Method> {
     }
 
     @Override
-    public Method read(final IndexedDataInputStream input) throws IOException {
+    public Method read(final ByteCodeReader input) throws IOException {
         final int accessFlags = input.readUnsignedShort();
         final int nameIndex = input.readUnsignedShort();
         final int descriptorIndex = input.readUnsignedShort();

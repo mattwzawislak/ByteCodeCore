@@ -2,29 +2,26 @@ package org.obicere.bytecode.core.type;
 
 import org.obicere.bytecode.core.objects.Field;
 import org.obicere.bytecode.core.objects.Method;
-import org.obicere.bytecode.core.type.generic.TypeArgument;
+import org.obicere.bytecode.core.type.generic.ClassGenericDeclaration;
+import org.obicere.bytecode.core.type.generic.GenericDeclarationDeclarer;
 
 /**
  * @author Obicere
  */
-public interface ClassType extends Type {
+public interface ClassType extends ReferenceType, GenericDeclarationDeclarer<ClassGenericDeclaration> {
 
     public Method[] getMethods();
 
     public Field[] getFields();
 
-    public ClassType getSuperClass();
+    public ReferenceType getSuperClass();
 
-    public ClassType[] getSuperInterfaces();
+    public ReferenceType[] getSuperInterfaces();
 
-    public ClassType[] getInnerClasses();
+    public ReferenceType[] getInnerClasses();
 
-    public ClassType getOuterClass();
+    public ReferenceType getOuterClass();
 
-    public Type getResolvedType();
-
-    public boolean isResolved();
-
-    public TypeArgument[] getTypeArguments();
+    public GenericType[] getGenericTypes();
 
 }

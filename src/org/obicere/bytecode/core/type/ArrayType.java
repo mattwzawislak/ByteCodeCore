@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.type;
 /**
  * @author Obicere
  */
-public final class ArrayType implements Type {
+public final class ArrayType implements ReferenceType {
 
     private final Type component;
 
@@ -11,14 +11,8 @@ public final class ArrayType implements Type {
         this.component = component;
     }
 
-    @Override
-    public String getDescriptor() {
-        final String componentDescriptor = component.getDescriptor();
-        if (componentDescriptor == null) {
-            return null;
-        } else {
-            return "[" + componentDescriptor;
-        }
+    public Type getComponentType() {
+        return component;
     }
 
     @Override

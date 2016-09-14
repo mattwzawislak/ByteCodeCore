@@ -74,6 +74,26 @@ public class DirectorySource implements BranchSource {
         return path;
     }
 
+    @Override
+    public boolean equals(final Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null) {
+            return false;
+        }
+        if (other instanceof DirectorySource) {
+            final DirectorySource source = (DirectorySource) other;
+            return source.getPath().equals(path);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return path.hashCode();
+    }
+
     private File asDirectory() {
         return new File(path);
     }

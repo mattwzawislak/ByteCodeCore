@@ -1,8 +1,11 @@
 package org.obicere.bytecode.core.reader;
 
-import org.obicere.bytecode.core.objects.Attribute;
 import org.obicere.bytecode.core.objects.Field;
-import org.obicere.bytecode.core.util.IndexedDataInputStream;
+import org.obicere.bytecode.core.objects.attribute.Attribute;
+import org.obicere.bytecode.core.objects.constant.ConstantUtf8;
+import org.obicere.bytecode.core.reader.attribute.AttributeReader;
+import org.obicere.bytecode.core.type.Type;
+import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
 
@@ -18,10 +21,16 @@ public class FieldReader implements Reader<Field> {
     }
 
     @Override
-    public Field read(final IndexedDataInputStream input) throws IOException {
+    public Field read(final ByteCodeReader input) throws IOException {
         final int accessFlags = input.readUnsignedShort();
-        final int nameIndex = input.readUnsignedShort();
-        final int descriptorIndex = input.readUnsignedShort();
+        final ConstantUtf8 nameConstant = input.readConstant();
+        final ConstantUtf8 descriptorConstant = input.readConstant();
+
+        final String name = nameConstant.getBytes();
+        final String descriptor = descriptorConstant.getBytes();
+        final Type type = Type.of(descriptor);
+
+        // todo remove
         final int attributesCount = input.readUnsignedShort();
         final Attribute[] attributes = new Attribute[attributesCount];
 
@@ -29,6 +38,6 @@ public class FieldReader implements Reader<Field> {
             attributes[i] = attributeReader.read(input);
         }
 
-        return new Field(accessFlags, nameIndex, descriptorIndex, attributes);
+        return new Field(accessFlags, name, type, attributes);
     }
 }

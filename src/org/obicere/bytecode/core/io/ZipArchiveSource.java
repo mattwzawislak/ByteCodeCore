@@ -69,7 +69,7 @@ public class ZipArchiveSource implements BranchSource {
 
     private void ensureZip() {
         if (!file.endsWith(".zip") && !file.endsWith(".jar")) {
-            throw new IllegalArgumentException("specified file is not a supported archive.");
+            throw new IllegalArgumentException("specified file is not a supported archive: " + file);
         }
     }
 
@@ -137,6 +137,26 @@ public class ZipArchiveSource implements BranchSource {
     @Override
     public String toString() {
         return file;
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null) {
+            return false;
+        }
+        if (other instanceof ZipArchiveSource) {
+            final ZipArchiveSource source = (ZipArchiveSource) other;
+            return source.getPath().equals(file);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return file.hashCode();
     }
 
     private ZipFile getZipFile() throws IOException {

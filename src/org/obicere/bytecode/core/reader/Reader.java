@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader;
 
-import org.obicere.bytecode.core.util.IndexedDataInputStream;
+import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
 
@@ -32,12 +32,12 @@ import java.io.IOException;
  * <h1>Limitations of the JVM:</h1>
  * The processing of these data types would correlate to the functions
  * available in the
- * {@link org.obicere.bytecode.core.util.IndexedDataInputStream} stream. Due to
+ * {@link org.obicere.bytecode.core.util.ByteCodeReader} stream. Due to
  * some restrictions on the JVM, <code>u4</code> and <code>u8</code>
  * values may not be represented appropriately. This is because the
- * unsigned <code>doubleword</code> is too large to store while losing any
- * precision and the <code>word</code> - when relating to the index of an
- * array - is beyond the bounds of the JVM.
+ * unsigned <code>doubleword</code> is too large to store without losing
+ * any precision and the <code>word</code> - when relating to the index of
+ * an array - is beyond the bounds of the JVM.
  * <p>
  * <h1>Relation to a class file format:</h1>
  * The format of the mathematical call format uses the same format
@@ -46,7 +46,7 @@ import java.io.IOException;
  * corresponding data types.
  * <p>
  * For example, the format for a
- * {@link org.obicere.bytecode.core.objects.ClassFile} as specified is:
+ * {@link org.obicere.bytecode.core.objects.Class} as specified is:
  * <pre>
  * {@code ClassFile {
  *      u4             magic;
@@ -68,7 +68,7 @@ import java.io.IOException;
  * }
  * }</pre>
  * This is then mirrored in the corresponding reader:
- * {@link org.obicere.bytecode.core.reader.ClassFileReader} which is the
+ * {@link ClassReader} which is the
  * responsible reader for this format.
  *
  * Due to the availability of this specification, each reader should
@@ -96,20 +96,20 @@ public interface Reader<T> {
      * data type. The corresponding functions are:
      * <ul>
      * <li> <code>u1</code> -
-     * {@link org.obicere.bytecode.core.util.IndexedDataInputStream#readUnsignedByte()}
+     * {@link org.obicere.bytecode.core.util.ByteCodeReader#readUnsignedByte()}
      * <li> <code>u2</code> -
-     * {@link org.obicere.bytecode.core.util.IndexedDataInputStream#readUnsignedShort()}
+     * {@link org.obicere.bytecode.core.util.ByteCodeReader#readUnsignedShort()}
      * <li> <code>u4</code> -
-     * {@link org.obicere.bytecode.core.util.IndexedDataInputStream#readInt()}
+     * {@link org.obicere.bytecode.core.util.ByteCodeReader#readInt()}
      * <li> <code>u8</code> -
-     * {@link org.obicere.bytecode.core.util.IndexedDataInputStream#readLong()}
+     * {@link org.obicere.bytecode.core.util.ByteCodeReader#readLong()}
      * <li> <code>Utf8</code> -
-     * {@link org.obicere.bytecode.core.util.IndexedDataInputStream#readUTF()}
+     * {@link org.obicere.bytecode.core.util.ByteCodeReader#readUTF()}
      * </ul>
      * <h1>Limitations of the JVM:</h1>
      * The processing of these data types would correlate to the functions
      * available in the
-     * {@link org.obicere.bytecode.core.util.IndexedDataInputStream} stream.
+     * {@link org.obicere.bytecode.core.util.ByteCodeReader} stream.
      * Due to some restrictions on the JVM, <code>u4</code> and
      * <code>u8</code> values may not be represented appropriately. This
      * is because the unsigned <code>doubleword</code> is too large to
@@ -118,7 +118,7 @@ public interface Reader<T> {
      * JVM.
      * <h1>Alternative operations:</h1>
      * There are two alternative operations defined by the
-     * {@link org.obicere.bytecode.core.util.IndexedDataInputStream} that can
+     * {@link org.obicere.bytecode.core.util.ByteCodeReader} that can
      * be used. These involve <code>step</code> and logical indexing
      * functions. The <code>step</code> function allows stepping forwards
      * and backwards through the stream. This is in case formats overlap
@@ -145,6 +145,6 @@ public interface Reader<T> {
      *                                  {@link java.io.IOException} should
      *                                  an illegal state be met.
      */
-    public T read(final IndexedDataInputStream input) throws IOException;
+    public T read(final ByteCodeReader input) throws IOException;
 
 }

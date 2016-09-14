@@ -39,7 +39,7 @@ public class FileSource implements LeafSource {
         if (parent == null) {
             this.file = name;
         } else {
-            this.file = parent.getAbsolutePath() + name;
+            this.file = parent.getAbsolutePath() + File.separator + name;
         }
     }
 
@@ -86,6 +86,26 @@ public class FileSource implements LeafSource {
     @Override
     public String toString() {
         return file;
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null) {
+            return false;
+        }
+        if (other instanceof FileSource) {
+            final FileSource source = (FileSource) other;
+            return source.getPath().equals(file);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return file.hashCode();
     }
 
     private File asFile() {

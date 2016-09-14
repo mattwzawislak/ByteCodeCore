@@ -1,27 +1,31 @@
 package org.obicere.bytecode.core.objects;
 
+import org.obicere.bytecode.core.Identifiable;
+import org.obicere.bytecode.core.objects.attribute.Attribute;
+import org.obicere.bytecode.core.objects.attribute.AttributeSet;
+
 /**
  * @author Obicere
  */
-public class Field implements Identifiable {
+public final class Field implements Identifiable {
 
     public static final String IDENTIFIER = "Field";
 
     private final int accessFlags;
 
-    private final int nameIndex;
+    private final String name;
 
-    private final int descriptorIndex;
+    private final String typeName;
 
     private final AttributeSet attributeSet;
 
-    public Field(final int accessFlags, final int nameIndex, final int descriptorIndex, final Attribute[] attributes) {
+    public Field(final int accessFlags, final String name, final String type, final Attribute[] attributes) {
         if (attributes == null) {
             throw new NullPointerException("attributes must be non-null");
         }
         this.accessFlags = accessFlags;
-        this.nameIndex = nameIndex;
-        this.descriptorIndex = descriptorIndex;
+        this.name = name;
+        this.typeName = type;
         this.attributeSet = new AttributeSet(attributes);
     }
 
@@ -29,12 +33,12 @@ public class Field implements Identifiable {
         return accessFlags;
     }
 
-    public int getNameIndex() {
-        return nameIndex;
+    public String getName() {
+        return name;
     }
 
-    public int getDescriptorIndex() {
-        return descriptorIndex;
+    public String getTypeName() {
+        return typeName;
     }
 
     public AttributeSet getAttributeSet() {

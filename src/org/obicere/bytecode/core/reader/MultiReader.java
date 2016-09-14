@@ -49,7 +49,7 @@ import java.util.Map;
  * corresponding data types.
  * <p>
  * For example, the format for a
- * {@link org.obicere.bytecode.core.objects.instruction.Instruction} follows
+ * {@link org.obicere.bytecode.core.objects.code.instruction.Instruction} follows
  * the loose form of:
  * <pre>{@code Instruction {
  *     u1   opcode
@@ -59,13 +59,13 @@ import java.util.Map;
  * }
  * }</pre>
  * However, this changes from instruction-to-instruction. For example, the
- * {@link org.obicere.bytecode.core.objects.instruction.nop} format is just:
+ * {@link org.obicere.bytecode.core.objects.code.instruction.nop} format is just:
  * <pre>{@code nop {
  *     u1   opcode
  * }
  * }</pre>
  * Contrasted to the
- * {@link org.obicere.bytecode.core.objects.instruction.aload} format:
+ * {@link org.obicere.bytecode.core.objects.code.instruction.aload} format:
  * <pre>{@code aload {
  *     u1   opcode
  *     u1   indexbyte1
@@ -84,7 +84,7 @@ import java.util.Map;
  * obscure and too costly.
  * <p>
  * This is then mirrored in the corresponding reader:
- * {@link org.obicere.bytecode.core.reader.instruction.InstructionReader} which
+ * {@link org.obicere.bytecode.core.reader.code.instruction.InstructionReader} which
  * is the responsible reader for the independent readers.
  * <p>
  * Due to the availability of this specification, each reader should
@@ -187,7 +187,7 @@ public abstract class MultiReader<K, T> implements Reader<T> {
             // we found an entry with this reader
             if (entry.getValue() == reader || entry.getValue().equals(reader)) {
                 // remove the entry and continue looking for more
-                // occurences
+                // occurrences
                 readers.remove(entry.getKey());
                 removed = true;
             }
