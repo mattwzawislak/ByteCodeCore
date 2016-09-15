@@ -22,11 +22,11 @@ public class InnerClass implements Identifiable {
         this.innerClassAccessFlags = innerClassAccessFlags;
     }
 
-    public String getInnerClassInfoIndex() {
+    public String getInnerClassInfo() {
         return innerClassInfo;
     }
 
-    public String getOuterClassInfoIndex() {
+    public String getOuterClassInfo() {
         return outerClassInfo;
     }
 

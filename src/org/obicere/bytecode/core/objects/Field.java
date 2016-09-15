@@ -1,7 +1,6 @@
 package org.obicere.bytecode.core.objects;
 
 import org.obicere.bytecode.core.Identifiable;
-import org.obicere.bytecode.core.objects.attribute.Attribute;
 import org.obicere.bytecode.core.objects.attribute.AttributeSet;
 
 /**
@@ -19,14 +18,11 @@ public final class Field implements Identifiable {
 
     private final AttributeSet attributeSet;
 
-    public Field(final int accessFlags, final String name, final String type, final Attribute[] attributes) {
-        if (attributes == null) {
-            throw new NullPointerException("attributes must be non-null");
-        }
+    public Field(final int accessFlags, final String name, final String type, final AttributeSet attributeSet) {
         this.accessFlags = accessFlags;
         this.name = name;
         this.typeName = type;
-        this.attributeSet = new AttributeSet(attributes);
+        this.attributeSet = attributeSet;
     }
 
     public int getAccessFlags() {
@@ -39,10 +35,6 @@ public final class Field implements Identifiable {
 
     public String getTypeName() {
         return typeName;
-    }
-
-    public AttributeSet getAttributeSet() {
-        return attributeSet;
     }
 
     @Override

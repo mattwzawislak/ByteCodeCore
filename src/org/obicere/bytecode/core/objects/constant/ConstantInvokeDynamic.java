@@ -1,9 +1,5 @@
 package org.obicere.bytecode.core.objects.constant;
 
-import org.obicere.bytecode.core.objects.Class;
-import org.obicere.bytecode.core.objects.attribute.BootstrapMethodsAttribute;
-import org.obicere.bytecode.core.objects.common.BootstrapMethod;
-import org.obicere.bytecode.core.objects.reference.MethodReference;
 import org.obicere.bytecode.core.reader.constant.ConstantReader;
 
 /**
@@ -15,9 +11,9 @@ public class ConstantInvokeDynamic extends Constant {
 
     private final int nameAndTypeIndex;
 
-    private volatile BootstrapMethod method;
+    private volatile String name;
 
-    private volatile MethodReference actualMethod;
+    private volatile String type;
 
     public ConstantInvokeDynamic(final ConstantPool constantPool, final int bootstrapMethodAttrIndex, final int nameAndTypeIndex) {
         super(constantPool, ConstantReader.CONSTANT_INVOKE_DYNAMIC);
@@ -25,25 +21,24 @@ public class ConstantInvokeDynamic extends Constant {
         this.nameAndTypeIndex = nameAndTypeIndex;
     }
 
-    public BootstrapMethod getBootstrapMethod() {
-        if (method == null) {
-            final Class outer = constantPool.getDeclaringClass();
-            final BootstrapMethodsAttribute attribute = outer.getAttributeSet().getAttribute(BootstrapMethodsAttribute.class);
-            this.method = attribute.getBootstrapMethods()[bootstrapMethodAttrIndex];
-        }
-
-        return method;
+    public int getBootstrapMethodIndex() {
+        return bootstrapMethodAttrIndex;
     }
 
-    public MethodReference getActualMethod() {
-        if (actualMethod == null) {
-            final Class outer = constantPool.getDeclaringClass();
+    public String getMethodName() {
+        if(name == null) {
             final ConstantNameAndType nameAndType = constantPool.get(nameAndTypeIndex);
-
-            this.actualMethod = new MethodReference(outer.getName(), nameAndType.getName(), nameAndType.getType());
+            name = nameAndType.getName();
         }
+        return name;
+    }
 
-        return actualMethod;
+    public String getMethodType() {
+        if(type == null) {
+            final ConstantNameAndType nameAndType = constantPool.get(nameAndTypeIndex);
+            type = nameAndType.getType();
+        }
+        return type;
     }
 
     @Override

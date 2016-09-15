@@ -7,7 +7,7 @@ import org.obicere.bytecode.core.io.Source;
 import org.obicere.bytecode.core.io.ZipArchiveSource;
 import org.obicere.bytecode.core.reader.ClassReader;
 import org.obicere.bytecode.core.type.Type;
-import org.obicere.bytecode.core.util.IndexedDataInputStream;
+import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.File;
 import java.io.IOException;
@@ -108,7 +108,7 @@ public abstract class AbstractClassPath implements ClassPath {
     private Type readClass(final LeafSource source) {
         try {
             final InputStream stream = source.getInputStream();
-            final IndexedDataInputStream input = new IndexedDataInputStream(stream);
+            final ByteCodeReader input = new ByteCodeReader(stream);
 
             final ClassReader reader = new ClassReader();
 

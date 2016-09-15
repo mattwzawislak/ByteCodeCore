@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.util;
 
+import org.obicere.bytecode.core.objects.attribute.AttributeSet;
 import org.obicere.bytecode.core.objects.code.block.label.Label;
 import org.obicere.bytecode.core.objects.code.block.label.LabelFactory;
 import org.obicere.bytecode.core.objects.code.block.label.LazyLabel;
@@ -7,9 +8,12 @@ import org.obicere.bytecode.core.objects.code.block.label.OffsetLabel;
 import org.obicere.bytecode.core.objects.constant.Constant;
 import org.obicere.bytecode.core.objects.constant.ConstantPool;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 /**
  * @author Obicere
@@ -118,9 +122,39 @@ public class ByteCodeReader extends IndexedDataInputStream {
     private <C extends Constant> C getConstant(final int index) {
         final ConstantPool constantPool = constants.peek();
         if (constantPool == null) {
-            return null;
+            throw new NoSuchElementException("have not entered a constant pool yet.");
         }
 
         return constantPool.get(index);
+    }
+
+    public AttributeSet readAttributeSet() throws IOException {
+        final int count = readUnsignedShort();
+        if (count == 0) {
+            return AttributeSet.EMPTY_SET;
+        }
+        final ByteArrayOutputStream attributes = new ByteArrayOutputStream();
+        final DataOutputStream helper = new DataOutputStream(attributes);
+
+        helper.writeShort(count);
+        for (int i = 0; i < count; i++) {
+            final int nameIndex = readUnsignedShort();
+            final int length = readInt();
+            final byte[] data = new byte[length];
+
+            if (read(data) < 0) {
+                throw new IOException("end of stream");
+            }
+
+            helper.writeShort(nameIndex);
+            helper.writeInt(length);
+            helper.write(data);
+        }
+
+        attributes.close();
+        helper.close();
+
+        final byte[] bytes = attributes.toByteArray();
+        return new AttributeSet(this, bytes);
     }
 }

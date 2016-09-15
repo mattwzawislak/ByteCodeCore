@@ -1,7 +1,5 @@
 package org.obicere.bytecode.core.objects.constant;
 
-import org.obicere.bytecode.core.objects.Class;
-
 /**
  * TODO: in the event the constant pool gets overflowed, do this:
  *
@@ -15,23 +13,21 @@ public class ConstantPool {
 
     public static final String NULL_ENTRY = "<null entry>";
 
-    private final Constant[] constants;
+    private Constant[] constants;
 
-    private final org.obicere.bytecode.core.objects.Class declaringClass;
+    public ConstantPool(){
+    }
 
-    public ConstantPool(final Class declaringClass, final Constant[] constants) {
-        if (constants == null) {
-            throw new NullPointerException("constants must be non-null.");
-        }
-        if (declaringClass == null) {
-            throw new NullPointerException("declaring class must be non-null.");
-        }
-        this.declaringClass = declaringClass;
+    public ConstantPool(final Constant[] constants) {
         this.constants = constants;
     }
 
-    public Class getDeclaringClass() {
-        return declaringClass;
+    public Constant[] getConstants() {
+        return constants;
+    }
+
+    public void setConstants(final Constant[] constants) {
+        this.constants = constants;
     }
 
     @SuppressWarnings("unchecked")
@@ -48,9 +44,5 @@ public class ConstantPool {
             return NULL_ENTRY;
         }
         return constant.toString();
-    }
-
-    public Constant[] getConstants() {
-        return constants;
     }
 }

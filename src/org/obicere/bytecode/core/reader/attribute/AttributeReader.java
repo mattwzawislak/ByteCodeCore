@@ -53,7 +53,7 @@ public class AttributeReader extends MultiReader<String, Attribute> {
         final InstructionReader instructionReader = new InstructionReader();
 
         add(CONSTANT_VALUE_ATTRIBUTE_NAME, new ConstantValueAttributeReader());
-        add(CODE_ATTRIBUTE_NAME, new CodeAttributeReader(this, instructionReader));
+        add(CODE_ATTRIBUTE_NAME, new CodeAttributeReader(instructionReader));
         add(EXCEPTIONS_ATTRIBUTE_NAME, new ExceptionsAttributeReader());
         add(SOURCE_FILE_ATTRIBUTE_NAME, new SourceFileAttributeReader());
         add(LINE_NUMBER_TABLE_ATTRIBUTE_NAME, new LineNumberTableAttributeReader());

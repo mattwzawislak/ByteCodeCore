@@ -1,99 +1,100 @@
 package org.obicere.bytecode.core.objects;
 
 import org.obicere.bytecode.core.Identifiable;
-import org.obicere.bytecode.core.objects.attribute.Attribute;
 import org.obicere.bytecode.core.objects.attribute.AttributeSet;
-import org.obicere.bytecode.core.objects.attribute.InnerClassesAttribute;
 import org.obicere.bytecode.core.objects.attribute.SignatureAttribute;
-import org.obicere.bytecode.core.objects.common.InnerClass;
 import org.obicere.bytecode.core.objects.constant.ConstantPool;
 import org.obicere.bytecode.core.type.AccessibleTypeFactory;
 import org.obicere.bytecode.core.type.ClassType;
 import org.obicere.bytecode.core.type.GenericType;
 import org.obicere.bytecode.core.type.ReferenceType;
-import org.obicere.bytecode.core.type.Type;
-import org.obicere.bytecode.core.type.TypeLoader;
 import org.obicere.bytecode.core.type.generic.ClassGenericDeclaration;
 import org.obicere.bytecode.core.type.parser.SignatureParser;
 import org.obicere.bytecode.core.type.signature.ClassSignature;
 
-import java.util.LinkedList;
-
 /**
  * @author Obicere
  */
-public final class Class implements ClassType, Identifiable {
+public class Class implements ClassType, Identifiable {
 
     public static final String IDENTIFIER = "ClassFile";
 
-    private final int minorVersion;
+    private int minorVersion;
 
-    private final int majorVersion;
+    private int majorVersion;
 
-    private final ConstantPool constantPool;
+    private ConstantPool constantPool;
 
-    private final int accessFlags;
+    private int accessFlags;
 
-    private final int thisClass;
+    private String name;
 
-    private final int superClass;
+    private String superName;
 
-    private final int[] interfaces;
+    private String[] interfaces;
 
-    private final Field[] fields;
+    private Field[] fields;
 
-    private final Method[] methods;
+    private Method[] methods;
 
-    private final AttributeSet attributeSet;
+    private AttributeSet attributeSet;
 
-    public Class(final int minorVersion, final int majorVersion, final ConstantPool constantPool, final int accessFlags, final int thisClass, final int superClass, final int[] interfaces, final Field[] fields, final Method[] methods, final Attribute[] attributes) {
-        if (constantPool == null) {
-            throw new NullPointerException("constant pool must be non-null");
-        }
-        if (fields == null) {
-            throw new NullPointerException("fields must be non-null");
-        }
-        if (methods == null) {
-            throw new NullPointerException("methods must be non-null");
-        }
-        if (attributes == null) {
-            throw new NullPointerException("attributes must be non-null");
-        }
+    public Class() {
 
+    }
+
+    public Class(final int minorVersion, final int majorVersion, final ConstantPool constantPool, final int accessFlags, final String name, final String superName, final String[] interfaces, final Field[] fields, final Method[] methods, final AttributeSet attributeSet) {
         this.minorVersion = minorVersion;
         this.majorVersion = majorVersion;
         this.constantPool = constantPool;
         this.accessFlags = accessFlags;
-        this.thisClass = thisClass;
-        this.superClass = superClass;
+        this.name = name;
+        this.superName = superName;
         this.interfaces = interfaces;
         this.fields = fields;
         this.methods = methods;
-        this.attributeSet = new AttributeSet(attributes);
+        this.attributeSet = attributeSet;
     }
 
     public int getMinorVersion() {
         return minorVersion;
     }
 
+    public void setMinorVersion(final int minorVersion) {
+        this.minorVersion = minorVersion;
+    }
+
     public int getMajorVersion() {
         return majorVersion;
     }
 
-    public ConstantPool getConstantPool() {
-        return constantPool;
+    public void setMajorVersion(final int majorVersion) {
+        this.majorVersion = majorVersion;
     }
 
     public int getAccessFlags() {
         return accessFlags;
     }
 
-    public String getSuperName() {
-        return constantPool.getAsString(superClass);
+    public void setAccessFlags(final int accessFlags) {
+        this.accessFlags = accessFlags;
     }
 
+    public String getSuperName() {
+        return superName;
+    }
+
+    public void setSuperName(final String superName) {
+        this.superName = superName;
+    }
+
+    @Override
     public String getName() {
-        return constantPool.getAsString(thisClass);
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
     }
 
     @Override
@@ -126,102 +127,40 @@ public final class Class implements ClassType, Identifiable {
         return fields;
     }
 
-    private volatile ClassType loadedSuperClass;
-
-    private volatile ClassType[] loadedSuperInterfaces;
+    public void setFields(final Field[] fields) {
+        this.fields = fields;
+    }
 
     @Override
     public ReferenceType getSuperClass() {
-        final ClassGenericDeclaration declaration = getDeclaration();
-        if (declaration == null) {
-            if (loadedSuperClass == null) {
-                final String name = constantPool.getAsString(superClass);
-                loadedSuperClass = (ClassType) TypeLoader.getSystemLoader().getType(name);
-            }
-            return loadedSuperClass;
-        } else {
-            return declaration.getSuperClass();
-        }
+        return null;
     }
 
     @Override
     public ReferenceType[] getSuperInterfaces() {
-        final ClassGenericDeclaration declaration = getDeclaration();
-        if (declaration == null) {
-            if (loadedSuperInterfaces == null) {
-                loadedSuperInterfaces = new ClassType[interfaces.length];
-                for (int i = 0; i < interfaces.length; i++) {
-                    final String name = constantPool.getAsString(interfaces[i]);
-                    loadedSuperInterfaces[i] = (ClassType) TypeLoader.getSystemLoader().getType(name);
-                }
-            }
-            return loadedSuperInterfaces;
-        } else {
-            return declaration.getSuperInterfaces();
-        }
+        return null;
     }
 
     private volatile ClassType[] innerClasses;
 
     @Override
     public ReferenceType[] getInnerClasses() {
-        if (innerClasses == null) {
-            final InnerClassesAttribute attribute = attributeSet.getAttribute(InnerClassesAttribute.class);
-            final InnerClass[] classes = attribute.getInnerClasses();
-
-            final LinkedList<ClassType> classTypes = new LinkedList<>();
-            for(final InnerClass cls : classes) {
-                final String outerInfo = constantPool.getAsString(cls.getOuterClassInfoIndex());
-                if(outerInfo.equals(getName())) {
-                    final String innerClassName = constantPool.getAsString(cls.getInnerClassInfoIndex());
-
-                    classTypes.add((ClassType) Type.of(innerClassName));
-                }
-            }
-            innerClasses = classTypes.toArray(new ClassType[classTypes.size()]);
-        }
-
-        return innerClasses;
+        return null;
     }
-
-    private volatile ClassType outerClass;
 
     @Override
     public ReferenceType getOuterClass() {
-        if (outerClass == null) {
-            final InnerClassesAttribute attribute = attributeSet.getAttribute(InnerClassesAttribute.class);
-            final InnerClass[] classes = attribute.getInnerClasses();
-            for(final InnerClass cls : classes) {
-                final String innerInfo = constantPool.getAsString(cls.getInnerClassInfoIndex());
-                if(innerInfo.equals(getName())) {
-                    final String outerClassName = constantPool.getAsString(cls.getOuterClassInfoIndex());
-
-                    this.outerClass = (ClassType) Type.of(outerClassName);
-                    break;
-                }
-            }
-        }
-        return outerClass;
+        return null;
     }
 
     @Override
     public GenericType[] getGenericTypes() {
-        final ClassGenericDeclaration declaration = getDeclaration();
-        if (declaration == null) {
-            return new GenericType[0];
-        } else {
-            return declaration.getGenericTypes();
-        }
+        return null;
     }
 
     @Override
     public Method[] getMethods() {
         return methods;
-    }
-
-    // TODO remove
-    public AttributeSet getAttributeSet() {
-        return attributeSet;
     }
 
     @Override
@@ -235,11 +174,11 @@ public final class Class implements ClassType, Identifiable {
     public ClassGenericDeclaration getDeclaration() {
         if (declaration == null) {
 
-            final SignatureAttribute attribute = getAttributeSet().getAttribute(SignatureAttribute.class);
+            final SignatureAttribute attribute = attributeSet.getAttribute(SignatureAttribute.class);
             if (attribute == null) {
                 return null;
             }
-            final String signature = getConstantPool().getAsString(attribute.getSignatureIndex());
+            final String signature = attribute.getSignature();
 
             final AccessibleTypeFactory factory = new AccessibleTypeFactory(this);
 
@@ -253,4 +192,38 @@ public final class Class implements ClassType, Identifiable {
         return declaration;
     }
 
+    private class SimpleInformation {
+        // access flags, package, simple name, canonical name
+        private int accessFlags;
+
+        private String packageName;
+
+        private String simpleName;
+
+        private String canonicalName;
+    }
+
+    private class InnerClassInformation {
+
+        // inner class, enclosing class
+    }
+
+    private class AnnotationInformation {
+        // annotations
+    }
+
+    private class DeclarationInformation {
+
+        // signature (super class, interface, generic types),
+    }
+
+    private class BootstrappingInformation {
+
+        // bootstrap methods
+    }
+
+    private class MiscellaneousInformation {
+
+        // source file, source debug
+    }
 }

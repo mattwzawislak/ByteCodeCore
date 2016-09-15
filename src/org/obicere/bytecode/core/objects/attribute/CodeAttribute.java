@@ -52,21 +52,18 @@ public class CodeAttribute extends Attribute implements LabelFactory {
 
     private boolean implicitLineNumberTable = true;
 
-    public CodeAttribute(final int maxStack, final int maxLocals, final byte[] code, final CodeException[] exceptions, final Attribute[] attributes, final InstructionReader instructionReader) {
+    public CodeAttribute(final int maxStack, final int maxLocals, final byte[] code, final CodeException[] exceptions, final AttributeSet attributeSet, final InstructionReader instructionReader) {
         if (code == null) {
             throw new NullPointerException("code must be non-null");
         }
         if (exceptions == null) {
             throw new NullPointerException("exceptions must be non-null");
         }
-        if (attributes == null) {
-            throw new NullPointerException("attributes must be non-null");
-        }
         this.maxStack = maxStack;
         this.maxLocals = maxLocals;
         this.codeSize = code.length;
         this.exceptions = exceptions;
-        this.attributeSet = new AttributeSet(attributes);
+        this.attributeSet = attributeSet;
         this.instructionReader = instructionReader;
 
         buildBlocks(code);

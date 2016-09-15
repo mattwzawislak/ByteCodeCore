@@ -4,7 +4,6 @@ import org.obicere.bytecode.core.objects.code.block.label.LazyLabel;
 import org.obicere.bytecode.core.objects.code.table.LocalVariable;
 import org.obicere.bytecode.core.objects.constant.ConstantUtf8;
 import org.obicere.bytecode.core.reader.Reader;
-import org.obicere.bytecode.core.type.Type;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -26,10 +25,9 @@ public class LocalVariableReader implements Reader<LocalVariable> {
 
         final String name = nameConstant.getBytes();
         final String descriptor = descriptorConstant.getBytes();
-        final Type type = Type.of(descriptor);
 
         final int index = input.readUnsignedShort();
 
-        return new LocalVariable(start, end, name, type, index);
+        return new LocalVariable(start, end, name, descriptor, index);
     }
 }

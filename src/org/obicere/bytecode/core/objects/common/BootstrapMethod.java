@@ -2,6 +2,7 @@ package org.obicere.bytecode.core.objects.common;
 
 import org.obicere.bytecode.core.Identifiable;
 import org.obicere.bytecode.core.objects.Method;
+import org.obicere.bytecode.core.objects.constant.Constant;
 import org.obicere.bytecode.core.objects.reference.ReferenceKind;
 
 /**
@@ -13,9 +14,9 @@ public class BootstrapMethod implements Identifiable {
 
     private final MethodHandle<Method> method;
 
-    private final Object[] arguments;
+    private final Constant[] arguments;
 
-    public BootstrapMethod(final MethodHandle<Method> method, final Object[] arguments) {
+    public BootstrapMethod(final MethodHandle<Method> method, final Constant[] arguments) {
         if (method == null) {
             throw new NullPointerException("method must be non-null");
         }
@@ -37,7 +38,7 @@ public class BootstrapMethod implements Identifiable {
         return method;
     }
 
-    public Object[] getArguments() {
+    public Constant[] getArguments() {
         return arguments.clone();
     }
 

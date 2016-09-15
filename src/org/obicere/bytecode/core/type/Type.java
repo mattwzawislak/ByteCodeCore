@@ -6,6 +6,7 @@ package org.obicere.bytecode.core.type;
 public interface Type {
 
     public static Type of(final String name) {
+        System.out.println("loading " + name);
         return TypeLoader.getSystemLoader().getType(name);
     }
 

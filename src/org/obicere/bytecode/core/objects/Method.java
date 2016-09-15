@@ -1,7 +1,6 @@
 package org.obicere.bytecode.core.objects;
 
 import org.obicere.bytecode.core.Identifiable;
-import org.obicere.bytecode.core.objects.attribute.Attribute;
 import org.obicere.bytecode.core.objects.attribute.AttributeSet;
 import org.obicere.bytecode.core.objects.attribute.SignatureAttribute;
 import org.obicere.bytecode.core.type.AccessibleTypeFactory;
@@ -21,38 +20,31 @@ public final class Method implements Identifiable, GenericDeclarationDeclarer<Me
 
     private final int accessFlags;
 
-    private final int nameIndex;
+    private final String name;
 
-    private final int descriptorIndex;
+    private final String descriptor;
 
     private final AttributeSet attributeSet;
 
     private Class outerClass;
 
-    public Method(final int accessFlags, final int nameIndex, final int descriptorIndex, final Attribute[] attributes) {
-        if (attributes == null) {
-            throw new NullPointerException("attributes must be non-null");
-        }
+    public Method(final int accessFlags, final String name, final String descriptor, final AttributeSet attributeSet) {
         this.accessFlags = accessFlags;
-        this.nameIndex = nameIndex;
-        this.descriptorIndex = descriptorIndex;
-        this.attributeSet = new AttributeSet(attributes);
+        this.name = name;
+        this.descriptor = descriptor;
+        this.attributeSet = attributeSet;
     }
 
     public int getAccessFlags() {
         return accessFlags;
     }
 
-    public int getNameIndex() {
-        return nameIndex;
+    public String getName() {
+        return name;
     }
 
-    public int getDescriptorIndex() {
-        return descriptorIndex;
-    }
-
-    public AttributeSet getAttributeSet() {
-        return attributeSet;
+    public String getDescriptor() {
+        return descriptor;
     }
 
     @Override
@@ -92,11 +84,11 @@ public final class Method implements Identifiable, GenericDeclarationDeclarer<Me
     public MethodGenericDeclaration getDeclaration() {
         if (declaration == null) {
 
-            final SignatureAttribute attribute = getAttributeSet().getAttribute(SignatureAttribute.class);
+            final SignatureAttribute attribute = attributeSet.getAttribute(SignatureAttribute.class);
             if (attribute == null) {
                 return null;
             }
-            final String signature = outerClass.getConstantPool().getAsString(attribute.getSignatureIndex());
+            final String signature = attribute.getSignature();
 
             final SignatureParser parser = new SignatureParser(signature);
 

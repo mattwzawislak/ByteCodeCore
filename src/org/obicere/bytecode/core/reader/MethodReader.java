@@ -1,8 +1,9 @@
 package org.obicere.bytecode.core.reader;
 
-import org.obicere.bytecode.core.objects.attribute.Attribute;
 import org.obicere.bytecode.core.objects.Method;
-import org.obicere.bytecode.core.reader.attribute.AttributeReader;
+import org.obicere.bytecode.core.objects.attribute.AttributeSet;
+import org.obicere.bytecode.core.objects.constant.ConstantUtf8;
+import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
 
@@ -11,23 +12,17 @@ import java.io.IOException;
  */
 public class MethodReader implements Reader<Method> {
 
-    private final AttributeReader attributeReader;
-
-    public MethodReader(final AttributeReader attributeReader) {
-        this.attributeReader = attributeReader;
-    }
-
     @Override
     public Method read(final ByteCodeReader input) throws IOException {
         final int accessFlags = input.readUnsignedShort();
-        final int nameIndex = input.readUnsignedShort();
-        final int descriptorIndex = input.readUnsignedShort();
+        final ConstantUtf8 nameConstant = input.readConstant();
+        final ConstantUtf8 descriptorConstant = input.readConstant();
 
-        final int attributesCount = input.readUnsignedShort();
-        final Attribute[] attributes = new Attribute[attributesCount];
-        for (int i = 0; i < attributesCount; i++) {
-            attributes[i] = attributeReader.read(input);
-        }
-        return new Method(accessFlags, nameIndex, descriptorIndex, attributes);
+        final String name = nameConstant.getBytes();
+        final String descriptor = nameConstant.getBytes();
+
+        final AttributeSet attributeSet = input.readAttributeSet();
+
+        return new Method(accessFlags, name, descriptor, attributeSet);
     }
 }

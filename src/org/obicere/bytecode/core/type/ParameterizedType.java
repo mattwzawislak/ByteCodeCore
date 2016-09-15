@@ -1,9 +1,11 @@
 package org.obicere.bytecode.core.type;
 
+import org.obicere.bytecode.core.objects.Class;
+
 /**
  * @author Obicere
  */
-public class ParameterizedType implements ReferenceType {
+public class ParameterizedType extends Class {
 
     private final WildcardType[] arguments;
 

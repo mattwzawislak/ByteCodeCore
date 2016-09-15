@@ -4,7 +4,6 @@ import org.obicere.bytecode.core.Identifiable;
 import org.obicere.bytecode.core.objects.code.block.label.Label;
 import org.obicere.bytecode.core.objects.code.block.label.LabelFactory;
 import org.obicere.bytecode.core.objects.code.block.label.LazyLabel;
-import org.obicere.bytecode.core.type.Type;
 
 /**
  * @author Obicere
@@ -16,10 +15,10 @@ public class LocalVariable implements Identifiable {
     private final LazyLabel start;
     private final LazyLabel end;
     private final String    name;
-    private final Type      type;
+    private final String    type;
     private final int       index;
 
-    public LocalVariable(final LazyLabel start, final LazyLabel end, final String name, final Type type, final int index) {
+    public LocalVariable(final LazyLabel start, final LazyLabel end, final String name, final String type, final int index) {
         this.start = start;
         this.end = end;
         this.name = name;
@@ -44,7 +43,7 @@ public class LocalVariable implements Identifiable {
         return name;
     }
 
-    public Type getType() {
+    public String getType() {
         return type;
     }
 

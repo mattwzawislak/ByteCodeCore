@@ -17,8 +17,8 @@ public class invokedynamicReader implements Reader<invokedynamic> {
     @Override
     public invokedynamic read(final ByteCodeReader input) throws IOException {
         final ConstantInvokeDynamic callSite = input.readConstant();
-        final BootstrapMethod bootstrapMethod = callSite.getBootstrapMethod();
-        final MethodReference actualMethod = callSite.getActualMethod();
+        final BootstrapMethod bootstrapMethod = null;
+        final MethodReference actualMethod = null;
         return new invokedynamic(bootstrapMethod, actualMethod);
     }
 }

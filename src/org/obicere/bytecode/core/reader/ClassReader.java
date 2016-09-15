@@ -3,9 +3,9 @@ package org.obicere.bytecode.core.reader;
 import org.obicere.bytecode.core.objects.Class;
 import org.obicere.bytecode.core.objects.Field;
 import org.obicere.bytecode.core.objects.Method;
-import org.obicere.bytecode.core.objects.attribute.Attribute;
+import org.obicere.bytecode.core.objects.attribute.AttributeSet;
+import org.obicere.bytecode.core.objects.constant.ConstantClass;
 import org.obicere.bytecode.core.objects.constant.ConstantPool;
-import org.obicere.bytecode.core.reader.attribute.AttributeReader;
 import org.obicere.bytecode.core.reader.constant.ConstantPoolReader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -31,21 +31,33 @@ public class ClassReader implements Reader<Class> {
         final int major = input.readUnsignedShort();
 
         final ConstantPool constantPool = constantPoolReader.read(input);
+
         final int accessFlags = input.readUnsignedShort();
-        final int thisClass = input.readUnsignedShort();
-        final int superClass = input.readUnsignedShort();
+        final ConstantClass constantName = input.readConstant();
+        final ConstantClass constantSuperName = input.readConstant();
+        final String thisName = constantName.getName();
+
+        final String superName;
+        if (constantSuperName == null) {
+            // for java.lang.Object only
+            if (!thisName.equals("java/lang/Object")) {
+                throw new NullPointerException("super class must be non-null");
+            }
+            superName = null;
+        } else {
+            superName = constantSuperName.getName();
+        }
 
         // read all the interfaces
         final int interfacesCount = input.readUnsignedShort();
-        final int[] interfaces = new int[interfacesCount];
+        final String[] interfaces = new String[interfacesCount];
         for (int i = 0; i < interfacesCount; i++) {
-            interfaces[i] = input.readUnsignedShort();
+            final ConstantClass constantInterfaceName = input.readConstant();
+            interfaces[i] = constantInterfaceName.getName();
         }
 
-        final AttributeReader attributeReader = new AttributeReader(constantPool);
-
         // read all the fields
-        final FieldReader fieldReader = new FieldReader(attributeReader);
+        final FieldReader fieldReader = new FieldReader();
 
         final int fieldsCount = input.readUnsignedShort();
         final Field[] fields = new Field[fieldsCount];
@@ -54,7 +66,7 @@ public class ClassReader implements Reader<Class> {
         }
 
         // read all the methods
-        final MethodReader methodReader = new MethodReader(attributeReader);
+        final MethodReader methodReader = new MethodReader();
 
         final int methodsCount = input.readUnsignedShort();
         final Method[] methods = new Method[methodsCount];
@@ -62,21 +74,15 @@ public class ClassReader implements Reader<Class> {
             methods[i] = methodReader.read(input);
         }
 
-        // Can't be declared finalized as the constant pool needs to be
-        // defined first to access attribute names
+        final AttributeSet attributeSet = input.readAttributeSet();
 
-        final int attributesCount = input.readUnsignedShort();
-        final Attribute[] attributes = new Attribute[attributesCount];
-        for (int i = 0; i < attributesCount; i++) {
-            attributes[i] = attributeReader.read(input);
-        }
-
-        final Class newClass = new Class(minor, major, constantPool, accessFlags, thisClass, superClass, interfaces, fields, methods, attributes);
+        final Class newClass = new Class(minor, major, constantPool, accessFlags, thisName, superName, interfaces, fields, methods, attributeSet);
 
         for (final Method m : methods) {
             m.setContainingClass(newClass);
         }
 
+        input.pollConstants();
         return newClass;
     }
 
