@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.code.instruction.l2d;
+import org.obicere.bytecode.core.objects.code.instruction.DefaultL2D;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -9,10 +9,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class l2dReader implements Reader<l2d> {
+public class l2dReader implements Reader<DefaultL2D> {
 
     @Override
-    public l2d read(final ByteCodeReader input) throws IOException {
-        return l2d.INSTANCE;
+    public DefaultL2D read(final ByteCodeReader input) throws IOException {
+        return DefaultL2D.INSTANCE;
     }
 }

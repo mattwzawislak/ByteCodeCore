@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.code.instruction.l2f;
+import org.obicere.bytecode.core.objects.code.instruction.DefaultL2F;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -9,10 +9,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class l2fReader implements Reader<l2f> {
+public class l2fReader implements Reader<DefaultL2F> {
 
     @Override
-    public l2f read(final ByteCodeReader input) throws IOException {
-        return l2f.INSTANCE;
+    public DefaultL2F read(final ByteCodeReader input) throws IOException {
+        return DefaultL2F.INSTANCE;
     }
 }

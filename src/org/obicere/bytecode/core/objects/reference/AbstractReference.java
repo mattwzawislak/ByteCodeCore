@@ -1,5 +1,7 @@
 package org.obicere.bytecode.core.objects.reference;
 
+import org.javacore.reference.Reference;
+
 /**
  * @author Obicere
  */

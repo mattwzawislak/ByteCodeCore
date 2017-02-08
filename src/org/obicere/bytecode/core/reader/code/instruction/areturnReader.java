@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.code.instruction.areturn;
+import org.obicere.bytecode.core.objects.code.instruction.DefaultAReturn;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -9,10 +9,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class areturnReader implements Reader<areturn> {
+public class areturnReader implements Reader<DefaultAReturn> {
 
     @Override
-    public areturn read(final ByteCodeReader input) throws IOException {
-        return areturn.INSTANCE;
+    public DefaultAReturn read(final ByteCodeReader input) throws IOException {
+        return DefaultAReturn.INSTANCE;
     }
 }

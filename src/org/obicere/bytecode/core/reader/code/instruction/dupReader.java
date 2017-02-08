@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.code.instruction.dup;
+import org.obicere.bytecode.core.objects.code.instruction.DefaultDup;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -9,10 +9,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class dupReader implements Reader<dup> {
+public class dupReader implements Reader<DefaultDup> {
 
     @Override
-    public dup read(final ByteCodeReader input) throws IOException {
-        return dup.INSTANCE;
+    public DefaultDup read(final ByteCodeReader input) throws IOException {
+        return DefaultDup.INSTANCE;
     }
 }

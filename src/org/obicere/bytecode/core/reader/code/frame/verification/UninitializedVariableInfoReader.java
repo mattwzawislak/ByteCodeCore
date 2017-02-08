@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.code.frame.verification;
 
-import org.obicere.bytecode.core.objects.code.block.label.Label;
+import org.javacore.code.block.label.Label;
 import org.obicere.bytecode.core.objects.code.frame.verification.UninitializedVariableInfo;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;

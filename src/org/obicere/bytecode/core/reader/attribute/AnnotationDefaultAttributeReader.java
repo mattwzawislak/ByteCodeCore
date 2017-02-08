@@ -12,12 +12,6 @@ import java.io.IOException;
  */
 public class AnnotationDefaultAttributeReader implements Reader<AnnotationDefaultAttribute> {
 
-    private final ElementValueReader elementValue;
-
-    public AnnotationDefaultAttributeReader(final ElementValueReader elementValue) {
-        this.elementValue = elementValue;
-    }
-
     @Override
     public AnnotationDefaultAttribute read(final ByteCodeReader input) throws IOException {
         // read length and discard

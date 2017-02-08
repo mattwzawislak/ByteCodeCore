@@ -1,12 +1,12 @@
 package org.obicere.bytecode.core.objects.attribute;
 
-import org.obicere.bytecode.core.reader.attribute.AttributeReader;
+import org.javacore.Identifier;
+import org.javacore.attribute.Attribute;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import java.lang.Class;
 
 /**
  */
@@ -14,19 +14,15 @@ public class AttributeSet {
 
     public static final AttributeSet EMPTY_SET = new AttributeSet();
 
-    private final AttributeReader attributeReader;
-
     private ByteCodeReader reader;
 
     private Attribute[] attributes;
 
     public AttributeSet(final ByteCodeReader reader, final byte[] attributes) {
-        this.attributeReader = new AttributeReader(reader.getConstantPool());
         this.reader = new ByteCodeReader(reader, attributes);
     }
 
     private AttributeSet() {
-        this.attributeReader = null;
         this.attributes = new Attribute[0];
     }
 
@@ -36,7 +32,7 @@ public class AttributeSet {
             final int number = reader.readUnsignedShort();
             final Attribute[] newAttributes = new Attribute[number];
             for (int i = 0; i < number; i++) {
-                newAttributes[i] = attributeReader.read(reader);
+                newAttributes[i] = reader.read(Identifier.ATTRIBUTE);
             }
             this.attributes = newAttributes;
         } catch (final IOException e) {

@@ -26,7 +26,7 @@ public class ElementValueReader extends MultiReader<Integer, ElementValue> {
     public static final int TAG_ANNOTATION = '@';
     public static final int TAG_ARRAY      = '[';
 
-    public ElementValueReader(final AnnotationReader annotationReader) {
+    public ElementValueReader() {
         add(TAG_BYTE, new ByteElementValueReader());
         add(TAG_CHARACTER, new CharacterElementValueReader());
         add(TAG_DOUBLE, new DoubleElementValueReader());
@@ -38,8 +38,8 @@ public class ElementValueReader extends MultiReader<Integer, ElementValue> {
         add(TAG_STRING, new StringElementValueReader());
         add(TAG_ENUM, new EnumElementValueReader());
         add(TAG_CLASS, new ClassElementValueReader());
-        add(TAG_ANNOTATION, new AnnotationElementValueReader(annotationReader));
-        add(TAG_ARRAY, new ArrayElementValueReader(this));
+        add(TAG_ANNOTATION, new AnnotationElementValueReader());
+        add(TAG_ARRAY, new ArrayElementValueReader());
     }
 
     @Override

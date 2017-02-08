@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.code.instruction.i2d;
+import org.obicere.bytecode.core.objects.code.instruction.DefaultI2D;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -9,10 +9,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class i2dReader implements Reader<i2d> {
+public class i2dReader implements Reader<DefaultI2D> {
 
     @Override
-    public i2d read(final ByteCodeReader input) throws IOException {
-        return i2d.INSTANCE;
+    public DefaultI2D read(final ByteCodeReader input) throws IOException {
+        return DefaultI2D.INSTANCE;
     }
 }

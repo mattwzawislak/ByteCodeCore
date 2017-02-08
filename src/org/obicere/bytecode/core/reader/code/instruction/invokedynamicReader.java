@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.code.instruction.invokedynamic;
+import org.obicere.bytecode.core.objects.code.instruction.DefaultInvokeDynamic;
 import org.obicere.bytecode.core.objects.common.BootstrapMethod;
 import org.obicere.bytecode.core.objects.constant.ConstantInvokeDynamic;
 import org.obicere.bytecode.core.objects.reference.MethodReference;
@@ -12,13 +12,13 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class invokedynamicReader implements Reader<invokedynamic> {
+public class invokedynamicReader implements Reader<DefaultInvokeDynamic> {
 
     @Override
-    public invokedynamic read(final ByteCodeReader input) throws IOException {
+    public DefaultInvokeDynamic read(final ByteCodeReader input) throws IOException {
         final ConstantInvokeDynamic callSite = input.readConstant();
         final BootstrapMethod bootstrapMethod = null;
         final MethodReference actualMethod = null;
-        return new invokedynamic(bootstrapMethod, actualMethod);
+        return new DefaultInvokeDynamic(bootstrapMethod, actualMethod);
     }
 }

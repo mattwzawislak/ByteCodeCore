@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.code.instruction.iushr;
+import org.obicere.bytecode.core.objects.code.instruction.DefaultIUShR;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -9,10 +9,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class iushrReader implements Reader<iushr> {
+public class iushrReader implements Reader<DefaultIUShR> {
 
     @Override
-    public iushr read(final ByteCodeReader input) throws IOException {
-        return iushr.INSTANCE;
+    public DefaultIUShR read(final ByteCodeReader input) throws IOException {
+        return DefaultIUShR.INSTANCE;
     }
 }

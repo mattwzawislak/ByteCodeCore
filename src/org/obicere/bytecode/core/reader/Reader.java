@@ -46,7 +46,7 @@ import java.io.IOException;
  * corresponding data types.
  * <p>
  * For example, the format for a
- * {@link org.obicere.bytecode.core.objects.Class} as specified is:
+ * {@link org.obicere.bytecode.core.objects.DefaultJCClass} as specified is:
  * <pre>
  * {@code ClassFile {
  *      u4             magic;

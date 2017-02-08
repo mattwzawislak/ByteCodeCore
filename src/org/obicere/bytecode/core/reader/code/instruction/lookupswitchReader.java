@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.code.block.label.Label;
-import org.obicere.bytecode.core.objects.code.instruction.lookupswitch;
+import org.javacore.code.block.label.Label;
+import org.obicere.bytecode.core.objects.code.instruction.DefaultLookupSwitch;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -10,10 +10,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class lookupswitchReader implements Reader<lookupswitch> {
+public class lookupswitchReader implements Reader<DefaultLookupSwitch> {
 
     @Override
-    public lookupswitch read(final ByteCodeReader input) throws IOException {
+    public DefaultLookupSwitch read(final ByteCodeReader input) throws IOException {
         // subtract 1 to get index of opcode
         final int index = input.getIndex() - 1;
         // how many bytes to skip to toString to next index divisible by 4
@@ -37,6 +37,6 @@ public class lookupswitchReader implements Reader<lookupswitch> {
             matches[i] = input.readInt();
             offsets[i] = input.readWideLabel(index);
         }
-        return new lookupswitch(defaultOffset, matches, offsets);
+        return new DefaultLookupSwitch(defaultOffset, matches, offsets);
     }
 }

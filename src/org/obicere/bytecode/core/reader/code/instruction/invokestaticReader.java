@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.Method;
-import org.obicere.bytecode.core.objects.code.instruction.invokestatic;
+import org.obicere.bytecode.core.objects.DefaultJCMethod;
+import org.obicere.bytecode.core.objects.code.instruction.DefaultInvokeStatic;
 import org.obicere.bytecode.core.objects.constant.ConstantRef;
 import org.obicere.bytecode.core.objects.reference.MethodReference;
 import org.obicere.bytecode.core.reader.Reader;
@@ -12,12 +12,12 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class invokestaticReader implements Reader<invokestatic> {
+public class invokestaticReader implements Reader<DefaultInvokeStatic> {
 
     @Override
-    public invokestatic read(final ByteCodeReader input) throws IOException {
-        final ConstantRef<Method> ref = input.readConstant();
+    public DefaultInvokeStatic read(final ByteCodeReader input) throws IOException {
+        final ConstantRef<DefaultJCMethod> ref = input.readConstant();
         final MethodReference reference = (MethodReference) ref.getReference();
-        return new invokestatic(reference);
+        return new DefaultInvokeStatic(reference);
     }
 }

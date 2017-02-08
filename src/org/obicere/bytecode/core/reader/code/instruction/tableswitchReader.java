@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.code.block.label.Label;
-import org.obicere.bytecode.core.objects.code.instruction.tableswitch;
+import org.javacore.code.block.label.Label;
+import org.obicere.bytecode.core.objects.code.instruction.DefaultTableSwitch;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -10,10 +10,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class tableswitchReader implements Reader<tableswitch> {
+public class tableswitchReader implements Reader<DefaultTableSwitch> {
 
     @Override
-    public tableswitch read(final ByteCodeReader input) throws IOException {
+    public DefaultTableSwitch read(final ByteCodeReader input) throws IOException {
         // subtract 1 to get index of the opcode
         final int index = input.getIndex() - 1;
         // how many bytes to skip to toString to next index divisible by 4
@@ -37,6 +37,6 @@ public class tableswitchReader implements Reader<tableswitch> {
         for(int i = 0; i < jumps; i++){
             offsets[i] = input.readWideLabel(index);
         }
-        return new tableswitch(defaultOffset, low, high, offsets);
+        return new DefaultTableSwitch(defaultOffset, low, high, offsets);
     }
 }

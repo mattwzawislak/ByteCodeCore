@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.util;
 
-import org.obicere.bytecode.core.objects.code.block.label.LabelFactory;
+import org.javacore.code.block.label.LabelFactory;
 
 import java.io.DataInputStream;
 import java.io.IOException;

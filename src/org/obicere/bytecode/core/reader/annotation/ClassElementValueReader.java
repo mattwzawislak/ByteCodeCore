@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.reader.annotation;
 import org.obicere.bytecode.core.objects.annotation.ClassElementValue;
 import org.obicere.bytecode.core.objects.constant.ConstantUtf8;
 import org.obicere.bytecode.core.reader.Reader;
-import org.obicere.bytecode.core.type.Type;
+import org.javacore.type.Type;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;

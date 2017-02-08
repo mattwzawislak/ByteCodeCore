@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.code.instruction.Instruction;
+import org.obicere.bytecode.core.objects.code.instruction.AbstractInstruction;
 import org.obicere.bytecode.core.objects.code.instruction.UnknownInstruction;
 import org.obicere.bytecode.core.reader.MultiReader;
 import org.obicere.bytecode.core.reader.Reader;
@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class InstructionReader extends MultiReader<Byte, Instruction> {
+public class InstructionReader extends MultiReader<Byte, AbstractInstruction> {
 
     public static final byte OPCODE_NOP             = (byte) 0x0;
     public static final byte OPCODE_ACONST_NULL     = (byte) 0x1;
@@ -429,11 +429,11 @@ public class InstructionReader extends MultiReader<Byte, Instruction> {
     }
 
     @Override
-    public Instruction read(final ByteCodeReader input) throws IOException {
+    public AbstractInstruction read(final ByteCodeReader input) throws IOException {
         final byte next = input.readByte();
-        final Reader<? extends Instruction> reader = get(next);
+        final Reader<? extends AbstractInstruction> reader = get(next);
         // if there is no reader associated to this opcode we have an unknown op
-        final Instruction instruction;
+        final AbstractInstruction instruction;
         if (reader == null) {
             instruction = new UnknownInstruction(next);
         } else {

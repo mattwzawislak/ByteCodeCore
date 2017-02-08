@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.code.instruction.ret;
+import org.obicere.bytecode.core.objects.code.instruction.DefaultRet;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -9,10 +9,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class retReader implements Reader<ret> {
+public class retReader implements Reader<DefaultRet> {
 
     @Override
-    public ret read(final ByteCodeReader input) throws IOException {
-        return new ret(input.readUnsignedByte());
+    public DefaultRet read(final ByteCodeReader input) throws IOException {
+        return new DefaultRet(input.readUnsignedByte());
     }
 }
