@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader;
 
-import org.obicere.bytecode.core.objects.Method;
+import org.obicere.bytecode.core.objects.DefaultJCMethod;
 import org.obicere.bytecode.core.objects.attribute.AttributeSet;
 import org.obicere.bytecode.core.objects.constant.ConstantUtf8;
 import org.obicere.bytecode.core.util.ByteCodeReader;
@@ -10,10 +10,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class MethodReader implements Reader<Method> {
+public class MethodReader implements Reader<DefaultJCMethod> {
 
     @Override
-    public Method read(final ByteCodeReader input) throws IOException {
+    public DefaultJCMethod read(final ByteCodeReader input) throws IOException {
         final int accessFlags = input.readUnsignedShort();
         final ConstantUtf8 nameConstant = input.readConstant();
         final ConstantUtf8 descriptorConstant = input.readConstant();
@@ -23,6 +23,6 @@ public class MethodReader implements Reader<Method> {
 
         final AttributeSet attributeSet = input.readAttributeSet();
 
-        return new Method(accessFlags, name, descriptor, attributeSet);
+        return new DefaultJCMethod(accessFlags, name, descriptor, attributeSet);
     }
 }

@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.reader.annotation;
 
+import org.javacore.Identifier;
 import org.obicere.bytecode.core.objects.annotation.ElementValue;
 import org.obicere.bytecode.core.objects.annotation.ElementValuePair;
 import org.obicere.bytecode.core.objects.annotation.TypeAnnotation;
@@ -9,7 +10,7 @@ import org.obicere.bytecode.core.objects.constant.ConstantUtf8;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.reader.annotation.path.TypePathReader;
 import org.obicere.bytecode.core.reader.annotation.target.TargetReader;
-import org.obicere.bytecode.core.type.Type;
+import org.javacore.type.Type;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -23,12 +24,6 @@ public class TypeAnnotationReader implements Reader<TypeAnnotation> {
 
     private final TypePathReader typePath = new TypePathReader();
 
-    private final ElementValueReader elementValue;
-
-    public TypeAnnotationReader(final ElementValueReader elementValue) {
-        this.elementValue = elementValue;
-    }
-
     @Override
     public TypeAnnotation read(final ByteCodeReader input) throws IOException {
         final Target targetInfo = target.read(input);
@@ -40,7 +35,7 @@ public class TypeAnnotationReader implements Reader<TypeAnnotation> {
         final ElementValuePair[] elementValuePairs = new ElementValuePair[numElementValuePairs];
         for (int i = 0; i < numElementValuePairs; i++) {
             final ConstantUtf8 name = input.readConstant();
-            final ElementValue value = elementValue.read(input);
+            final ElementValue value = input.read(Identifier.ELEMENT_VALUE);
 
             elementValuePairs[i] = new ElementValuePair(name.getBytes(), value);
         }

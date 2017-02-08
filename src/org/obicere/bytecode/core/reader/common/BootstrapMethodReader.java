@@ -1,9 +1,9 @@
 package org.obicere.bytecode.core.reader.common;
 
-import org.obicere.bytecode.core.objects.Method;
+import org.obicere.bytecode.core.objects.DefaultJCMethod;
 import org.obicere.bytecode.core.objects.common.BootstrapMethod;
 import org.obicere.bytecode.core.objects.common.MethodHandle;
-import org.obicere.bytecode.core.objects.constant.Constant;
+import org.obicere.bytecode.core.objects.constant.AbstractConstant;
 import org.obicere.bytecode.core.objects.constant.ConstantMethodHandle;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
@@ -18,13 +18,13 @@ public class BootstrapMethodReader implements Reader<BootstrapMethod> {
     public BootstrapMethod read(final ByteCodeReader input) throws IOException {
         final ConstantMethodHandle bootstrapMethodConstant = input.readConstant();
         final int numBootstrapArguments = input.readUnsignedShort();
-        final Constant[] bootstrapArgumentConstants = new Constant[numBootstrapArguments];
+        final AbstractConstant[] bootstrapArgumentConstants = new AbstractConstant[numBootstrapArguments];
 
         for(int i = 0; i < numBootstrapArguments; i++){
             bootstrapArgumentConstants[i] = input.readConstant();
         }
 
-        final MethodHandle<Method> bootstrapMethod = bootstrapMethodConstant.getHandle();
+        final MethodHandle<DefaultJCMethod> bootstrapMethod = bootstrapMethodConstant.getHandle();
         return new BootstrapMethod(bootstrapMethod, bootstrapArgumentConstants);
     }
 }

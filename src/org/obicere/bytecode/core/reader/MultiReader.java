@@ -49,7 +49,7 @@ import java.util.Map;
  * corresponding data types.
  * <p>
  * For example, the format for a
- * {@link org.obicere.bytecode.core.objects.code.instruction.Instruction} follows
+ * {@link org.obicere.bytecode.core.objects.code.instruction.AbstractInstruction} follows
  * the loose form of:
  * <pre>{@code Instruction {
  *     u1   opcode
@@ -59,7 +59,7 @@ import java.util.Map;
  * }
  * }</pre>
  * However, this changes from instruction-to-instruction. For example, the
- * {@link org.obicere.bytecode.core.objects.code.instruction.nop} format is just:
+ * {@link org.obicere.bytecode.core.objects.code.instruction.DefaultNop} format is just:
  * <pre>{@code nop {
  *     u1   opcode
  * }

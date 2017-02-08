@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.reader.code.table;
 
 import org.obicere.bytecode.core.objects.code.block.label.LazyLabel;
-import org.obicere.bytecode.core.objects.code.table.LocalVariable;
+import org.obicere.bytecode.core.objects.code.LocalVariable;
 import org.obicere.bytecode.core.objects.constant.ConstantUtf8;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;

@@ -2,7 +2,7 @@ package org.obicere.bytecode.core.reader.attribute;
 
 import org.obicere.bytecode.core.objects.attribute.Attribute;
 import org.obicere.bytecode.core.objects.attribute.UnknownAttribute;
-import org.obicere.bytecode.core.objects.constant.ConstantPool;
+import org.obicere.bytecode.core.objects.constant.ConstantUtf8;
 import org.obicere.bytecode.core.reader.MultiReader;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.reader.annotation.AnnotationReader;
@@ -42,18 +42,9 @@ public class AttributeReader extends MultiReader<String, Attribute> {
     public static final String BOOTSTRAP_METHODS_ATTRIBUTE_NAME                       = "BootstrapMethods";
     public static final String METHOD_PARAMETERS_ATTRIBUTE_NAME                       = "MethodParameters";
 
-    private final ConstantPool constantPool;
-
-    public AttributeReader(final ConstantPool constantPool) {
-        this.constantPool = constantPool;
-
-        final AnnotationReader annotation = new AnnotationReader();
-        final ElementValueReader elementValue = new ElementValueReader(annotation);
-        final TypeAnnotationReader typeAnnotation = new TypeAnnotationReader(elementValue);
-        final InstructionReader instructionReader = new InstructionReader();
-
+    public AttributeReader() {
         add(CONSTANT_VALUE_ATTRIBUTE_NAME, new ConstantValueAttributeReader());
-        add(CODE_ATTRIBUTE_NAME, new CodeAttributeReader(instructionReader));
+        add(CODE_ATTRIBUTE_NAME, new CodeAttributeReader());
         add(EXCEPTIONS_ATTRIBUTE_NAME, new ExceptionsAttributeReader());
         add(SOURCE_FILE_ATTRIBUTE_NAME, new SourceFileAttributeReader());
         add(LINE_NUMBER_TABLE_ATTRIBUTE_NAME, new LineNumberTableAttributeReader());
@@ -65,13 +56,13 @@ public class AttributeReader extends MultiReader<String, Attribute> {
         add(SIGNATURE_ATTRIBUTE_NAME, new SignatureAttributeReader());
         add(SOURCE_DEBUG_EXTENSION_ATTRIBUTE_NAME, new SourceDebugExtensionAttributeReader());
         add(LOCAL_VARIABLE_TYPE_TABLE_ATTRIBUTE_NAME, new LocalVariableTypeTableAttributeReader());
-        add(RUNTIME_VISIBLE_ANNOTATIONS_ATTRIBUTE_NAME, new RuntimeVisibleAnnotationsAttributeReader(annotation));
-        add(RUNTIME_INVISIBLE_ANNOTATIONS_ATTRIBUTE_NAME, new RuntimeInvisibleAnnotationsAttributeReader(annotation));
-        add(RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS_ATTRIBUTE_NAME, new RuntimeVisibleParameterAnnotationsAttributeReader(annotation));
-        add(RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS_ATTRIBUTE_NAME, new RuntimeInvisibleParameterAnnotationsAttributeReader(annotation));
-        add(RUNTIME_VISIBLE_TYPE_ANNOTATIONS_ATTRIBUTE_NAME, new RuntimeVisibleTypeAnnotationsAttributeReader(typeAnnotation));
-        add(RUNTIME_INVISIBLE_TYPE_ANNOTATIONS_ATTRIBUTE_NAME, new RuntimeInvisibleTypeAnnotationsAttributeReader(typeAnnotation));
-        add(ANNOTATION_DEFAULT_ATTRIBUTE_NAME, new AnnotationDefaultAttributeReader(elementValue));
+        add(RUNTIME_VISIBLE_ANNOTATIONS_ATTRIBUTE_NAME, new RuntimeVisibleAnnotationsAttributeReader());
+        add(RUNTIME_INVISIBLE_ANNOTATIONS_ATTRIBUTE_NAME, new RuntimeInvisibleAnnotationsAttributeReader());
+        add(RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS_ATTRIBUTE_NAME, new RuntimeVisibleParameterAnnotationsAttributeReader());
+        add(RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS_ATTRIBUTE_NAME, new RuntimeInvisibleParameterAnnotationsAttributeReader());
+        add(RUNTIME_VISIBLE_TYPE_ANNOTATIONS_ATTRIBUTE_NAME, new RuntimeVisibleTypeAnnotationsAttributeReader());
+        add(RUNTIME_INVISIBLE_TYPE_ANNOTATIONS_ATTRIBUTE_NAME, new RuntimeInvisibleTypeAnnotationsAttributeReader());
+        add(ANNOTATION_DEFAULT_ATTRIBUTE_NAME, new AnnotationDefaultAttributeReader());
         add(STACK_MAP_TABLE_ATTRIBUTE_NAME, new StackMapTableAttributeReader());
         add(BOOTSTRAP_METHODS_ATTRIBUTE_NAME, new BootstrapMethodsAttributeReader());
         add(METHOD_PARAMETERS_ATTRIBUTE_NAME, new MethodParametersAttributeReader());
@@ -80,8 +71,8 @@ public class AttributeReader extends MultiReader<String, Attribute> {
 
     @Override
     public Attribute read(final ByteCodeReader input) throws IOException {
-        final int attributeNameIndex = input.readUnsignedShort();
-        final String attributeName = constantPool.getAsString(attributeNameIndex);
+        final ConstantUtf8 attributeNameConstant = input.readConstant();
+        final String attributeName = attributeNameConstant.getBytes();
         final Reader<? extends Attribute> reader = get(attributeName);
         if (reader == null) {
             final int length = input.readInt();

@@ -1,12 +1,14 @@
 package org.obicere.bytecode.core.util;
 
+import org.javacore.Identifier;
+import org.javacore.code.block.label.Label;
+import org.javacore.code.block.label.LabelFactory;
+import org.javacore.constant.ConstantPool;
 import org.obicere.bytecode.core.objects.attribute.AttributeSet;
-import org.obicere.bytecode.core.objects.code.block.label.Label;
-import org.obicere.bytecode.core.objects.code.block.label.LabelFactory;
-import org.obicere.bytecode.core.objects.code.block.label.LazyLabel;
-import org.obicere.bytecode.core.objects.code.block.label.OffsetLabel;
-import org.obicere.bytecode.core.objects.constant.Constant;
-import org.obicere.bytecode.core.objects.constant.ConstantPool;
+import org.obicere.bytecode.core.objects.code.Code;
+import org.obicere.bytecode.core.objects.constant.AbstractConstant;
+import org.obicere.bytecode.core.reader.Reader;
+import org.obicere.bytecode.core.reader.Readers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -22,48 +24,50 @@ public class ByteCodeReader extends IndexedDataInputStream {
 
     private LabelFactory labelFactory;
 
-    private final LinkedList<ConstantPool> constants;
+    // TODO should this still be required? Is it possible to access through nodes
+    private final LinkedList<ConstantPool> constants = new LinkedList<>();
 
-    public ByteCodeReader(final InputStream stream) {
-        this(stream, 0);
+    private final LinkedList<Node> nodes = new LinkedList<>();
+
+    private final Readers readers;
+
+    public ByteCodeReader(final Readers readers, final InputStream stream) {
+        this(readers, stream, 0);
     }
 
-    public ByteCodeReader(final InputStream stream, final int offset) {
+    public ByteCodeReader(final Readers readers, final InputStream stream, final int offset) {
         super(stream, offset);
 
-        this.constants = new LinkedList<>();
+        this.readers = readers;
     }
 
-    public ByteCodeReader(final byte[] bytes) {
-        this(0, bytes);
+    public ByteCodeReader(final Readers readers, final byte[] bytes) {
+        this(readers, 0, bytes);
     }
 
-    public ByteCodeReader(final int offset, final byte[] bytes) {
+    public ByteCodeReader(final Readers readers, final int offset, final byte[] bytes) {
         super(offset, bytes);
 
-        this.constants = new LinkedList<>();
+        this.readers = readers;
     }
 
     public ByteCodeReader(final ByteCodeReader information, final byte[] bytes) {
         super(bytes);
+        this.readers = information.readers;
         this.labelFactory = information.labelFactory;
-        this.constants = new LinkedList<>(information.constants);
-    }
 
-    public void setLabelFactory(final LabelFactory labelFactory) {
-        this.labelFactory = labelFactory;
+        this.constants.addAll(information.constants);
     }
 
     public LabelFactory getLabelFactory() {
-        return labelFactory;
-    }
-
-    public LazyLabel readLazyLabel() throws IOException {
-        return new LazyLabel(readShort());
-    }
-
-    public LazyLabel readWideLazyLabel() throws IOException {
-        return new LazyLabel(readInt());
+        // should really only ever be the top of the stack
+        // I should really really really provide better safety here
+        final Node node = nodes.peek();
+        if (node instanceof Code) {
+            return (Code) node;
+        } else {
+            return null;
+        }
     }
 
     public Label readLabel() throws IOException {
@@ -92,6 +96,22 @@ public class ByteCodeReader extends IndexedDataInputStream {
         }
     }
 
+    public void enterNode(final Node node) {
+        if (node == null) {
+            throw new NullPointerException("node must be non-null");
+        }
+        nodes.push(node);
+    }
+
+    public void exitNode(final Node node) {
+        final Node removed = nodes.peek();
+        if (removed != node) { // should be instance-based
+            throw new AssertionError("expected node differs from current node");
+        }
+        // they are equal, pop off
+        nodes.pop();
+    }
+
     public void pushConstants(final ConstantPool constantPool) {
         if (constantPool == null) {
             throw new NullPointerException("constant pool must be non-null.");
@@ -107,19 +127,19 @@ public class ByteCodeReader extends IndexedDataInputStream {
         return constants.peek();
     }
 
-    public <C extends Constant> C readConstant() throws IOException {
+    public <C extends AbstractConstant> C readConstant() throws IOException {
         final int index = readUnsignedShort();
 
         return getConstant(index);
     }
 
-    public <C extends Constant> C readByteConstant() throws IOException {
+    public <C extends AbstractConstant> C readByteConstant() throws IOException {
         final int index = readUnsignedByte();
 
         return getConstant(index);
     }
 
-    private <C extends Constant> C getConstant(final int index) {
+    private <C extends AbstractConstant> C getConstant(final int index) {
         final ConstantPool constantPool = constants.peek();
         if (constantPool == null) {
             throw new NoSuchElementException("have not entered a constant pool yet.");
@@ -156,5 +176,17 @@ public class ByteCodeReader extends IndexedDataInputStream {
 
         final byte[] bytes = attributes.toByteArray();
         return new AttributeSet(this, bytes);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Identifiable> T read(final Identifier identifier) throws IOException {
+        if (identifier == null) {
+            throw new NullPointerException("identifier must be non-null");
+        }
+        final Reader<T> reader = readers.getReader(identifier);
+        if (reader == null) {
+            throw new NoSuchElementException("no reader for reader: " + identifier);
+        }
+        return reader.read(this);
     }
 }

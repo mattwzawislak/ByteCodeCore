@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.code.instruction.if_icmpgt;
+import org.obicere.bytecode.core.objects.code.instruction.DefaultIf_ICmpGt;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -9,11 +9,11 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class if_icmpgtReader implements Reader<if_icmpgt> {
+public class if_icmpgtReader implements Reader<DefaultIf_ICmpGt> {
 
     @Override
-    public if_icmpgt read(final ByteCodeReader input) throws IOException {
+    public DefaultIf_ICmpGt read(final ByteCodeReader input) throws IOException {
         final int index = input.getIndex() - 1;
-        return new if_icmpgt(input.readLabel(index));
+        return new DefaultIf_ICmpGt(input.readLabel(index));
     }
 }

@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.code.instruction.sipush;
+import org.obicere.bytecode.core.objects.code.instruction.DefaultSIPush;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -9,10 +9,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class sipushReader implements Reader<sipush> {
+public class sipushReader implements Reader<DefaultSIPush> {
 
     @Override
-    public sipush read(final ByteCodeReader input) throws IOException {
-        return new sipush(input.readShort());
+    public DefaultSIPush read(final ByteCodeReader input) throws IOException {
+        return new DefaultSIPush(input.readShort());
     }
 }

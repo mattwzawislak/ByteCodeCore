@@ -13,12 +13,6 @@ import java.io.IOException;
  */
 public class RuntimeVisibleAnnotationsAttributeReader implements Reader<RuntimeVisibleAnnotationsAttribute> {
 
-    private final AnnotationReader annotation;
-
-    public RuntimeVisibleAnnotationsAttributeReader(final AnnotationReader annotation) {
-        this.annotation = annotation;
-    }
-
     @Override
     public RuntimeVisibleAnnotationsAttribute read(final ByteCodeReader input) throws IOException {
         // read length and discard

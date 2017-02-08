@@ -18,9 +18,23 @@ public class InnerClassReader implements Reader<InnerClass> {
         final ConstantUtf8 innerNameConstant = input.readConstant();
         final int innerClassAccessFlags = input.readUnsignedShort();
 
-        final String innerClassInfo = innerClassInfoConstant.getBytes();
-        final String outerClassInfo = outerClassInfoConstant.getBytes();
+        // these two names can be null if Class version is 51.0 or greater
+        // JLS §4.7.6
+        final String innerClassInfo;
+        final String outerClassInfo;
+        // inner name must be non-null
         final String innerName = innerNameConstant.getBytes();
+
+        if (innerClassInfoConstant == null) {
+            innerClassInfo = null;
+        } else {
+            innerClassInfo = innerClassInfoConstant.getBytes();
+        }
+        if (outerClassInfoConstant == null) {
+            outerClassInfo = null;
+        } else {
+            outerClassInfo = outerClassInfoConstant.getBytes();
+        }
 
         return new InnerClass(innerClassInfo, outerClassInfo, innerName, innerClassAccessFlags);
     }

@@ -1,12 +1,12 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.Class;
-import org.obicere.bytecode.core.objects.Method;
+import org.obicere.bytecode.core.objects.DefaultJCClass;
+import org.obicere.bytecode.core.objects.DefaultJCMethod;
 import org.obicere.bytecode.core.objects.attribute.EnclosingMethodAttribute;
-import org.obicere.bytecode.core.objects.constant.ConstantClass;
+import org.obicere.bytecode.core.objects.constant.DefaultConstantClass;
 import org.obicere.bytecode.core.objects.constant.ConstantNameAndType;
 import org.obicere.bytecode.core.reader.Reader;
-import org.obicere.bytecode.core.type.Type;
+import org.javacore.type.Type;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -19,12 +19,12 @@ public class EnclosingMethodAttributeReader implements Reader<EnclosingMethodAtt
     public EnclosingMethodAttribute read(final ByteCodeReader input) throws IOException {
         // read length and discard
         input.readInt();
-        final ConstantClass className = input.readConstant();
+        final DefaultConstantClass className = input.readConstant();
         final ConstantNameAndType methodNameAndType = input.readConstant();
 
-        final Class cls = (Class) Type.of(className.getName());
+        final DefaultJCClass cls = (DefaultJCClass) Type.of(className.getName());
 
-        final Method method;
+        final DefaultJCMethod method;
 
         if (methodNameAndType != null) {
             final String name = methodNameAndType.getName();

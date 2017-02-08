@@ -1,11 +1,11 @@
 package org.obicere.bytecode.core.objects.reference;
 
-import org.obicere.bytecode.core.objects.Method;
+import org.javacore.JCMethod;
 
 /**
  * @author Obicere
  */
-public class MethodReference extends AbstractReference<Method> {
+public class MethodReference extends AbstractReference<JCMethod> {
 
     public MethodReference(final String containingClass, final String name, final String descriptor) {
         super(containingClass, name, descriptor);
@@ -15,7 +15,7 @@ public class MethodReference extends AbstractReference<Method> {
     }
 
     @Override
-    public Method get() {
+    public JCMethod get() {
         // TODO lookup method - should require descriptor parsing
         return null;
     }

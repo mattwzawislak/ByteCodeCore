@@ -1,8 +1,8 @@
 package org.obicere.bytecode.core.reader.annotation.target;
 
 import org.obicere.bytecode.core.objects.annotation.target.LocalVar;
-import org.obicere.bytecode.core.objects.code.block.label.Label;
-import org.obicere.bytecode.core.objects.code.block.label.LabelFactory;
+import org.javacore.code.block.label.Label;
+import org.javacore.code.block.label.LabelFactory;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 

@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.code.instruction.dcmpl;
+import org.obicere.bytecode.core.objects.code.instruction.DefaultDCmpL;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -9,10 +9,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class dcmplReader implements Reader<dcmpl> {
+public class dcmplReader implements Reader<DefaultDCmpL> {
 
     @Override
-    public dcmpl read(final ByteCodeReader input) throws IOException {
-        return dcmpl.INSTANCE;
+    public DefaultDCmpL read(final ByteCodeReader input) throws IOException {
+        return DefaultDCmpL.INSTANCE;
     }
 }

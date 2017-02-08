@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.constant;
 
-import org.obicere.bytecode.core.objects.constant.ConstantClass;
+import org.obicere.bytecode.core.objects.constant.DefaultConstantClass;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -9,9 +9,9 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class ConstantClassReader implements Reader<ConstantClass> {
+public class ConstantClassReader implements Reader<DefaultConstantClass> {
     @Override
-    public ConstantClass read(final ByteCodeReader input) throws IOException {
-        return new ConstantClass(input.getConstantPool(), input.readUnsignedShort());
+    public DefaultConstantClass read(final ByteCodeReader input) throws IOException {
+        return new DefaultConstantClass(input.getConstantPool(), input.readUnsignedShort());
     }
 }

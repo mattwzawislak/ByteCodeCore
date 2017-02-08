@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.reader.attribute;
 
 import org.obicere.bytecode.core.objects.attribute.LocalVariableTableAttribute;
-import org.obicere.bytecode.core.objects.code.table.LocalVariable;
+import org.obicere.bytecode.core.objects.code.LocalVariable;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.reader.code.table.LocalVariableReader;
 import org.obicere.bytecode.core.util.ByteCodeReader;

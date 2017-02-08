@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.code.instruction.lstore;
+import org.obicere.bytecode.core.objects.code.instruction.DefaultLStore;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -9,10 +9,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class lstoreReader implements Reader<lstore> {
+public class lstoreReader implements Reader<DefaultLStore> {
 
     @Override
-    public lstore read(final ByteCodeReader input) throws IOException {
-        return new lstore(input.readUnsignedByte());
+    public DefaultLStore read(final ByteCodeReader input) throws IOException {
+        return new DefaultLStore(input.readUnsignedByte());
     }
 }

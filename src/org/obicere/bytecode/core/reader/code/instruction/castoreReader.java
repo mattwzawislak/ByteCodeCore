@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.code.instruction.castore;
+import org.obicere.bytecode.core.objects.code.instruction.DefaultCAStore;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -9,10 +9,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class castoreReader implements Reader<castore> {
+public class castoreReader implements Reader<DefaultCAStore> {
 
     @Override
-    public castore read(final ByteCodeReader input) throws IOException {
-        return castore.INSTANCE;
+    public DefaultCAStore read(final ByteCodeReader input) throws IOException {
+        return DefaultCAStore.INSTANCE;
     }
 }
