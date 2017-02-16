@@ -19,6 +19,11 @@ public class DefaultInvokeSpecial extends AbstractInstruction implements InvokeS
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 3;
+    }
+
+    @Override
     public Reference<JCMethod> getMethod() {
         return reference;
     }

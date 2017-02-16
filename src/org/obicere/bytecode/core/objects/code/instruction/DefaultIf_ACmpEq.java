@@ -18,6 +18,11 @@ public class DefaultIf_ACmpEq extends AbstractInstruction implements If_ACmpEq {
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 3;
+    }
+
+    @Override
     public Label getBranch() {
         return label;
     }

@@ -21,6 +21,11 @@ public class DefaultMultiANewArray extends AbstractInstruction implements MultiA
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 4;
+    }
+
+    @Override
     public Type getType() {
         return type;
     }

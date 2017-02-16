@@ -18,6 +18,11 @@ public class DefaultCheckCast extends AbstractInstruction implements CheckCast {
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 3;
+    }
+
+    @Override
     public Type getType() {
         return type;
     }

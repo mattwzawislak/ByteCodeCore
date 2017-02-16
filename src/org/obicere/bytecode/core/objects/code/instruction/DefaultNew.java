@@ -18,6 +18,11 @@ public class DefaultNew extends AbstractInstruction implements New {
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 3;
+    }
+
+    @Override
     public Type getType() {
         return type;
     }

@@ -18,6 +18,11 @@ public class DefaultInstanceOf extends AbstractInstruction implements InstanceOf
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 3;
+    }
+
+    @Override
     public Type getType() {
         return type;
     }

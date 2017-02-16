@@ -17,6 +17,11 @@ public class DefaultBIPush extends AbstractInstruction implements BIPush {
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 2;
+    }
+
+    @Override
     public int getByte() {
         return value;
     }

@@ -27,6 +27,11 @@ public class DefaultInvokeDynamic extends AbstractInstruction implements InvokeD
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 5;
+    }
+
+    @Override
     public BootstrapMethodLink getInvocation(){
         return invocation;
     }

@@ -30,6 +30,15 @@ public class DefaultWide extends AbstractInstruction implements Wide {
     }
 
     @Override
+    public int getLength(final int pc) {
+        if (instruction == InstructionReader.OPCODE_IINC) {
+            return 6;
+        } else {
+            return 4;
+        }
+    }
+
+    @Override
     public int getIndex() {
         return index;
     }

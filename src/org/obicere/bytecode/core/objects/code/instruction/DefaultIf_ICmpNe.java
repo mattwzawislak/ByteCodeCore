@@ -18,6 +18,11 @@ public class DefaultIf_ICmpNe extends AbstractInstruction implements If_ICmpNe {
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 3;
+    }
+
+    @Override
     public Label getBranch() {
         return label;
     }

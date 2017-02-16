@@ -19,6 +19,11 @@ public class DefaultPutStatic extends AbstractInstruction implements PutStatic {
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 3;
+    }
+
+    @Override
     public Reference<JCField> getField() {
         return reference;
     }

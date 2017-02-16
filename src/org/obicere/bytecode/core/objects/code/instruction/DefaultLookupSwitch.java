@@ -27,6 +27,18 @@ public class DefaultLookupSwitch extends AbstractInstruction implements LookupSw
     }
 
     @Override
+    public int getLength(final int pc) {
+        final int padding = (4 - (pc % 4)) % 4;
+        final int offsetSizes = 8 * getNumberOfPairs();
+        // 1 - byte for lookupswitch opcode
+        // padding - bytes to word-align offsets
+        // 8 - default, and npairs
+        // offsetSizes - the size of the match-offset pairs
+        //     (8 bytes per pair)
+        return 1 + padding + 8 + offsetSizes;
+    }
+
+    @Override
     public Label getDefault() {
         return defaultOffset;
     }

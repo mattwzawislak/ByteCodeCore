@@ -18,6 +18,11 @@ public class DefaultIfGt extends AbstractInstruction implements IfGt {
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 3;
+    }
+
+    @Override
     public Label getBranch() {
         return label;
     }

@@ -18,6 +18,11 @@ public class DefaultGetField extends AbstractInstruction implements GetField {
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 3;
+    }
+
+    @Override
     public FieldReference getField() {
         return reference;
     }

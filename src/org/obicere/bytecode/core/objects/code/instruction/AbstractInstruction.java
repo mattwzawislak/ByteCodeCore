@@ -9,7 +9,7 @@ public abstract class AbstractInstruction implements Instruction {
 
     // by default, most instructions are single-byte, so this is default
     @Override
-    public int getLength() {
+    public int getLength(final int pc) {
         return 1;
     }
 

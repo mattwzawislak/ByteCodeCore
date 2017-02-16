@@ -19,6 +19,11 @@ public class DefaultIInc extends AbstractInstruction implements IInc {
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 3;
+    }
+
+    @Override
     public int getIndex() {
         return index;
     }

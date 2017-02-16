@@ -18,6 +18,11 @@ public class DefaultIfNe extends AbstractInstruction implements IfNe {
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 3;
+    }
+
+    @Override
     public Label getBranch() {
         return label;
     }

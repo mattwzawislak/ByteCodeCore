@@ -18,6 +18,11 @@ public class DefaultJSR_w extends AbstractInstruction implements JSR_w {
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 5;
+    }
+
+    @Override
     public Label getBranch() {
         return label;
     }

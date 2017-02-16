@@ -29,6 +29,11 @@ public class DefaultInvokeInterface extends AbstractInstruction implements Invok
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 5;
+    }
+
+    @Override
     public Reference<JCMethod> getMethod() {
         return reference;
     }

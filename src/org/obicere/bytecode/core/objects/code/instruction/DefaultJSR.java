@@ -18,6 +18,11 @@ public class DefaultJSR extends AbstractInstruction implements JSR {
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 3;
+    }
+
+    @Override
     public Label getBranch() {
         return label;
     }

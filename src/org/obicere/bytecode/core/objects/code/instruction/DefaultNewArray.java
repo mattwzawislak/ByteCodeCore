@@ -18,6 +18,11 @@ public class DefaultNewArray extends AbstractInstruction implements NewArray {
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 2;
+    }
+
+    @Override
     public Type getType() {
         return type;
     }

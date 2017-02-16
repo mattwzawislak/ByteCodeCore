@@ -18,6 +18,11 @@ public class DefaultLdC_w extends AbstractInstruction implements LdC_w {
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 3;
+    }
+
+    @Override
     public Constant getConstant() {
         return constant;
     }

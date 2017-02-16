@@ -17,6 +17,11 @@ public class DefaultFLoad extends AbstractInstruction implements FLoad {
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 2;
+    }
+
+    @Override
     public int getIndex() {
         return index;
     }

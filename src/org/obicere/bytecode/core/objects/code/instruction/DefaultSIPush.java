@@ -17,6 +17,11 @@ public class DefaultSIPush extends AbstractInstruction implements SIPush {
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 3;
+    }
+
+    @Override
     public int getShort() {
         return value;
     }

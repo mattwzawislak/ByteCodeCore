@@ -18,6 +18,11 @@ public class DefaultGetStatic extends AbstractInstruction implements GetStatic {
     }
 
     @Override
+    public int getLength(final int pc) {
+        return 3;
+    }
+
+    @Override
     public FieldReference getField() {
         return reference;
     }
