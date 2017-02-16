@@ -1,19 +1,17 @@
 package org.obicere.bytecode.core.objects.code.block;
 
-import org.javacore.code.Code;
 import org.javacore.code.block.FrameCodeBlock;
 import org.javacore.code.frame.StackMapFrame;
 
 /**
  */
-public class DefaultFrameCodeBlock extends AbstractCodeBlock implements FrameCodeBlock {
+public class DefaultFrameCodeBlock implements FrameCodeBlock {
 
     private final StackMapFrame frame;
 
     private int startPC;
 
-    public DefaultFrameCodeBlock(final Code code, final StackMapFrame frame, final int startPC) {
-        super(code);
+    public DefaultFrameCodeBlock(final StackMapFrame frame, final int startPC) {
         if (frame == null) {
             throw new NullPointerException("frame must be non-null");
         }
@@ -30,11 +28,6 @@ public class DefaultFrameCodeBlock extends AbstractCodeBlock implements FrameCod
     @Override
     public int getStartPC() {
         return startPC;
-    }
-
-    @Override
-    public void setStartPC(final int pc) {
-        this.startPC = pc;
     }
 
     @Override

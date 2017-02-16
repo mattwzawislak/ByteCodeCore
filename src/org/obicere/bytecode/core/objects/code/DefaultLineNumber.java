@@ -1,4 +1,4 @@
-package org.obicere.bytecode.core.objects.code.block;
+package org.obicere.bytecode.core.objects.code;
 
 import org.javacore.code.LineNumber;
 

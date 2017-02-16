@@ -21,6 +21,16 @@ public class DefaultCode implements Code {
 
 
     @Override
+    public int getMaxLocals() {
+        return maxStack;
+    }
+
+    @Override
+    public int getMaxStack() {
+        return maxLocals;
+    }
+
+    @Override
     public CodeBlockTable getCodeBlockTable() {
         return codeBlocks;
     }
@@ -33,16 +43,6 @@ public class DefaultCode implements Code {
     @Override
     public LocalVariableTable getLocalVariableTable() {
         return variables;
-    }
-
-    @Override
-    public int getStartPC() {
-        return 0;
-    }
-
-    @Override
-    public void setStartPC(final int pc) {
-
     }
 
     @Override
