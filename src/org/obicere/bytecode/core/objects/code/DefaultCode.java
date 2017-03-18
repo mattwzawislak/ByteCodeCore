@@ -8,13 +8,14 @@ import org.javacore.code.table.CodeExceptionTable;
 import org.javacore.code.table.LocalVariableTable;
 import org.obicere.bytecode.core.objects.code.block.label.DefaultLabel;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.TreeMap;
 
 /**
  */
 public class DefaultCode implements Code {
+
+    private static final int MAX_CODE_SIZE = 65535;
 
     private int maxStack;
     private int maxLocals;
@@ -25,8 +26,6 @@ public class DefaultCode implements Code {
 
     private LocalVariableTable variables;
 
-    private final List<Instruction> instructions = new LinkedList<>();
-
     private final TreeMap<Integer, Label> labels = new TreeMap<>();
 
     private final Label start = new StartLabel();
@@ -34,6 +33,10 @@ public class DefaultCode implements Code {
     private final Label end = new EndLabel();
 
     private int size = 0;
+
+    private Instruction[] instructions;
+
+    private short[] pcValues = new short[]{0};
 
     @Override
     public int getMaxLocals() {
@@ -67,7 +70,7 @@ public class DefaultCode implements Code {
 
     @Override
     public Instruction[] getInstructions() {
-        return instructions.toArray(new Instruction[instructions.size()]);
+        return instructions.clone();
     }
 
     public Label getLabel(final int pc) {
@@ -146,8 +149,118 @@ public class DefaultCode implements Code {
         return insertInstructions(pc, instructions, 0, instructions.length, updateLabels, false);
     }
 
-    private boolean insertInstructions(final int pc, final Instruction[] instructions, final int start, final int length, final boolean updateLabels, final boolean updateCurrent) {
-        // todo
+    private boolean insertInstructions(final int pc, final Instruction[] newInstructions, final int start, final int length, final boolean updateLabels, final boolean updateCurrent) {
+        if (pc < 0 || pc > size) {
+            throw new IndexOutOfBoundsException("pc value out of bounds: " + pc);
+        }
+        if (newInstructions == null) {
+            throw new NullPointerException("instructions must be non-null");
+        }
+        if (newInstructions.length == 0) {
+            // technically it worked... right??
+            return true;
+        }
+        if (newInstructions.length > MAX_CODE_SIZE) {
+            throw new IllegalArgumentException("Attempting to add too many instructions");
+        }
+        // instead of ensuring each instruction is non-null, we can relay
+        // on later calls to do it.
+
+        if (start < 0 || start >= newInstructions.length) {
+            throw new IndexOutOfBoundsException("start value out of bounds: " + start);
+        }
+        if (length < 0 || start + length > newInstructions.length) {
+            throw new IllegalArgumentException("Illegal length value: " + length);
+        }
+        // grow array
+        grow(length);
+        // perform insertion
+        final int insertionIndex = floorPcIndex(pc);
+        // the number of elements in the old array that have to be shifted
+        // to the right
+        final int shift = instructions.length - length - insertionIndex;
+        // createPcs will throw a NullPointerException for a null instruction
+        final short[] newPcs = createPcs(newInstructions, insertionIndex);
+        final int insertSize = (0xFFFF & newPcs[newInstructions.length]) - (0xFFFF & newPcs[0]);
+
+        if (size + insertSize > MAX_CODE_SIZE) {
+            throw new IllegalStateException("Code size has exceeded maximum size");
+        }
+
+        // shift over the instructions
+        System.arraycopy(instructions, insertionIndex, instructions, insertionIndex + newInstructions.length, shift);
+        // insert new instructions
+        System.arraycopy(newInstructions, start, instructions, insertionIndex, length);
+
+        // we have to modify the array anyhow, to update pc values
+        // we might as well do it in one sweep
+        // System.arraycopy(pcValues, insertionIndex, pcValues, insertionIndex + newInstructions.length, shift);
+
+        final int offset = insertionIndex + newInstructions.length;
+        for (int i = 0; i < shift; i++) {
+            pcValues[offset + i] += pcValues[offset] + insertSize;
+        }
+
+        // insert new pc values
+        System.arraycopy(newPcs, start, pcValues, insertionIndex, length);
+
+        // update labels
+        // TODO shift the damn labels
+        return true;
+    }
+
+    private short[] createPcs(final Instruction[] instructions, final int pc) {
+        int current = pc;
+        final short[] pcValues = new short[instructions.length + 1];
+
+        for (int i = 0; i < instructions.length; i++) {
+            pcValues[i] = (short) current;
+
+            current += instructions[i].getLength(pc);
+        }
+        pcValues[instructions.length] = (short) current;
+        return pcValues;
+    }
+
+    private int floorPcIndex(final int pc) {
+        final int search = pcIndex(pc);
+        return search < 0 ? ~search : search;
+    }
+
+    private int ceilingPcIndex(final int pc) {
+        final int search = pcIndex(pc);
+        return search < 0 ? ~search + 1 : search;
+    }
+
+    private int pcIndex(final int pc) {
+        // copied from the Arrays binary search methods, but modified
+        int low = 0;
+        int high = instructions.length - 1;
+        while (low <= high) {
+            final int mid = (low + high) / 2;
+            final int cmp = u2cmp(pcValues[mid], pc);
+            if (cmp < 0) {
+                low = mid + 1;
+            } else if (cmp > 0) {
+                high = mid - 1;
+            } else {
+                return mid;
+            }
+        }
+        return ~low;
+    }
+
+    private int u2cmp(final short a, final int b) {
+        return Integer.compareUnsigned(a, b);
+    }
+
+    private void grow(final int count) {
+        final int n = count + instructions.length;
+        if (n > MAX_CODE_SIZE) {
+            throw new IllegalArgumentException("Cannot allocate additional space for array.");
+        }
+        this.pcValues = Arrays.copyOf(pcValues, n + 1);
+        this.instructions = Arrays.copyOf(instructions, n);
     }
 
     /*
@@ -361,12 +474,16 @@ public class DefaultCode implements Code {
         }
 
         @Override
-        public int getOffset() {
+        public int getAddress() {
             return 0;
+        }
+
+        @Override
+        public void setAddress(final int address){
         }
     }
 
-    private class EndLabel implements Label {
+    private final class EndLabel implements Label {
 
         @Override
         public String getName() {
@@ -379,8 +496,12 @@ public class DefaultCode implements Code {
         }
 
         @Override
-        public int getOffset() {
+        public int getAddress() {
             return size;
+        }
+
+        @Override
+        public void setAddress(final int address){
         }
     }
 }

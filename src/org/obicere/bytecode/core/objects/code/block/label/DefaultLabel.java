@@ -9,23 +9,21 @@ public class DefaultLabel implements Label {
 
     protected Code code;
 
-    protected int offset;
-
-    private String name;
+    protected int address;
 
     public DefaultLabel(final Code code) {
         this(code, 0);
     }
 
-    public DefaultLabel(final Code code, final int offset) {
+    public DefaultLabel(final Code code, final int address) {
         if (code == null) {
             throw new NullPointerException("code must be non-null.");
         }
-        if (offset < 0) {
-            throw new IllegalArgumentException("label offset must be non-negative.");
+        if (address < 0) {
+            throw new IllegalArgumentException("label address must be non-negative.");
         }
         this.code = code;
-        this.offset = offset;
+        this.address = address;
     }
 
     @Override
@@ -38,7 +36,7 @@ public class DefaultLabel implements Label {
         } else {
             name = code.getName() + "+" + offsetFromBlock;
         }*/
-        return String.valueOf(offset);
+        return String.valueOf(address);
     }
 
     @Override
@@ -47,14 +45,15 @@ public class DefaultLabel implements Label {
     }
 
     @Override
-    public int getOffset() {
-        return offset;
+    public int getAddress() {
+        return address;
     }
 
-    protected void setOffset(final int offset) {
-        if (offset < 0) {
-            throw new IllegalArgumentException("offset must be non-negative");
+    @Override
+    public void setAddress(final int address) {
+        if (address < 0) {
+            throw new IllegalArgumentException("address must be non-negative");
         }
-        this.offset = offset;
+        this.address = address;
     }
 }
