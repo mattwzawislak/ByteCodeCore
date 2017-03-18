@@ -1,10 +1,16 @@
 package org.obicere.bytecode.core.objects.code;
 
 import org.javacore.code.Code;
+import org.javacore.code.block.label.Label;
 import org.javacore.code.instruction.Instruction;
 import org.javacore.code.table.CodeBlockTable;
 import org.javacore.code.table.CodeExceptionTable;
 import org.javacore.code.table.LocalVariableTable;
+import org.obicere.bytecode.core.objects.code.block.label.DefaultLabel;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.TreeMap;
 
 /**
  */
@@ -19,6 +25,15 @@ public class DefaultCode implements Code {
 
     private LocalVariableTable variables;
 
+    private final List<Instruction> instructions = new LinkedList<>();
+
+    private final TreeMap<Integer, Label> labels = new TreeMap<>();
+
+    private final Label start = new StartLabel();
+
+    private final Label end = new EndLabel();
+
+    private int size = 0;
 
     @Override
     public int getMaxLocals() {
@@ -47,12 +62,92 @@ public class DefaultCode implements Code {
 
     @Override
     public int getSize() {
-        return 0;
+        return size;
     }
 
     @Override
     public Instruction[] getInstructions() {
-        return new Instruction[0];
+        return instructions.toArray(new Instruction[instructions.size()]);
+    }
+
+    public Label getLabel(final int pc) {
+        return getLabel(pc, true);
+    }
+
+    public Label getLabel(final int pc, final boolean allowSpecial) {
+        if (allowSpecial) {
+            if (pc == 0) {
+                return start;
+            } else if (pc == size) {
+                return end;
+            }
+        }
+        final Label existing = labels.get(pc);
+        if (existing != null) {
+            return existing;
+        }
+        final Label newLabel = new DefaultLabel(this, pc);
+
+        labels.put(pc, newLabel);
+
+        return newLabel;
+    }
+
+    /*
+    Give a code segment of:
+
+    L0:
+       a
+    L1:
+       b
+    L2:
+       c
+
+    With the op:
+
+    insert(L1, {e1, e2, e3})
+
+    Insert before | Insert after (false) | Insert after (true)
+    --------------+----------------------+--------------------
+    L0:           | L0:                  | L0:
+       a          |    a                 |    a
+       e1         | L1:                  | L1:
+       e2         |    e1                |    e1
+       e3         | L2:                  |    e2
+    L1:           |    e2                |    e3
+       b          |    e3                |    b
+    L2:           |    b                 | L2:
+       c          |    c                 |    c
+    --------------+----------------------+--------------------
+
+     */
+
+    public boolean insertBefore(final int pc, final Instruction[] instructions) {
+        return insertInstructions(pc, instructions, 0, instructions.length, true, true);
+    }
+
+    public boolean insertBefore(final int pc, final Instruction[] instructions, final int start, final int length) {
+        return insertInstructions(pc, instructions, 0, instructions.length, true, true);
+    }
+
+    public boolean insert(final int pc, final Instruction[] instructions) {
+        return insertInstructions(pc, instructions, 0, instructions.length, true, false);
+    }
+
+    public boolean insert(final int pc, final Instruction[] instructions, final int start, final int length) {
+        return insertInstructions(pc, instructions, start, length, true, false);
+    }
+
+    public boolean insert(final int pc, final Instruction[] instructions, final boolean updateLabels) {
+        return insertInstructions(pc, instructions, 0, instructions.length, updateLabels, false);
+    }
+
+    public boolean insert(final int pc, final Instruction[] instructions, final int start, final int length, final boolean updateLabels) {
+        return insertInstructions(pc, instructions, 0, instructions.length, updateLabels, false);
+    }
+
+    private boolean insertInstructions(final int pc, final Instruction[] instructions, final int start, final int length, final boolean updateLabels, final boolean updateCurrent) {
+        // todo
     }
 
     /*
@@ -252,4 +347,40 @@ public class DefaultCode implements Code {
         }
         return new DefaultLocalVariableTable(new LocalVariable[variables.size()]);
     } */
+
+    private class StartLabel implements Label {
+
+        @Override
+        public String getName() {
+            return "start";
+        }
+
+        @Override
+        public Code getCode() {
+            return DefaultCode.this;
+        }
+
+        @Override
+        public int getOffset() {
+            return 0;
+        }
+    }
+
+    private class EndLabel implements Label {
+
+        @Override
+        public String getName() {
+            return "end";
+        }
+
+        @Override
+        public Code getCode() {
+            return DefaultCode.this;
+        }
+
+        @Override
+        public int getOffset() {
+            return size;
+        }
+    }
 }
