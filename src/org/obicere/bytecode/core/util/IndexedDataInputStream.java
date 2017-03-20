@@ -1,7 +1,5 @@
 package org.obicere.bytecode.core.util;
 
-import org.javacore.code.block.label.LabelFactory;
-
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,8 +59,6 @@ import java.io.InputStream;
  * @since 0.0
  */
 public class IndexedDataInputStream extends DataInputStream {
-
-    private LabelFactory labelFactory;
 
     /**
      * The logical offset of the stream. This is combined with the current

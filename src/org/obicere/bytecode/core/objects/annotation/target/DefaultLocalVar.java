@@ -1,30 +1,31 @@
 package org.obicere.bytecode.core.objects.annotation.target;
 
 import org.javacore.annotation.target.LocalVar;
+import org.javacore.code.block.label.Label;
 
 /**
  * @author Obicere
  */
 public class DefaultLocalVar implements LocalVar {
 
-    private final int start;
-    private final int length;
-    private final int index;
+    private final Label start;
+    private final Label end;
+    private final int   index;
 
-    public DefaultLocalVar(final int start, final int length, final int index) {
+    public DefaultLocalVar(final Label start, final Label end, final int index) {
         this.start = start;
-        this.length = length;
+        this.end = end;
         this.index = index;
     }
 
     @Override
-    public int getStartPC() {
+    public Label getStart() {
         return start;
     }
 
     @Override
-    public int getLength() {
-        return length;
+    public Label getEnd() {
+        return end;
     }
 
     @Override

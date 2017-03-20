@@ -1,9 +1,24 @@
 package org.obicere.bytecode.core.objects.type.parser;
 
-import org.obicere.bytecode.core.objects.type.signature.ArrayTypeSignature;
+import org.javacore.type.signature.ArrayTypeSignature;
+import org.javacore.type.signature.BaseType;
+import org.javacore.type.signature.ClassSignature;
+import org.javacore.type.signature.ClassTypeSignature;
+import org.javacore.type.signature.FieldSignature;
+import org.javacore.type.signature.JavaTypeSignature;
+import org.javacore.type.signature.MethodSignature;
+import org.javacore.type.signature.ReferenceTypeSignature;
+import org.javacore.type.signature.ResultSignature;
+import org.javacore.type.signature.SimpleClassTypeSignature;
+import org.javacore.type.signature.ThrowsSignature;
+import org.javacore.type.signature.TypeArgument;
+import org.javacore.type.signature.TypeParameter;
+import org.javacore.type.signature.TypeVariableSignature;
+import org.javacore.type.signature.VoidDescriptor;
+import org.obicere.bytecode.core.objects.type.signature.DefaultArrayTypeSignature;
 import org.obicere.bytecode.core.objects.type.signature.DefaultBaseType;
 import org.obicere.bytecode.core.objects.type.signature.DefaultClassSignature;
-import org.obicere.bytecode.core.objects.type.signature.ClassTypeSignature;
+import org.obicere.bytecode.core.objects.type.signature.DefaultClassTypeSignature;
 import org.obicere.bytecode.core.objects.type.signature.DefaultExtendsTypeArgument;
 import org.obicere.bytecode.core.objects.type.signature.DefaultFieldSignature;
 import org.obicere.bytecode.core.objects.type.signature.DefaultMethodSignature;
@@ -13,7 +28,6 @@ import org.obicere.bytecode.core.objects.type.signature.DefaultTypeParameter;
 import org.obicere.bytecode.core.objects.type.signature.DefaultTypeVariableSignature;
 import org.obicere.bytecode.core.objects.type.signature.DefaultUnboundedTypeArgument;
 import org.obicere.bytecode.core.objects.type.signature.DefaultVoidDescriptor;
-import org.obicere.bytecode.core.objects.type.signature.ReferenceTypeSignature;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -29,24 +43,24 @@ public class SignatureParser {
         this.string = new QueueString(string);
     }
 
-    public DefaultClassSignature parseClassSignature() {
-        final DefaultTypeParameter[] typeParameters = parseTypeParameters();
+    public ClassSignature parseClassSignature() {
+        final TypeParameter[] typeParameters = parseTypeParameters();
         final ClassTypeSignature superClass = parseClassTypeSignature();
         final ClassTypeSignature[] superInterfaces = parseClassTypeSignatures();
 
         return new DefaultClassSignature(typeParameters, superClass, superInterfaces);
     }
 
-    public DefaultMethodSignature parseMethodSignature() {
-        final DefaultTypeParameter[] typeParameters = parseTypeParameters();
+    public MethodSignature parseMethodSignature() {
+        final TypeParameter[] typeParameters = parseTypeParameters();
         final JavaTypeSignature[] parameters = parseParameters();
-        final Result result = parseResult();
+        final ResultSignature result = parseResult();
         final ThrowsSignature[] throwsSignatures = parseThrowsSignatures();
 
         return new DefaultMethodSignature(typeParameters, parameters, result, throwsSignatures);
     }
 
-    public DefaultFieldSignature parseFieldSignature() {
+    public FieldSignature parseFieldSignature() {
         final ReferenceTypeSignature signature = parseReferenceTypeSignature();
         return new DefaultFieldSignature(signature);
     }
@@ -61,7 +75,7 @@ public class SignatureParser {
 
     private JavaTypeSignature[] parseParameters() {
         if (string.peek() != '(') {
-            throw error("Expected '(' character");
+            throw createError("Expected '(' character");
         }
         // skip (
         string.next();
@@ -95,7 +109,7 @@ public class SignatureParser {
             case 'T':
                 return parseTypeVariableSignature();
             default:
-                throw error("Expected java type signature character");
+                throw createError("Expected java type signature character");
         }
     }
 
@@ -109,11 +123,11 @@ public class SignatureParser {
             case 'T':
                 return parseTypeVariableSignature();
             default:
-                throw error("Expected reference type signature character");
+                throw createError("Expected reference type signature character");
         }
     }
 
-    private DefaultBaseType parseBaseType() {
+    private BaseType parseBaseType() {
         final char next = string.peek();
         switch (next) {
             case 'B':
@@ -127,13 +141,13 @@ public class SignatureParser {
                 string.next();
                 return new DefaultBaseType(next);
             default:
-                throw error("Expected base type character");
+                throw createError("Expected base type character");
         }
     }
 
     private ClassTypeSignature parseClassTypeSignature() {
         if (string.peek() != 'L') {
-            throw error("Expected 'L' character");
+            throw createError("Expected 'L' character");
         }
         string.next();
 
@@ -158,41 +172,41 @@ public class SignatureParser {
 
         final TypeArgument[] typeArguments = parseTypeArguments();
 
-        final DefaultSimpleClassTypeSignature signature = new DefaultSimpleClassTypeSignature(identifier, typeArguments);
+        final SimpleClassTypeSignature signature = new DefaultSimpleClassTypeSignature(identifier, typeArguments);
 
-        final List<DefaultSimpleClassTypeSignature> suffixes = new LinkedList<>();
+        final List<SimpleClassTypeSignature> suffixes = new LinkedList<>();
 
         while (string.peek() == '.') {
             string.next();
-            final DefaultSimpleClassTypeSignature suffix = parseSimpleClassTypeSignature();
+            final SimpleClassTypeSignature suffix = parseSimpleClassTypeSignature();
             suffixes.add(suffix);
         }
         if (string.peek() != ';') {
-            throw error("Expected ';' character");
+            throw createError("Expected ';' character");
         }
         string.next();
 
-        final DefaultSimpleClassTypeSignature[] suffix = suffixes.toArray(new DefaultSimpleClassTypeSignature[suffixes.size()]);
+        final SimpleClassTypeSignature[] suffix = suffixes.toArray(new SimpleClassTypeSignature[suffixes.size()]);
 
-        return new ClassTypeSignature(packageSpecifier, signature, suffix);
+        return new DefaultClassTypeSignature(packageSpecifier, signature, suffix);
     }
 
-    private DefaultSimpleClassTypeSignature parseSimpleClassTypeSignature() {
+    private SimpleClassTypeSignature parseSimpleClassTypeSignature() {
         final String identifier = string.nextIdentifier();
         final TypeArgument[] arguments = parseTypeArguments();
 
         return new DefaultSimpleClassTypeSignature(identifier, arguments);
     }
 
-    private DefaultTypeVariableSignature parseTypeVariableSignature() {
+    private TypeVariableSignature parseTypeVariableSignature() {
         if (string.peek() != 'T') {
-            throw error("Excepted 'T' character");
+            throw createError("Excepted 'T' character");
         }
         string.next();
         final String identifier = string.nextIdentifier();
 
         if (string.peek() != ';') {
-            throw error("Excepted ';' character");
+            throw createError("Excepted ';' character");
         }
         string.next();
         return new DefaultTypeVariableSignature(identifier);
@@ -200,11 +214,11 @@ public class SignatureParser {
 
     private ArrayTypeSignature parseArrayTypeSignature() {
         if (string.peek() != '[') {
-            throw error("Excepted '[' character");
+            throw createError("Excepted '[' character");
         }
         string.next();
         final JavaTypeSignature signature = parseJavaTypeSignature();
-        return new ArrayTypeSignature(signature);
+        return new DefaultArrayTypeSignature(signature);
     }
 
     private TypeArgument[] parseTypeArguments() {
@@ -217,7 +231,7 @@ public class SignatureParser {
             string.next();
 
             if (string.peek() == '>') {
-                throw error("Expected at least one type argument");
+                throw createError("Expected at least one type argument");
             }
 
             while (string.peek() != '>') {
@@ -249,40 +263,41 @@ public class SignatureParser {
         }
     }
 
-    private DefaultTypeParameter[] parseTypeParameters() {
+    private TypeParameter[] parseTypeParameters() {
         if (string.peek() != '<') {
-            return new DefaultTypeParameter[0];
+            return new TypeParameter[0];
         } else {
-            final List<DefaultTypeParameter> arguments = new LinkedList<>();
+            final List<TypeParameter> arguments = new LinkedList<>();
 
             // skip <
             string.next();
 
             if (string.peek() == '>') {
-                throw error("Expected at least one type parameter");
+                throw createError("Expected at least one type parameter");
             }
 
             while (string.peek() != '>') {
-                final DefaultTypeParameter argument = parseTypeParameter();
+                final TypeParameter argument = parseTypeParameter();
                 arguments.add(argument);
             }
             // skip >
             string.next();
 
-            return arguments.toArray(new DefaultTypeParameter[arguments.size()]);
+            return arguments.toArray(new TypeParameter[arguments.size()]);
         }
     }
 
-    private DefaultTypeParameter parseTypeParameter() {
+    private TypeParameter parseTypeParameter() {
         final String identifier = string.nextIdentifier();
         if (string.peek() != ':') {
-            throw error("Expected ':' character");
+            throw createError("Expected ':' character");
         }
         // skip :
         string.next();
         final ReferenceTypeSignature classBound;
         if (string.peek() == ':') {
-            classBound = new ClassTypeSignature("java.lang.", new DefaultSimpleClassTypeSignature("Object", new TypeArgument[0]), new DefaultSimpleClassTypeSignature[0]);
+            // TODO move out and clean this up
+            classBound = new DefaultClassTypeSignature("java.lang.", new DefaultSimpleClassTypeSignature("Object", new TypeArgument[0]), new DefaultSimpleClassTypeSignature[0]);
         } else {
             classBound = parseReferenceTypeSignature();
         }
@@ -297,7 +312,7 @@ public class SignatureParser {
         return new DefaultTypeParameter(identifier, classBound, interfaces);
     }
 
-    private Result parseResult() {
+    private ResultSignature parseResult() {
         if (string.peek() == 'V') {
             return parseVoidDescriptor();
         } else {
@@ -318,7 +333,7 @@ public class SignatureParser {
                 } else if (string.peek() == 'T') {
                     signature = parseTypeVariableSignature();
                 } else {
-                    throw error("Expected either class type signature or type variable signature");
+                    throw createError("Expected either class type signature or type variable signature");
                 }
                 signatures.add(signature);
             }
@@ -326,15 +341,15 @@ public class SignatureParser {
         }
     }
 
-    private DefaultVoidDescriptor parseVoidDescriptor() {
+    private VoidDescriptor parseVoidDescriptor() {
         if (string.peek() != 'V') {
-            throw error("Excepted 'V' character");
+            throw createError("Excepted 'V' character");
         }
         string.next();
         return DefaultVoidDescriptor.getInstance();
     }
 
-    private FormatException error(final String message) {
+    private FormatException createError(final String message) {
         return new FormatException(message, string);
     }
 

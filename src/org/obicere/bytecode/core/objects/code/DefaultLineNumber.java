@@ -1,37 +1,37 @@
 package org.obicere.bytecode.core.objects.code;
 
 import org.javacore.code.LineNumber;
+import org.javacore.code.block.label.Label;
 
 /**
  * @author Obicere
  */
 public class DefaultLineNumber implements LineNumber {
 
-    private int startPC;
+    private Label address;
 
     private final int lineNumber;
 
-    public DefaultLineNumber(final int startPC, final int lineNumber) {
-        this.startPC = startPC;
+    public DefaultLineNumber(final Label address, final int lineNumber) {
+        this.address = address;
         this.lineNumber = lineNumber;
     }
 
     @Override
-    public int getStartPC() {
-        return startPC;
+    public Label getAddress() {
+        return address;
     }
 
     @Override
-    public void setStartPC(final int startPC) {
-        if(startPC < 0) {
-            throw new IllegalArgumentException("pc value must be non-negative.");
+    public void setAddress(final Label address) {
+        if (address == null) {
+            throw new NullPointerException("address must be non-null");
         }
-        this.startPC = startPC;
+        this.address = address;
     }
 
     @Override
     public int getLineNumber() {
         return lineNumber;
     }
-
 }

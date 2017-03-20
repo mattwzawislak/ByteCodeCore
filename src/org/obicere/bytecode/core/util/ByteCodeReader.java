@@ -1,12 +1,13 @@
 package org.obicere.bytecode.core.util;
 
+import org.javacore.Attributable;
+import org.javacore.Identifiable;
 import org.javacore.Identifier;
+import org.javacore.code.Code;
 import org.javacore.code.block.label.Label;
-import org.javacore.code.block.label.LabelFactory;
+import org.javacore.constant.Constant;
 import org.javacore.constant.ConstantPool;
 import org.obicere.bytecode.core.objects.attribute.AttributeSet;
-import org.obicere.bytecode.core.objects.code.Code;
-import org.obicere.bytecode.core.objects.constant.AbstractConstant;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.reader.Readers;
 
@@ -22,12 +23,10 @@ import java.util.NoSuchElementException;
  */
 public class ByteCodeReader extends IndexedDataInputStream {
 
-    private LabelFactory labelFactory;
-
-    // TODO should this still be required? Is it possible to access through nodes
+    // TODO should this still be required? Is it possible to access through path
     private final LinkedList<ConstantPool> constants = new LinkedList<>();
 
-    private final LinkedList<Node> nodes = new LinkedList<>();
+    private final LinkedList<Attributable> path = new LinkedList<>();
 
     private final Readers readers;
 
@@ -54,20 +53,9 @@ public class ByteCodeReader extends IndexedDataInputStream {
     public ByteCodeReader(final ByteCodeReader information, final byte[] bytes) {
         super(bytes);
         this.readers = information.readers;
-        this.labelFactory = information.labelFactory;
 
+        this.path.addAll(information.path);
         this.constants.addAll(information.constants);
-    }
-
-    public LabelFactory getLabelFactory() {
-        // should really only ever be the top of the stack
-        // I should really really really provide better safety here
-        final Node node = nodes.peek();
-        if (node instanceof Code) {
-            return (Code) node;
-        } else {
-            return null;
-        }
     }
 
     public Label readLabel() throws IOException {
@@ -89,27 +77,33 @@ public class ByteCodeReader extends IndexedDataInputStream {
     }
 
     private Label createLabel(final int index, final int offset) {
-        if (labelFactory == null) {
-            return new OffsetLabel(offset);
-        } else {
-            return labelFactory.getLabel(index, offset);
-        }
+        final Code code = (Code) getParent(Identifier.CODE);
+        return code.getLabel(index + offset);
     }
 
-    public void enterNode(final Node node) {
-        if (node == null) {
-            throw new NullPointerException("node must be non-null");
+    public Attributable getParent(final Identifier type) {
+        for (final Attributable element : path) {
+            if (element.getIdentifier() == type) {
+                return element;
+            }
         }
-        nodes.push(node);
+        return null;
     }
 
-    public void exitNode(final Node node) {
-        final Node removed = nodes.peek();
-        if (removed != node) { // should be instance-based
-            throw new AssertionError("expected node differs from current node");
+    public void enterParent(final Attributable element) {
+        if (element == null) {
+            throw new NullPointerException("element must be non-null");
+        }
+        path.push(element);
+    }
+
+    public void exitParent(final Attributable element) {
+        final Attributable expected = path.peek();
+        if (expected != element) { // should be instance-based
+            throw new AssertionError("expected element differs from current element");
         }
         // they are equal, pop off
-        nodes.pop();
+        path.pop();
     }
 
     public void pushConstants(final ConstantPool constantPool) {
@@ -119,33 +113,38 @@ public class ByteCodeReader extends IndexedDataInputStream {
         constants.push(constantPool);
     }
 
-    public void pollConstants() {
-        constants.poll();
+    public void pollConstants(final ConstantPool constantPool) {
+        final ConstantPool expected = constants.poll();
+        if(expected != constantPool) {
+            throw new AssertionError("expected element differs from current element");
+        }
+        path.pop();
     }
 
     public ConstantPool getConstantPool() {
         return constants.peek();
     }
 
-    public <C extends AbstractConstant> C readConstant() throws IOException {
+    public <C extends Constant> C readConstant() throws IOException {
         final int index = readUnsignedShort();
 
         return getConstant(index);
     }
 
-    public <C extends AbstractConstant> C readByteConstant() throws IOException {
+    public <C extends Constant> C readByteConstant() throws IOException {
         final int index = readUnsignedByte();
 
         return getConstant(index);
     }
 
-    private <C extends AbstractConstant> C getConstant(final int index) {
+    @SuppressWarnings("unchecked")
+    private <C extends Constant> C getConstant(final int index) {
         final ConstantPool constantPool = constants.peek();
         if (constantPool == null) {
             throw new NoSuchElementException("have not entered a constant pool yet.");
         }
 
-        return constantPool.get(index);
+        return (C) constantPool.get(index);
     }
 
     public AttributeSet readAttributeSet() throws IOException {

@@ -4,23 +4,23 @@ import org.javacore.JCClass;
 import org.javacore.JCField;
 import org.javacore.JCMethod;
 import org.javacore.annotation.Annotation;
-import org.javacore.type.Type;
-import org.javacore.type.generic.GenericDeclarationDeclarer;
-import org.obicere.bytecode.core.objects.attribute.AttributeSet;
-import org.obicere.bytecode.core.objects.attribute.InnerClassesAttribute;
-import org.obicere.bytecode.core.objects.attribute.SignatureAttribute;
-import org.obicere.bytecode.core.objects.common.BootstrapMethod;
-import org.obicere.bytecode.core.objects.common.InnerClass;
-import org.obicere.bytecode.core.objects.common.Version;
-import org.obicere.bytecode.core.objects.constant.DefaultConstantClass;
-import org.obicere.bytecode.core.objects.constant.ConstantPool;
-import org.obicere.bytecode.core.objects.type.AccessibleTypeFactory;
-import org.obicere.bytecode.core.objects.type.DefaultGenericType;
-import org.obicere.bytecode.core.objects.type.DefaultTypedClass;
+import org.javacore.attribute.Attribute;
+import org.javacore.attribute.InnerClassesAttribute;
+import org.javacore.attribute.SignatureAttribute;
+import org.javacore.common.BootstrapMethod;
+import org.javacore.common.InnerClass;
+import org.javacore.constant.ConstantClass;
+import org.javacore.constant.ConstantPool;
+import org.javacore.type.GenericType;
+import org.javacore.type.TypedClass;
 import org.javacore.type.factory.TypeFactory;
-import org.obicere.bytecode.core.objects.type.generic.ClassGenericDeclaration;
+import org.javacore.type.generic.ClassGenericDeclaration;
+import org.javacore.type.signature.ClassSignature;
+import org.obicere.bytecode.core.objects.attribute.AttributeSet;
+import org.obicere.bytecode.core.objects.common.Version;
+import org.obicere.bytecode.core.objects.constant.DefaultConstantPool;
+import org.obicere.bytecode.core.objects.type.AccessibleTypeFactory;
 import org.obicere.bytecode.core.objects.type.parser.SignatureParser;
-import org.obicere.bytecode.core.objects.type.signature.DefaultClassSignature;
 import org.obicere.bytecode.core.reader.FieldReader;
 import org.obicere.bytecode.core.reader.MethodReader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
@@ -30,7 +30,7 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<ClassGenericDeclaration> {
+public class DefaultJCClass implements JCClass {
 
     private static final int MAGIC_NUMBER = 0xCAFEBABE;
 
@@ -52,15 +52,15 @@ public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<Class
 
     private boolean classGenericDeclarationInitialized;
 
-    private DefaultJCClass superClass;
+    private JCClass superClass;
 
-    private DefaultTypedClass genericSuperClass;
+    private TypedClass genericSuperClass;
 
     private JCClass[] superInterfaces;
 
-    private DefaultTypedClass[] genericSuperInterfaces;
+    private TypedClass[] genericSuperInterfaces;
 
-    private DefaultGenericType[] genericTypes;
+    private GenericType[] genericTypes;
 
     private JCClass enclosingClass;
 
@@ -95,7 +95,7 @@ public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<Class
     }
 
     public DefaultJCClass(final ByteCodeReader input) throws IOException {
-        input.enterNode(this);
+        input.enterParent(this);
 
         final int magic = input.readInt();
         if (magic != MAGIC_NUMBER) {
@@ -105,11 +105,11 @@ public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<Class
         final int minorVersion = input.readUnsignedShort();
         final int majorVersion = input.readUnsignedShort();
 
-        final ConstantPool constantPool = new ConstantPool(input);
+        final ConstantPool constantPool = new DefaultConstantPool(input);
 
         final int accessFlags = input.readUnsignedShort();
-        final DefaultConstantClass constantName = input.readConstant();
-        final DefaultConstantClass constantSuperName = input.readConstant();
+        final ConstantClass constantName = input.readConstant();
+        final ConstantClass constantSuperName = input.readConstant();
         final String thisName = constantName.getName();
 
         final String superName;
@@ -128,7 +128,7 @@ public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<Class
         final int interfacesCount = input.readUnsignedShort();
         final String[] interfaces = new String[interfacesCount];
         for (int i = 0; i < interfacesCount; i++) {
-            final DefaultConstantClass constantInterfaceName = input.readConstant();
+            final ConstantClass constantInterfaceName = input.readConstant();
             interfaces[i] = constantInterfaceName.getName();
         }
 
@@ -136,7 +136,7 @@ public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<Class
         final FieldReader fieldReader = new FieldReader();
 
         final int fieldsCount = input.readUnsignedShort();
-        final DefaultJCField[] fields = new DefaultJCField[fieldsCount];
+        final JCField[] fields = new JCField[fieldsCount];
         for (int i = 0; i < fieldsCount; i++) {
             fields[i] = fieldReader.read(input);
         }
@@ -145,7 +145,7 @@ public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<Class
         final MethodReader methodReader = new MethodReader();
 
         final int methodsCount = input.readUnsignedShort();
-        final DefaultJCMethod[] methods = new DefaultJCMethod[methodsCount];
+        final JCMethod[] methods = new JCMethod[methodsCount];
         for (int i = 0; i < methodsCount; i++) {
             methods[i] = methodReader.read(input);
         }
@@ -166,8 +166,8 @@ public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<Class
         this.superName = superName;
         this.interfaces = interfaces;
 
-        input.pollConstants();
-        input.exitNode(this);
+        input.pollConstants(constantPool);
+        input.exitParent(this);
     }
 
     public DefaultJCClass(final int minorVersion, final int majorVersion, final ConstantPool constantPool, final int accessFlags, final String name, final String superName, final String[] interfaces, final DefaultJCField[] fields, final DefaultJCMethod[] methods, final AttributeSet attributeSet) {
@@ -187,6 +187,7 @@ public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<Class
         this.interfaces = interfaces;
     }
 
+    @Override
     public int getMinorVersion() {
         return minorVersion;
     }
@@ -195,6 +196,7 @@ public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<Class
         this.minorVersion = minorVersion;
     }
 
+    @Override
     public int getMajorVersion() {
         return majorVersion;
     }
@@ -214,6 +216,7 @@ public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<Class
         this.minorVersion = specific.getMinor();
     }
 
+    @Override
     public int getAccessFlags() {
         if (!innerClassAccessFlagsInitialized) {
             initializeInnerClassAccessFlags();
@@ -234,7 +237,7 @@ public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<Class
             // private InnerClass[] innerClassInfo;
             // private InnerClass thisInnerClassInfo;
             final InnerClassesAttribute attribute = attributeSet.getAttribute(InnerClassesAttribute.class);
-            final InnerClass[] innerClasses = attribute.getInnerClasses();
+            final InnerClass[] innerClasses = attribute.getClasses();
             for (final InnerClass innerClass : innerClasses) {
                 if (innerClass != null) {
                     final String outerInfo = innerClass.getOuterClassInfo();
@@ -322,7 +325,7 @@ public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<Class
 
     public JCClass getSuperClass() {
         if (superClass == null && superName != null) {
-            superClass = (DefaultJCClass) Type.of(superName);
+            superClass = null; // TODO resolve class
         }
         return superClass;
     }
@@ -336,10 +339,10 @@ public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<Class
     public JCClass[] getSuperInterfaces() {
         if (superInterfaces == null && interfaces != null) {
             final int length = interfaces.length;
-            final DefaultJCClass[] superInterfaces = new DefaultJCClass[length];
+            final JCClass[] superInterfaces = new DefaultJCClass[length];
             for (int i = 0; i < length; i++) {
                 if (interfaces[i] != null) {
-                    superInterfaces[i] = (DefaultJCClass) Type.of(interfaces[i]);
+                    superInterfaces[i] = null; // TODO resolve class
                 }
             }
             this.superInterfaces = superInterfaces;
@@ -347,7 +350,7 @@ public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<Class
         return superInterfaces;
     }
 
-    public DefaultTypedClass getGenericSuperClass() {
+    public TypedClass getGenericSuperClass() {
         if (genericSuperClass == null) {
             final ClassGenericDeclaration declaration = getDeclaration();
             if (declaration != null) {
@@ -357,7 +360,7 @@ public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<Class
         return genericSuperClass;
     }
 
-    public DefaultTypedClass[] getGenericSuperInterfaces() {
+    public TypedClass[] getGenericSuperInterfaces() {
         if (genericSuperInterfaces == null) {
             final ClassGenericDeclaration declaration = getDeclaration();
             if (declaration != null) {
@@ -375,7 +378,7 @@ public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<Class
         return null;
     }
 
-    public DefaultGenericType[] getGenericTypes() {
+    public GenericType[] getGenericTypes() {
         return null;
     }
 
@@ -387,11 +390,16 @@ public class DefaultJCClass implements JCClass, GenericDeclarationDeclarer<Class
         return declaration;
     }
 
+    @Override
+    public Attribute[] getAttributes() {
+        return new Attribute[0];
+    }
+
     private void initializeGenericDeclaration() {
         final SignatureAttribute attribute = attributeSet.getAttribute(SignatureAttribute.class);
         if (attribute != null) {
             final String signatureText = attribute.getSignature();
-            final DefaultClassSignature signature = new SignatureParser(signatureText).parseClassSignature();
+            final ClassSignature signature = new SignatureParser(signatureText).parseClassSignature();
 
             final TypeFactory factory = new AccessibleTypeFactory(this);
 

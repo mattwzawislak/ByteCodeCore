@@ -4,6 +4,8 @@ import org.javacore.code.LocalVariable;
 import org.javacore.code.block.label.Label;
 import org.javacore.type.Type;
 
+import java.util.Objects;
+
 /**
  * @author Obicere
  */
@@ -46,5 +48,22 @@ public class DefaultLocalVariable implements LocalVariable {
     @Override
     public int getIndex() {
         return index;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof LocalVariable) {
+            final LocalVariable other = (LocalVariable) obj;
+
+            // null safe
+            return Objects.equals(getStart(), other.getStart()) && Objects.equals(getEnd(), other.getEnd()) && getIndex() == other.getIndex();
+        }
+        return false;
     }
 }

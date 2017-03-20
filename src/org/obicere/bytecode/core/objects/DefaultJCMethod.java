@@ -29,9 +29,9 @@ public class DefaultJCMethod implements JCMethod, GenericDeclarationDeclarer<Met
     private DefaultJCClass outerClass;
 
     public DefaultJCMethod(final ByteCodeReader reader) {
-        reader.enterNode(this);
+        reader.enterParent(this);
 
-        reader.exitNode(this);
+        reader.exitParent(this);
     }
 
     public DefaultJCMethod(final int accessFlags, final String name, final String descriptor, final AttributeSet attributeSet) {

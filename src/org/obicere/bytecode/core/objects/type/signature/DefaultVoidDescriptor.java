@@ -7,7 +7,7 @@ import org.javacore.type.signature.VoidDescriptor;
 /**
  * @author Obicere
  */
-public class DefaultVoidDescriptor implements org.javacore.type.signature.VoidDescriptor {
+public class DefaultVoidDescriptor implements VoidDescriptor {
 
     private static final VoidDescriptor INSTANCE = new DefaultVoidDescriptor();
 

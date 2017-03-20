@@ -18,9 +18,9 @@ public class DefaultJCField implements JCField {
     private final AttributeSet attributeSet;
 
     public DefaultJCField(final ByteCodeReader reader) {
-        reader.enterNode(this);
+        reader.enterParent(this);
 
-        reader.exitNode(this);
+        reader.exitParent(this);
     }
 
     public DefaultJCField(final int accessFlags, final String name, final String type, final AttributeSet attributeSet) {

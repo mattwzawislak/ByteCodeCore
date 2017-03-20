@@ -1,23 +1,22 @@
 package org.obicere.bytecode.core.objects.code.block;
 
 import org.javacore.code.block.FrameCodeBlock;
+import org.javacore.code.block.label.Label;
 import org.javacore.code.frame.StackMapFrame;
 
 /**
  */
-public class DefaultFrameCodeBlock implements FrameCodeBlock {
+public class DefaultFrameCodeBlock extends AbstractCodeBlock implements FrameCodeBlock {
 
-    private final StackMapFrame frame;
+    private StackMapFrame frame;
 
-    private int startPC;
-
-    public DefaultFrameCodeBlock(final StackMapFrame frame, final int startPC) {
+    public DefaultFrameCodeBlock(final StackMapFrame frame, final Label address) {
+        super(address);
         if (frame == null) {
             throw new NullPointerException("frame must be non-null");
         }
 
         this.frame = frame;
-        this.startPC = startPC;
     }
 
     @Override
@@ -26,12 +25,7 @@ public class DefaultFrameCodeBlock implements FrameCodeBlock {
     }
 
     @Override
-    public int getStartPC() {
-        return startPC;
-    }
-
-    @Override
     public String getName() {
-        return "F" + startPC;
+        return "F" + address.getAddress();
     }
 }

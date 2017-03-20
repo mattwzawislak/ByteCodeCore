@@ -13,6 +13,7 @@ public abstract class AbstractStackMapFrame implements StackMapFrame {
         this.frameType = frameType;
     }
 
+    @Override
     public int getFrameType() {
         return frameType;
     }

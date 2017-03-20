@@ -9,7 +9,7 @@ public class DefaultLabel implements Label {
 
     protected Code code;
 
-    protected int address;
+    private int address;
 
     public DefaultLabel(final Code code) {
         this(code, 0);
@@ -20,7 +20,7 @@ public class DefaultLabel implements Label {
             throw new NullPointerException("code must be non-null.");
         }
         if (address < 0) {
-            throw new IllegalArgumentException("label address must be non-negative.");
+            throw new IllegalArgumentException("address must be non-negative");
         }
         this.code = code;
         this.address = address;
@@ -36,7 +36,8 @@ public class DefaultLabel implements Label {
         } else {
             name = code.getName() + "+" + offsetFromBlock;
         }*/
-        return String.valueOf(address);
+        // fix
+        return "L" + Integer.toHexString(hashCode());
     }
 
     @Override
@@ -51,9 +52,30 @@ public class DefaultLabel implements Label {
 
     @Override
     public void setAddress(final int address) {
-        if (address < 0) {
-            throw new IllegalArgumentException("address must be non-negative");
-        }
         this.address = address;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 31;
+        result = result * 37 + code.hashCode();
+        result = result * 37 + address;
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof Label) {
+            final Label label = (Label) obj;
+
+            return label.getCode() == getCode() && label.getAddress() == getAddress();
+        }
+        return false;
     }
 }
