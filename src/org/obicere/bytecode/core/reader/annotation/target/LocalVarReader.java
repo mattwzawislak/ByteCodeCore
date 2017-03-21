@@ -14,6 +14,7 @@ import java.io.IOException;
  * @author Obicere
  */
 public class LocalVarReader implements Reader<LocalVar> {
+
     @Override
     public LocalVar read(final ByteCodeReader input) throws IOException {
         final Code code = (Code) input.getParent(Identifier.CODE);

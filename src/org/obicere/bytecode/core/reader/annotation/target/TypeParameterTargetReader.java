@@ -1,6 +1,7 @@
 package org.obicere.bytecode.core.reader.annotation.target;
 
-import org.obicere.bytecode.core.objects.annotation.target.TypeParameterTarget;
+import org.javacore.annotation.target.TypeParameterTarget;
+import org.obicere.bytecode.core.objects.annotation.target.DefaultTypeParameterTarget;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -15,6 +16,6 @@ public class TypeParameterTargetReader implements Reader<TypeParameterTarget> {
     public TypeParameterTarget read(final ByteCodeReader input) throws IOException {
         final int targetType = input.readUnsignedByte();
         final int typeParameterIndex = input.readUnsignedByte();
-        return new TypeParameterTarget(targetType, typeParameterIndex);
+        return new DefaultTypeParameterTarget(targetType, typeParameterIndex);
     }
 }

@@ -19,7 +19,7 @@ import org.javacore.type.signature.ClassSignature;
 import org.obicere.bytecode.core.objects.attribute.AttributeSet;
 import org.obicere.bytecode.core.objects.common.Version;
 import org.obicere.bytecode.core.objects.constant.DefaultConstantPool;
-import org.obicere.bytecode.core.objects.type.AccessibleTypeFactory;
+import org.obicere.bytecode.core.objects.type.factory.DefaultTypeFactory;
 import org.obicere.bytecode.core.objects.type.parser.SignatureParser;
 import org.obicere.bytecode.core.reader.FieldReader;
 import org.obicere.bytecode.core.reader.MethodReader;
@@ -401,7 +401,7 @@ public class DefaultJCClass implements JCClass {
             final String signatureText = attribute.getSignature();
             final ClassSignature signature = new SignatureParser(signatureText).parseClassSignature();
 
-            final TypeFactory factory = new AccessibleTypeFactory(this);
+            final TypeFactory factory = new DefaultTypeFactory(this);
 
             declaration = new ClassGenericDeclaration(this, signature, factory);
         }

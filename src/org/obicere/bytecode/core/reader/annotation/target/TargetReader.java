@@ -1,6 +1,7 @@
 package org.obicere.bytecode.core.reader.annotation.target;
 
-import org.obicere.bytecode.core.objects.annotation.target.Target;
+import org.javacore.Identifier;
+import org.javacore.annotation.target.Target;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -11,60 +12,56 @@ import java.io.IOException;
  */
 public class TargetReader implements Reader<Target> {
 
-    private final TypeParameterTargetReader         typeParameterTarget         = new TypeParameterTargetReader();
-    private final SuperTypeTargetReader             superTypeTarget             = new SuperTypeTargetReader();
-    private final TypeParameterBoundTargetReader    typeParameterBoundTarget    = new TypeParameterBoundTargetReader();
-    private final EmptyTargetReader                 emptyTarget                 = new EmptyTargetReader();
-    private final MethodFormalParameterTargetReader methodFormalParameterTarget = new MethodFormalParameterTargetReader();
-    private final ThrowsTargetReader                throwsTarget                = new ThrowsTargetReader();
-    private final LocalVarTargetReader              localVarTarget              = new LocalVarTargetReader();
-    private final CatchTargetReader                 catchTarget                 = new CatchTargetReader();
-    private final OffsetTargetReader                offsetTarget                = new OffsetTargetReader();
-    private final TypeArgumentTargetReader          typeArgumentTarget          = new TypeArgumentTargetReader();
+    // TODO should this be converted to a multi-reader?
+    // it fits the concept, but the implementation differs
 
     @Override
     public Target read(final ByteCodeReader input) throws IOException {
         final int targetType = input.peek();
-        switch (targetType){
+        final Identifier type = getType(targetType);
+        return input.read(type);
+    }
+
+    private Identifier getType(final int targetType) {
+        switch (targetType) {
 
             // type 1 values
             case 0x0:
             case 0x1:
-                return typeParameterTarget.read(input);
+                return Identifier.TYPE_PARAMETER_TARGET;
             case 0x10:
-                return superTypeTarget.read(input);
+                return Identifier.SUPER_TYPE_TARGET;
             case 0x11:
             case 0x12:
-                return typeParameterBoundTarget.read(input);
+                return Identifier.TYPE_PARAMETER_BOUND_TARGET;
             case 0x13:
             case 0x14:
             case 0x15:
-                return emptyTarget.read(input);
+                return Identifier.EMPTY_TARGET;
             case 0x16:
-                return methodFormalParameterTarget.read(input);
+                return Identifier.METHOD_FORMAL_PARAMETER_TARGET;
             case 0x17:
-                return throwsTarget.read(input);
+                return Identifier.THROWS_TARGET;
 
             // type 2 values
             case 0x40:
             case 0x41:
-                return localVarTarget.read(input);
+                return Identifier.LOCAL_VAR_TARGET;
             case 0x42:
-                return catchTarget.read(input);
+                return Identifier.CATCH_TARGET;
             case 0x43:
             case 0x44:
             case 0x45:
             case 0x46:
-                return offsetTarget.read(input);
+                return Identifier.OFFSET_TARGET;
             case 0x47:
             case 0x48:
             case 0x49:
             case 0x4A:
             case 0x4B:
-                return typeArgumentTarget.read(input);
+                return Identifier.TYPE_ARGUMENT_TARGET;
             default:
                 throw new ClassFormatError("invalid target type value: " + targetType);
-
         }
     }
 }
