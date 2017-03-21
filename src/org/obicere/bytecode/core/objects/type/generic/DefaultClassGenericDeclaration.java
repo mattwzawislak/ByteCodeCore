@@ -10,7 +10,7 @@ import org.obicere.bytecode.core.objects.type.signature.DefaultClassSignature;
 /**
  * @author Obicere
  */
-public class ClassGenericDeclaration extends AbstractGenericDeclaration<JCClass> {
+public class DefaultClassGenericDeclaration extends AbstractGenericDeclaration<JCClass> {
 
     private final JCClass classType;
 
@@ -22,7 +22,7 @@ public class ClassGenericDeclaration extends AbstractGenericDeclaration<JCClass>
 
     private volatile TypedClass[] resolvedSuperInterfaces;
 
-    public ClassGenericDeclaration(final JCClass classType, final DefaultClassSignature signature, final TypeFactory factory) {
+    public DefaultClassGenericDeclaration(final JCClass classType, final DefaultClassSignature signature, final TypeFactory factory) {
         super(signature.getTypeParameters(), factory);
 
         this.classType = classType;

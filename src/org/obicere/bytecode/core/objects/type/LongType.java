@@ -1,11 +1,11 @@
 package org.obicere.bytecode.core.objects.type;
 
-import org.javacore.type.PrimitiveType;
+import org.javacore.type.IntegralType;
 
 /**
  * @author Obicere
  */
-public final class LongType implements PrimitiveType {
+public final class LongType implements IntegralType {
 
     private static final LongType TYPE = new LongType();
 

@@ -10,7 +10,7 @@ public final class DefaultArrayType implements ArrayType {
 
     private final Type component;
 
-    DefaultArrayType(final Type component) {
+    public DefaultArrayType(final Type component) {
         this.component = component;
     }
 

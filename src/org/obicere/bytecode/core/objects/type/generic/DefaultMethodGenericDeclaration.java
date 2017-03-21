@@ -14,7 +14,7 @@ import org.obicere.bytecode.core.objects.type.signature.DefaultMethodSignature;
 /**
  * @author Obicere
  */
-public class MethodGenericDeclaration extends AbstractGenericDeclaration<JCMethod> {
+public class DefaultMethodGenericDeclaration extends AbstractGenericDeclaration<JCMethod> {
 
     private final DefaultJCMethod method;
 
@@ -30,7 +30,7 @@ public class MethodGenericDeclaration extends AbstractGenericDeclaration<JCMetho
 
     private volatile Type[] resolvedExceptions;
 
-    public MethodGenericDeclaration(final DefaultJCMethod method, final DefaultMethodSignature signature, final TypeFactory factory) {
+    public DefaultMethodGenericDeclaration(final DefaultJCMethod method, final DefaultMethodSignature signature, final TypeFactory factory) {
         super(signature.getTypeParameters(), factory);
 
         this.method = method;

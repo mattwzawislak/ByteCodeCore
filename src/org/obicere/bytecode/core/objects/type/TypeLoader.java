@@ -88,6 +88,8 @@ public final class TypeLoader implements TypeRepository {
     }
 
     private Type loadType(final String name) {
+        // TODO make clean and reliable. Define a well-formed behavior
+        // TODO add in the trace elements to resolve name changes (?)
         final Type newType;
 
         if (name.startsWith("[")) {

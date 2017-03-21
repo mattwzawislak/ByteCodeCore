@@ -1,11 +1,11 @@
 package org.obicere.bytecode.core.objects.type;
 
-import org.javacore.type.PrimitiveType;
+import org.javacore.type.FloatingPointType;
 
 /**
  * @author Obicere
  */
-public final class FloatType implements PrimitiveType {
+public final class FloatType implements FloatingPointType {
 
     private static final FloatType TYPE = new FloatType();
 

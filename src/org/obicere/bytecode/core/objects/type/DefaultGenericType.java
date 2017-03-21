@@ -23,7 +23,7 @@ public class DefaultGenericType implements GenericType {
 
     private ReferenceType[] interfaceBounds;
 
-    DefaultGenericType(final GenericDeclaration<?> declaration, final String name, final ReferenceTypeSignature classBoundSignature, final ReferenceTypeSignature[] interfaceBoundSignatures) {
+    public DefaultGenericType(final GenericDeclaration<?> declaration, final String name, final ReferenceTypeSignature classBoundSignature, final ReferenceTypeSignature[] interfaceBoundSignatures) {
         this.declaration = declaration;
         this.name = name;
         this.classBoundSignature = classBoundSignature;

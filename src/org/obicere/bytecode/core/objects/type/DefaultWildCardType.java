@@ -13,11 +13,11 @@ public final class DefaultWildCardType implements WildCardType {
 
     private final ReferenceType bound;
 
-    DefaultWildCardType() {
+    public DefaultWildCardType() {
         this(WildCardIndicator.UNBOUNDED, null);
     }
 
-    DefaultWildCardType(final WildCardIndicator indicator, final ReferenceType bound) {
+    public DefaultWildCardType(final WildCardIndicator indicator, final ReferenceType bound) {
         if (indicator == null) {
             throw new NullPointerException("indicator must be non-null.");
         }

@@ -1,11 +1,11 @@
 package org.obicere.bytecode.core.objects.type;
 
-import org.javacore.type.PrimitiveType;
+import org.javacore.type.IntegralType;
 
 /**
  * @author Obicere
  */
-public final class CharType implements PrimitiveType {
+public final class CharType implements IntegralType {
 
     private static final CharType TYPE = new CharType();
 

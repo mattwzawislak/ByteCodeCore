@@ -1,11 +1,11 @@
 package org.obicere.bytecode.core.objects.type;
 
-import org.javacore.type.PrimitiveType;
+import org.javacore.type.IntegralType;
 
 /**
  * @author Obicere
  */
-public final class IntType implements PrimitiveType {
+public final class IntType implements IntegralType {
 
     private static final IntType TYPE = new IntType();
 
