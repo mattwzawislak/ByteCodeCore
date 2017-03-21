@@ -1,10 +1,13 @@
-package org.obicere.bytecode.core.objects.type;
+package org.obicere.bytecode.core.objects.type.factory;
 
 import org.javacore.JCClass;
+import org.javacore.type.ArrayType;
 import org.javacore.type.GenericType;
 import org.javacore.type.PrimitiveType;
 import org.javacore.type.ReferenceType;
 import org.javacore.type.Type;
+import org.javacore.type.TypedClass;
+import org.javacore.type.VoidType;
 import org.javacore.type.WildCardIndicator;
 import org.javacore.type.WildCardType;
 import org.javacore.type.factory.TypeFactory;
@@ -15,19 +18,33 @@ import org.javacore.type.signature.SimpleClassTypeSignature;
 import org.javacore.type.signature.TypeArgument;
 import org.javacore.type.signature.TypeSignature;
 import org.javacore.type.signature.TypeVariableSignature;
+import org.obicere.bytecode.core.objects.type.BooleanType;
+import org.obicere.bytecode.core.objects.type.ByteType;
+import org.obicere.bytecode.core.objects.type.CharType;
+import org.obicere.bytecode.core.objects.type.DefaultArrayType;
+import org.obicere.bytecode.core.objects.type.DefaultGenericType;
+import org.obicere.bytecode.core.objects.type.DefaultTypedClass;
+import org.obicere.bytecode.core.objects.type.DefaultVoidType;
+import org.obicere.bytecode.core.objects.type.DefaultWildCardType;
+import org.obicere.bytecode.core.objects.type.DoubleType;
+import org.obicere.bytecode.core.objects.type.FloatType;
+import org.obicere.bytecode.core.objects.type.IntType;
+import org.obicere.bytecode.core.objects.type.LongType;
+import org.obicere.bytecode.core.objects.type.ShortType;
+import org.obicere.bytecode.core.objects.type.TypeLoader;
 
 /**
  * @author Obicere
  */
-public class AccessibleTypeFactory implements TypeFactory {
+public class DefaultTypeFactory implements TypeFactory {
 
     private GenericDeclarationDeclarer declaration;
 
-    public AccessibleTypeFactory(final GenericDeclarationDeclarer<?> declaration) {
+    public DefaultTypeFactory(final GenericDeclarationDeclarer<?> declaration) {
         this.declaration = declaration;
     }
 
-    private DefaultWildCardType[] getWildcards(final TypeArgument[] arguments) {
+    protected WildCardType[] getWildcards(final TypeArgument[] arguments) {
         final DefaultWildCardType[] types = new DefaultWildCardType[arguments.length];
 
         for (int i = 0; i < arguments.length; i++) {
@@ -37,7 +54,7 @@ public class AccessibleTypeFactory implements TypeFactory {
     }
 
     @Override
-    public Type createClassType(final ClassTypeSignature type) {
+    public TypedClass createClassType(final ClassTypeSignature type) {
         final StringBuilder builder = new StringBuilder(type.getPackage().replace('/', '.'));
 
         SimpleClassTypeSignature signature = type.getSignature();
@@ -45,8 +62,8 @@ public class AccessibleTypeFactory implements TypeFactory {
 
         JCClass rawType = (JCClass) TypeLoader.getSystemLoader().getType(builder.toString());
 
-        WildCardType[] wildcards = getWildcards(signature.getArguments());
-        JCClass result = new DefaultTypedClass(rawType, wildcards, null);
+        WildCardType[] wildcards = getWildcards(signature.getTypeArguments());
+        TypedClass result = new DefaultTypedClass(rawType, wildcards, null);
 
         for (int i = 0; i < type.getSuffixes().length; i++) {
             signature = type.getSuffixes()[i];
@@ -55,7 +72,7 @@ public class AccessibleTypeFactory implements TypeFactory {
             builder.append(signature.getIdentifier());
 
             rawType = (JCClass) TypeLoader.getSystemLoader().getType(builder.toString());
-            wildcards = getWildcards(signature.getArguments());
+            wildcards = getWildcards(signature.getTypeArguments());
             result = new DefaultTypedClass(rawType, wildcards, result);
         }
 
@@ -63,14 +80,14 @@ public class AccessibleTypeFactory implements TypeFactory {
     }
 
     @Override
-    public DefaultArrayType createArrayType(final TypeSignature type) {
+    public ArrayType createArrayType(final TypeSignature type) {
         final Type component = type.getType(this);
 
         return new DefaultArrayType(component);
     }
 
     @Override
-    public DefaultGenericType createGenericType(final String name, final ReferenceTypeSignature classBound, final ReferenceTypeSignature[] interfaceBounds) {
+    public GenericType createGenericType(final String name, final ReferenceTypeSignature classBound, final ReferenceTypeSignature[] interfaceBounds) {
         return new DefaultGenericType(declaration.getDeclaration(), name, classBound, interfaceBounds);
     }
 
@@ -126,7 +143,7 @@ public class AccessibleTypeFactory implements TypeFactory {
     }
 
     @Override
-    public org.javacore.type.VoidType createVoidType() {
+    public VoidType createVoidType() {
         return DefaultVoidType.getInstance();
     }
 }
