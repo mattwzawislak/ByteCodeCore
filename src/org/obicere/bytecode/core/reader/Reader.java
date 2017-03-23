@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.reader;
 
+import org.javacore.Identifiable;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -83,7 +84,7 @@ import java.io.IOException;
  * @see <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.1">jvms-4.1</a>
  * @since 0.0
  */
-public interface Reader<T> {
+public interface Reader<T extends Identifiable> {
 
     /**
      * Responsible for reading the stream of primitives into the

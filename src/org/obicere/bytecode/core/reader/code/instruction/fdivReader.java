@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
+import org.javacore.code.instruction.FDiv;
 import org.obicere.bytecode.core.objects.code.instruction.DefaultFDiv;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
@@ -9,10 +10,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class fdivReader implements Reader<DefaultFDiv> {
+public class FDivReader implements Reader<FDiv> {
 
     @Override
-    public DefaultFDiv read(final ByteCodeReader input) throws IOException {
+    public FDiv read(final ByteCodeReader input) throws IOException {
         return DefaultFDiv.INSTANCE;
     }
 }

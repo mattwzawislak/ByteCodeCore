@@ -1,6 +1,7 @@
 package org.obicere.bytecode.core.reader.code.frame;
 
-import org.obicere.bytecode.core.objects.code.frame.SameFrameExtended;
+import org.javacore.code.frame.SameFrameExtended;
+import org.obicere.bytecode.core.objects.code.frame.DefaultSameFrameExtended;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -14,6 +15,6 @@ public class SameFrameExtendedReader implements Reader<SameFrameExtended> {
     public SameFrameExtended read(final ByteCodeReader input) throws IOException {
         final int frameType = input.readUnsignedByte();
         final int offsetDelta = input.readShort();
-        return new SameFrameExtended(frameType, offsetDelta);
+        return new DefaultSameFrameExtended(frameType, offsetDelta);
     }
 }

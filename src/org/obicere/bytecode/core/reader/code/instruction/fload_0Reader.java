@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
+import org.javacore.code.instruction.FLoad_0;
 import org.obicere.bytecode.core.objects.code.instruction.DefaultFLoad_0;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
@@ -9,10 +10,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class fload_0Reader implements Reader<DefaultFLoad_0> {
+public class FLoad_0Reader implements Reader<FLoad_0> {
 
     @Override
-    public DefaultFLoad_0 read(final ByteCodeReader input) throws IOException {
+    public FLoad_0 read(final ByteCodeReader input) throws IOException {
         return DefaultFLoad_0.INSTANCE;
     }
 }

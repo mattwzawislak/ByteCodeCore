@@ -67,6 +67,11 @@ public class ByteCodeReader extends IndexedDataInputStream {
         return createLabel(index, offset);
     }
 
+    public Label readLabel(final Label label) throws IOException {
+        final short offset = readShort();
+        return createLabel(label.getAddress(), offset);
+    }
+
     public Label readWideLabel() throws IOException {
         return readLabel(getIndex());
     }

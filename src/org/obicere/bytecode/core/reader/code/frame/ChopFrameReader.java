@@ -1,6 +1,7 @@
 package org.obicere.bytecode.core.reader.code.frame;
 
-import org.obicere.bytecode.core.objects.code.frame.ChopFrame;
+import org.javacore.code.frame.ChopFrame;
+import org.obicere.bytecode.core.objects.code.frame.DefaultChopFrame;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -14,6 +15,6 @@ public class ChopFrameReader implements Reader<ChopFrame> {
     public ChopFrame read(final ByteCodeReader input) throws IOException {
         final int frameType = input.readUnsignedByte();
         final int offsetDelta = input.readShort();
-        return new ChopFrame(frameType, offsetDelta);
+        return new DefaultChopFrame(frameType, offsetDelta);
     }
 }

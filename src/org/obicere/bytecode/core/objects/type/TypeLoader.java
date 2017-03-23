@@ -2,6 +2,7 @@ package org.obicere.bytecode.core.objects.type;
 
 import org.javacore.type.Type;
 import org.javacore.type.TypeRepository;
+import org.javacore.type.generic.GenericDeclarationDeclarer;
 import org.obicere.bytecode.core.objects.type.path.ClassPath;
 
 import java.io.Serializable;
@@ -75,7 +76,7 @@ public final class TypeLoader implements TypeRepository {
 
     @Override
     public Type getType(final String name) {
-        if(name == null) {
+        if (name == null) {
             throw new NullPointerException("name must be non-null.");
         }
         final String corrected = name.replace('.', '/');
@@ -83,11 +84,25 @@ public final class TypeLoader implements TypeRepository {
         if (type != null) {
             return type;
         } else {
-            return loadType(corrected);
+            return loadType(corrected, null);
         }
     }
 
-    private Type loadType(final String name) {
+    @Override
+    public Type getType(final String name, final GenericDeclarationDeclarer<?> scope) {
+        if (name == null) {
+            throw new NullPointerException("name must be non-null.");
+        }
+        final String corrected = name.replace('.', '/');
+        final Type type = types.get(corrected);
+        if (type != null) {
+            return type;
+        } else {
+            return loadType(corrected, scope);
+        }
+    }
+
+    private Type loadType(final String name, final GenericDeclarationDeclarer<?> scope) {
         // TODO make clean and reliable. Define a well-formed behavior
         // TODO add in the trace elements to resolve name changes (?)
         final Type newType;
@@ -109,6 +124,13 @@ public final class TypeLoader implements TypeRepository {
 
             return getType(cleanName);
         } else {
+            if (scope != null) {
+                final Type type = scope.getDeclaration().getGenericType(name);
+                if (type != null) {
+                    return type;
+                }
+
+            }
             // primitive classes shouldn't reach here,
             // ideally they are pre-loaded
             newType = classPath.find(name);

@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
+import org.javacore.code.instruction.FALoad;
 import org.obicere.bytecode.core.objects.code.instruction.DefaultFALoad;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
@@ -9,10 +10,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class faloadReader implements Reader<DefaultFALoad> {
+public class FALoadReader implements Reader<FALoad> {
 
     @Override
-    public DefaultFALoad read(final ByteCodeReader input) throws IOException {
+    public FALoad read(final ByteCodeReader input) throws IOException {
         return DefaultFALoad.INSTANCE;
     }
 }

@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
+import org.javacore.code.instruction.IALoad;
 import org.obicere.bytecode.core.objects.code.instruction.DefaultIALoad;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
@@ -9,10 +10,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class ialoadReader implements Reader<DefaultIALoad> {
+public class IALoadReader implements Reader<IALoad> {
 
     @Override
-    public DefaultIALoad read(final ByteCodeReader input) throws IOException {
+    public IALoad read(final ByteCodeReader input) throws IOException {
         return DefaultIALoad.INSTANCE;
     }
 }

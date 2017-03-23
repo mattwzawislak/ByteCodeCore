@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
+import org.javacore.code.instruction.BIPush;
 import org.obicere.bytecode.core.objects.code.instruction.DefaultBIPush;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
@@ -9,10 +10,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class bipushReader implements Reader<DefaultBIPush> {
+public class BIPushReader implements Reader<BIPush> {
 
     @Override
-    public DefaultBIPush read(final ByteCodeReader input) throws IOException {
+    public BIPush read(final ByteCodeReader input) throws IOException {
         return new DefaultBIPush(input.readByte());
     }
 }

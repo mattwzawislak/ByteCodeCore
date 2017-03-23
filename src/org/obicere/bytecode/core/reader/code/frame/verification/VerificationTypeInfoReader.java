@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.code.frame.verification;
 
-import org.obicere.bytecode.core.objects.code.frame.verification.VerificationTypeInfo;
+import org.javacore.code.frame.verification.VerificationTypeInfo;
 import org.obicere.bytecode.core.reader.MultiReader;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
@@ -40,7 +40,7 @@ public class VerificationTypeInfoReader extends MultiReader<Integer, Verificatio
         final Reader<? extends VerificationTypeInfo> reader = get(type);
 
         if(reader == null){
-            throw new IllegalArgumentException("no reader for input: " + type);
+            throw new IllegalArgumentException("No reader for input: " + type);
         }
 
         return reader.read(input);

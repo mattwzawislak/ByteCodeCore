@@ -1,7 +1,8 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
+import org.javacore.JCField;
 import org.javacore.code.instruction.GetField;
-import org.obicere.bytecode.core.objects.reference.FieldReference;
+import org.javacore.reference.Reference;
 import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
 
 /**
@@ -11,9 +12,9 @@ public class DefaultGetField extends AbstractInstruction implements GetField {
 
     public static final String MNEMONIC = "getfield";
 
-    private final FieldReference reference;
+    private final Reference<JCField> reference;
 
-    public DefaultGetField(final FieldReference reference) {
+    public DefaultGetField(final Reference<JCField> reference) {
         this.reference = reference;
     }
 
@@ -23,7 +24,7 @@ public class DefaultGetField extends AbstractInstruction implements GetField {
     }
 
     @Override
-    public FieldReference getField() {
+    public Reference<JCField> getField() {
         return reference;
     }
 
