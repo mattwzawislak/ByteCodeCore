@@ -1,8 +1,9 @@
 package org.obicere.bytecode.core.reader.annotation;
 
 import org.javacore.Identifier;
-import org.obicere.bytecode.core.objects.annotation.ArrayElementValue;
-import org.obicere.bytecode.core.objects.annotation.ElementValue;
+import org.javacore.annotation.ArrayElementValue;
+import org.javacore.annotation.ElementValue;
+import org.obicere.bytecode.core.objects.annotation.DefaultArrayElementValue;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -20,6 +21,6 @@ public class ArrayElementValueReader implements Reader<ArrayElementValue> {
         for (int i = 0; i < numValues; i++) {
             values[i] = input.read(Identifier.ELEMENT_VALUE);
         }
-        return new ArrayElementValue(values);
+        return new DefaultArrayElementValue(values);
     }
 }

@@ -1,7 +1,8 @@
 package org.obicere.bytecode.core.reader.annotation;
 
-import org.obicere.bytecode.core.objects.annotation.IntegerElementValue;
-import org.obicere.bytecode.core.objects.constant.ConstantInteger;
+import org.javacore.annotation.IntegerElementValue;
+import org.javacore.constant.ConstantInteger;
+import org.obicere.bytecode.core.objects.annotation.DefaultIntegerElementValue;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -14,6 +15,6 @@ public class IntegerElementValueReader implements Reader<IntegerElementValue> {
     @Override
     public IntegerElementValue read(final ByteCodeReader input) throws IOException {
         final ConstantInteger value = input.readConstant();
-        return new IntegerElementValue(value.getBytes());
+        return new DefaultIntegerElementValue(value.getValue());
     }
 }

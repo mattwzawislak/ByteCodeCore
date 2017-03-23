@@ -1,7 +1,8 @@
 package org.obicere.bytecode.core.reader.annotation;
 
 import org.javacore.Identifier;
-import org.obicere.bytecode.core.objects.annotation.AnnotationElementValue;
+import org.javacore.annotation.AnnotationElementValue;
+import org.obicere.bytecode.core.objects.annotation.DefaultAnnotationElementValue;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -14,6 +15,6 @@ public class AnnotationElementValueReader implements Reader<AnnotationElementVal
 
     @Override
     public AnnotationElementValue read(final ByteCodeReader input) throws IOException {
-        return new AnnotationElementValue(input.read(Identifier.ANNOTATION));
+        return new DefaultAnnotationElementValue(input.read(Identifier.ANNOTATION));
     }
 }

@@ -1,6 +1,6 @@
 package org.obicere.bytecode.core.reader.annotation;
 
-import org.obicere.bytecode.core.objects.annotation.ElementValue;
+import org.javacore.annotation.ElementValue;
 import org.obicere.bytecode.core.reader.MultiReader;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;

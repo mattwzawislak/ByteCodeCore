@@ -1,7 +1,8 @@
 package org.obicere.bytecode.core.reader.annotation;
 
-import org.obicere.bytecode.core.objects.annotation.FloatElementValue;
-import org.obicere.bytecode.core.objects.constant.ConstantFloat;
+import org.javacore.annotation.FloatElementValue;
+import org.javacore.constant.ConstantFloat;
+import org.obicere.bytecode.core.objects.annotation.DefaultFloatElementValue;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -14,6 +15,6 @@ public class FloatElementValueReader implements Reader<FloatElementValue> {
     @Override
     public FloatElementValue read(final ByteCodeReader input) throws IOException {
         final ConstantFloat value = input.readConstant();
-        return new FloatElementValue(value.getBytes());
+        return new DefaultFloatElementValue(value.getValue());
     }
 }

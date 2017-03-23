@@ -1,7 +1,8 @@
 package org.obicere.bytecode.core.reader.annotation;
 
-import org.obicere.bytecode.core.objects.annotation.BooleanElementValue;
-import org.obicere.bytecode.core.objects.constant.ConstantInteger;
+import org.javacore.annotation.BooleanElementValue;
+import org.javacore.constant.ConstantInteger;
+import org.obicere.bytecode.core.objects.annotation.DefaultBooleanElementValue;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -14,6 +15,6 @@ public class BooleanElementValueReader implements Reader<BooleanElementValue> {
     @Override
     public BooleanElementValue read(final ByteCodeReader input) throws IOException {
         final ConstantInteger value = input.readConstant();
-        return new BooleanElementValue(value.getBytes() != 0);
+        return new DefaultBooleanElementValue(value.getValue() != 0);
     }
 }
