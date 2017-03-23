@@ -1,6 +1,7 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.attribute.SyntheticAttribute;
+import org.javacore.attribute.SyntheticAttribute;
+import org.obicere.bytecode.core.objects.attribute.DefaultSyntheticAttribute;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -15,6 +16,6 @@ public class SyntheticAttributeReader implements Reader<SyntheticAttribute> {
     public SyntheticAttribute read(final ByteCodeReader input) throws IOException {
         // read length and discard
         input.readInt();
-        return SyntheticAttribute.getInstance();
+        return DefaultSyntheticAttribute.getInstance();
     }
 }

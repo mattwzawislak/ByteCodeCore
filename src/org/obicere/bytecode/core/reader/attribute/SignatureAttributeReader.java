@@ -1,7 +1,8 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.attribute.SignatureAttribute;
-import org.obicere.bytecode.core.objects.constant.ConstantUtf8;
+import org.javacore.attribute.SignatureAttribute;
+import org.javacore.constant.ConstantUtf8;
+import org.obicere.bytecode.core.objects.attribute.DefaultSignatureAttribute;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -16,6 +17,6 @@ public class SignatureAttributeReader implements Reader<SignatureAttribute> {
         // read length and discard
         input.readInt();
         final ConstantUtf8 signatureConstant = input.readConstant();
-        return new SignatureAttribute(signatureConstant.getBytes());
+        return new DefaultSignatureAttribute(signatureConstant.getValue());
     }
 }

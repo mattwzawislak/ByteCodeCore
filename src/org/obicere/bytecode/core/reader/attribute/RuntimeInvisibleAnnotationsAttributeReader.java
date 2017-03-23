@@ -1,9 +1,10 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.annotation.Annotation;
-import org.obicere.bytecode.core.objects.attribute.RuntimeInvisibleAnnotationsAttribute;
+import org.javacore.Identifier;
+import org.javacore.annotation.Annotation;
+import org.javacore.attribute.RuntimeInvisibleAnnotationsAttribute;
+import org.obicere.bytecode.core.objects.attribute.DefaultRuntimeInvisibleAnnotationsAttribute;
 import org.obicere.bytecode.core.reader.Reader;
-import org.obicere.bytecode.core.reader.annotation.AnnotationReader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -21,8 +22,8 @@ public class RuntimeInvisibleAnnotationsAttributeReader implements Reader<Runtim
         final Annotation[] annotations = new Annotation[numAnnotations];
 
         for (int i = 0; i < numAnnotations; i++) {
-            annotations[i] = annotation.read(input);
+            annotations[i] = input.read(Identifier.ANNOTATION);
         }
-        return new RuntimeInvisibleAnnotationsAttribute(annotations);
+        return new DefaultRuntimeInvisibleAnnotationsAttribute(annotations);
     }
 }

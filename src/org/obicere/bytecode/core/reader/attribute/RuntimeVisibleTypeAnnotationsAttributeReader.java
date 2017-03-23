@@ -1,9 +1,10 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.annotation.TypeAnnotation;
-import org.obicere.bytecode.core.objects.attribute.RuntimeVisibleTypeAnnotationsAttribute;
+import org.javacore.Identifier;
+import org.javacore.annotation.TypeAnnotation;
+import org.javacore.attribute.RuntimeVisibleTypeAnnotationsAttribute;
+import org.obicere.bytecode.core.objects.attribute.DefaultRuntimeVisibleTypeAnnotationsAttribute;
 import org.obicere.bytecode.core.reader.Reader;
-import org.obicere.bytecode.core.reader.annotation.TypeAnnotationReader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -21,8 +22,8 @@ public class RuntimeVisibleTypeAnnotationsAttributeReader implements Reader<Runt
         final TypeAnnotation[] annotations = new TypeAnnotation[numAnnotations];
 
         for (int i = 0; i < numAnnotations; i++) {
-            annotations[i] = annotation.read(input);
+            annotations[i] = input.read(Identifier.TYPE_ANNOTATION);
         }
-        return new RuntimeVisibleTypeAnnotationsAttribute(annotations);
+        return new DefaultRuntimeVisibleTypeAnnotationsAttribute(annotations);
     }
 }

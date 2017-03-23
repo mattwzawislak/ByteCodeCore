@@ -1,8 +1,9 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.attribute.AnnotationDefaultAttribute;
+import org.javacore.Identifier;
+import org.javacore.attribute.AnnotationDefaultAttribute;
+import org.obicere.bytecode.core.objects.attribute.DefaultAnnotationDefaultAttribute;
 import org.obicere.bytecode.core.reader.Reader;
-import org.obicere.bytecode.core.reader.annotation.ElementValueReader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -16,6 +17,6 @@ public class AnnotationDefaultAttributeReader implements Reader<AnnotationDefaul
     public AnnotationDefaultAttribute read(final ByteCodeReader input) throws IOException {
         // read length and discard
         input.readInt();
-        return new AnnotationDefaultAttribute(elementValue.read(input));
+        return new DefaultAnnotationDefaultAttribute(input.read(Identifier.ELEMENT_VALUE));
     }
 }

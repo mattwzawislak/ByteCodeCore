@@ -1,9 +1,10 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.annotation.Annotation;
-import org.obicere.bytecode.core.objects.attribute.RuntimeVisibleParameterAnnotationsAttribute;
+import org.javacore.Identifier;
+import org.javacore.annotation.Annotation;
+import org.javacore.attribute.RuntimeVisibleParameterAnnotationsAttribute;
+import org.obicere.bytecode.core.objects.attribute.DefaultRuntimeVisibleParameterAnnotationsAttribute;
 import org.obicere.bytecode.core.reader.Reader;
-import org.obicere.bytecode.core.reader.annotation.AnnotationReader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -23,10 +24,10 @@ public class RuntimeVisibleParameterAnnotationsAttributeReader implements Reader
         for (int i = 0; i < numParameters; i++) {
             final int numAnnotations = input.readUnsignedShort();
             annotations[i] = new Annotation[numAnnotations];
-            for(int j = 0; j < numAnnotations; j++){
-                annotations[i][j] = annotation.read(input);
+            for (int j = 0; j < numAnnotations; j++) {
+                annotations[i][j] = input.read(Identifier.ANNOTATION);
             }
         }
-        return new RuntimeVisibleParameterAnnotationsAttribute(annotations);
+        return new DefaultRuntimeVisibleParameterAnnotationsAttribute(annotations);
     }
 }

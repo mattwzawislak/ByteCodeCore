@@ -1,9 +1,10 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.attribute.InnerClassesAttribute;
-import org.obicere.bytecode.core.objects.common.InnerClass;
+import org.javacore.Identifier;
+import org.javacore.attribute.InnerClassesAttribute;
+import org.javacore.common.InnerClass;
+import org.obicere.bytecode.core.objects.attribute.DefaultInnerClassesAttribute;
 import org.obicere.bytecode.core.reader.Reader;
-import org.obicere.bytecode.core.reader.common.InnerClassReader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -13,8 +14,6 @@ import java.io.IOException;
  */
 public class InnerClassesAttributeReader implements Reader<InnerClassesAttribute> {
 
-    private final InnerClassReader innerClass = new InnerClassReader();
-
     @Override
     public InnerClassesAttribute read(final ByteCodeReader input) throws IOException {
         // read length and discard
@@ -22,9 +21,9 @@ public class InnerClassesAttributeReader implements Reader<InnerClassesAttribute
         final int numberOfClasses = input.readUnsignedShort();
         final InnerClass[] classes = new InnerClass[numberOfClasses];
         for (int i = 0; i < numberOfClasses; i++) {
-            classes[i] = innerClass.read(input);
+            classes[i] = input.read(Identifier.INNER_CLASS);
 
         }
-        return new InnerClassesAttribute(classes);
+        return new DefaultInnerClassesAttribute(classes);
     }
 }

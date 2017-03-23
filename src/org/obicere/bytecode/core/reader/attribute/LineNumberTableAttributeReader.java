@@ -1,9 +1,10 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.attribute.LineNumberTableAttribute;
-import org.obicere.bytecode.core.objects.code.block.LineNumber;
+import org.javacore.Identifier;
+import org.javacore.attribute.LineNumberTableAttribute;
+import org.javacore.code.LineNumber;
+import org.obicere.bytecode.core.objects.attribute.DefaultLineNumberTableAttribute;
 import org.obicere.bytecode.core.reader.Reader;
-import org.obicere.bytecode.core.reader.code.block.LineNumberReader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -13,8 +14,6 @@ import java.io.IOException;
  */
 public class LineNumberTableAttributeReader implements Reader<LineNumberTableAttribute> {
 
-    private final LineNumberReader lineNumber = new LineNumberReader();
-
     @Override
     public LineNumberTableAttribute read(final ByteCodeReader input) throws IOException {
         // read length and discard
@@ -23,8 +22,8 @@ public class LineNumberTableAttributeReader implements Reader<LineNumberTableAtt
         final LineNumber[] lineNumberTable = new LineNumber[lineNumberTableLength];
 
         for (int i = 0; i < lineNumberTableLength; i++) {
-            lineNumberTable[i] = lineNumber.read(input);
+            lineNumberTable[i] = input.read(Identifier.LINE_NUMBER);
         }
-        return new LineNumberTableAttribute(lineNumberTable);
+        return new DefaultLineNumberTableAttribute(lineNumberTable);
     }
 }

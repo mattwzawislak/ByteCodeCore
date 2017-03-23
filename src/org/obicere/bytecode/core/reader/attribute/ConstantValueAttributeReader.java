@@ -1,6 +1,8 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.attribute.ConstantValueAttribute;
+import org.javacore.attribute.ConstantValueAttribute;
+import org.javacore.constant.Constant;
+import org.obicere.bytecode.core.objects.attribute.DefaultConstantValueAttribute;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -14,7 +16,7 @@ public class ConstantValueAttributeReader implements Reader<ConstantValueAttribu
     public ConstantValueAttribute read(final ByteCodeReader input) throws IOException {
         // read length and discard
         input.readInt();
-        final int constantValueIndex = input.readUnsignedShort();
-        return new ConstantValueAttribute(constantValueIndex);
+        final Constant constant = input.readConstant();
+        return new DefaultConstantValueAttribute(constant);
     }
 }

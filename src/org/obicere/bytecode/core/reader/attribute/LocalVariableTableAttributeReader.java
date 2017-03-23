@@ -1,9 +1,10 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.attribute.LocalVariableTableAttribute;
-import org.obicere.bytecode.core.objects.code.LocalVariable;
+import org.javacore.Identifier;
+import org.javacore.attribute.LocalVariableTableAttribute;
+import org.javacore.code.LocalVariable;
+import org.obicere.bytecode.core.objects.attribute.DefaultLocalVariableTableAttribute;
 import org.obicere.bytecode.core.reader.Reader;
-import org.obicere.bytecode.core.reader.code.table.LocalVariableReader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -13,8 +14,6 @@ import java.io.IOException;
  */
 public class LocalVariableTableAttributeReader implements Reader<LocalVariableTableAttribute> {
 
-    private final LocalVariableReader localVariable = new LocalVariableReader();
-
     @Override
     public LocalVariableTableAttribute read(final ByteCodeReader input) throws IOException {
         // read length and discard
@@ -23,8 +22,8 @@ public class LocalVariableTableAttributeReader implements Reader<LocalVariableTa
         final LocalVariable[] localVariableTable = new LocalVariable[localVariableTableLength];
 
         for (int i = 0; i < localVariableTableLength; i++) {
-            localVariableTable[i] = localVariable.read(input);
+            localVariableTable[i] = input.read(Identifier.LOCAL_VARIABLE);
         }
-        return new LocalVariableTableAttribute(localVariableTable);
+        return new DefaultLocalVariableTableAttribute(localVariableTable);
     }
 }

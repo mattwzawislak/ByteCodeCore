@@ -1,8 +1,9 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.attribute.BootstrapMethodsAttribute;
-import org.obicere.bytecode.core.objects.common.BootstrapMethod;
-import org.obicere.bytecode.core.reader.common.BootstrapMethodReader;
+import org.javacore.Identifier;
+import org.javacore.attribute.BootstrapMethodsAttribute;
+import org.javacore.common.BootstrapMethod;
+import org.obicere.bytecode.core.objects.attribute.DefaultBootstrapMethodsAttribute;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -13,8 +14,6 @@ import java.io.IOException;
  */
 public class BootstrapMethodsAttributeReader implements Reader<BootstrapMethodsAttribute> {
 
-    private final BootstrapMethodReader bootstrapMethod = new BootstrapMethodReader();
-
     @Override
     public BootstrapMethodsAttribute read(final ByteCodeReader input) throws IOException {
         // read length and discard
@@ -22,8 +21,8 @@ public class BootstrapMethodsAttributeReader implements Reader<BootstrapMethodsA
         final int numBootstrapMethods = input.readUnsignedShort();
         final BootstrapMethod[] bootstrapMethods = new BootstrapMethod[numBootstrapMethods];
         for (int i = 0; i < numBootstrapMethods; i++) {
-            bootstrapMethods[i] = bootstrapMethod.read(input);
+            bootstrapMethods[i] = input.read(Identifier.BOOTSTRAP_METHOD);
         }
-        return new BootstrapMethodsAttribute(bootstrapMethods);
+        return new DefaultBootstrapMethodsAttribute(bootstrapMethods);
     }
 }

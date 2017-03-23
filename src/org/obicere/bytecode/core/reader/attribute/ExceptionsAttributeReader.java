@@ -1,10 +1,11 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.DefaultJCClass;
-import org.obicere.bytecode.core.objects.attribute.ExceptionsAttribute;
-import org.obicere.bytecode.core.objects.constant.DefaultConstantClass;
+import org.javacore.JCClass;
+import org.javacore.JavaCore;
+import org.javacore.attribute.ExceptionsAttribute;
+import org.javacore.constant.ConstantClass;
+import org.obicere.bytecode.core.objects.attribute.DefaultExceptionsAttribute;
 import org.obicere.bytecode.core.reader.Reader;
-import org.javacore.type.Type;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -18,12 +19,11 @@ public class ExceptionsAttributeReader implements Reader<ExceptionsAttribute> {
         // read length and discard
         input.readInt();
         final int numberOfExceptions = input.readUnsignedShort();
-        final DefaultJCClass[] exceptions = new DefaultJCClass[numberOfExceptions];
+        final JCClass[] exceptions = new JCClass[numberOfExceptions];
         for(int i = 0; i < numberOfExceptions; i++){
-            final DefaultConstantClass constantClass = input.readConstant();
-            final DefaultJCClass type = (DefaultJCClass) Type.of(constantClass.getName());
-            exceptions[i] = type;
+            final ConstantClass constantClass = input.readConstant();
+            exceptions[i] = JavaCore.getClass(constantClass.getName());
         }
-        return new ExceptionsAttribute(exceptions);
+        return new DefaultExceptionsAttribute(exceptions);
     }
 }

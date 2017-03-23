@@ -1,12 +1,13 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.DefaultJCClass;
-import org.obicere.bytecode.core.objects.DefaultJCMethod;
-import org.obicere.bytecode.core.objects.attribute.EnclosingMethodAttribute;
-import org.obicere.bytecode.core.objects.constant.DefaultConstantClass;
-import org.obicere.bytecode.core.objects.constant.ConstantNameAndType;
+import org.javacore.JCClass;
+import org.javacore.JCMethod;
+import org.javacore.JavaCore;
+import org.javacore.attribute.EnclosingMethodAttribute;
+import org.javacore.constant.ConstantClass;
+import org.javacore.constant.ConstantNameAndType;
+import org.obicere.bytecode.core.objects.attribute.DefaultEnclosingMethodAttribute;
 import org.obicere.bytecode.core.reader.Reader;
-import org.javacore.type.Type;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -19,12 +20,12 @@ public class EnclosingMethodAttributeReader implements Reader<EnclosingMethodAtt
     public EnclosingMethodAttribute read(final ByteCodeReader input) throws IOException {
         // read length and discard
         input.readInt();
-        final DefaultConstantClass className = input.readConstant();
+        final ConstantClass className = input.readConstant();
         final ConstantNameAndType methodNameAndType = input.readConstant();
 
-        final DefaultJCClass cls = (DefaultJCClass) Type.of(className.getName());
+        final JCClass cls = JavaCore.getClass(className.getName());
 
-        final DefaultJCMethod method;
+        final JCMethod method;
 
         if (methodNameAndType != null) {
             final String name = methodNameAndType.getName();
@@ -35,6 +36,6 @@ public class EnclosingMethodAttributeReader implements Reader<EnclosingMethodAtt
             method = null;
         }
 
-        return new EnclosingMethodAttribute(cls, method);
+        return new DefaultEnclosingMethodAttribute(cls, method);
     }
 }

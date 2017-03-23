@@ -1,9 +1,10 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.attribute.StackMapTableAttribute;
-import org.obicere.bytecode.core.objects.code.frame.StackMapFrame;
+import org.javacore.Identifier;
+import org.javacore.attribute.StackMapTableAttribute;
+import org.javacore.code.frame.StackMapFrame;
+import org.obicere.bytecode.core.objects.attribute.DefaultStackMapTableAttribute;
 import org.obicere.bytecode.core.reader.Reader;
-import org.obicere.bytecode.core.reader.code.frame.StackMapFrameReader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -13,8 +14,6 @@ import java.io.IOException;
  */
 public class StackMapTableAttributeReader implements Reader<StackMapTableAttribute> {
 
-    private final StackMapFrameReader stackMapFrame = new StackMapFrameReader();
-
     @Override
     public StackMapTableAttribute read(final ByteCodeReader input) throws IOException {
         // read length and discard
@@ -22,8 +21,8 @@ public class StackMapTableAttributeReader implements Reader<StackMapTableAttribu
         final int numberOfEntries = input.readUnsignedShort();
         final StackMapFrame[] entries = new StackMapFrame[numberOfEntries];
         for (int i = 0; i < numberOfEntries; i++) {
-            entries[i] = stackMapFrame.read(input);
+            entries[i] = input.read(Identifier.STACK_MAP_FRAME);
         }
-        return new StackMapTableAttribute(entries);
+        return new DefaultStackMapTableAttribute(entries);
     }
 }

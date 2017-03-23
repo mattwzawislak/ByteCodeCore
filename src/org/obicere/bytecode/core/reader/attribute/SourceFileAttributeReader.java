@@ -1,7 +1,8 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.attribute.SourceFileAttribute;
-import org.obicere.bytecode.core.objects.constant.ConstantUtf8;
+import org.javacore.attribute.SourceFileAttribute;
+import org.javacore.constant.ConstantUtf8;
+import org.obicere.bytecode.core.objects.attribute.DefaultSourceFileAttribute;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -17,6 +18,6 @@ public class SourceFileAttributeReader implements Reader<SourceFileAttribute> {
         // read length and discard
         input.readInt();
         final ConstantUtf8 sourceFileConstant = input.readConstant();
-        return new SourceFileAttribute(sourceFileConstant.getBytes());
+        return new DefaultSourceFileAttribute(sourceFileConstant.getValue());
     }
 }

@@ -1,14 +1,10 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.attribute.Attribute;
-import org.obicere.bytecode.core.objects.attribute.UnknownAttribute;
-import org.obicere.bytecode.core.objects.constant.ConstantUtf8;
+import org.javacore.attribute.Attribute;
+import org.javacore.constant.ConstantUtf8;
+import org.obicere.bytecode.core.objects.attribute.DefaultUnknownAttribute;
 import org.obicere.bytecode.core.reader.MultiReader;
 import org.obicere.bytecode.core.reader.Reader;
-import org.obicere.bytecode.core.reader.annotation.AnnotationReader;
-import org.obicere.bytecode.core.reader.annotation.ElementValueReader;
-import org.obicere.bytecode.core.reader.annotation.TypeAnnotationReader;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -72,16 +68,16 @@ public class AttributeReader extends MultiReader<String, Attribute> {
     @Override
     public Attribute read(final ByteCodeReader input) throws IOException {
         final ConstantUtf8 attributeNameConstant = input.readConstant();
-        final String attributeName = attributeNameConstant.getBytes();
+        final String attributeName = attributeNameConstant.getValue();
         final Reader<? extends Attribute> reader = get(attributeName);
         if (reader == null) {
             final int length = input.readInt();
             final byte[] bytes = new byte[length];
             if (input.read(bytes) < 0) {
-                throw new IOException("reached end of input reading unknown attribute");
+                throw new IOException("Reached end of input reading unknown attribute: " + attributeName);
             }
 
-            return new UnknownAttribute(attributeName, bytes);
+            return new DefaultUnknownAttribute(attributeName, bytes);
         }
 
         return reader.read(input);

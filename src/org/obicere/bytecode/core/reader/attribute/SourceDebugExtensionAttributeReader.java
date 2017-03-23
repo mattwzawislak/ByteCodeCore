@@ -1,6 +1,7 @@
 package org.obicere.bytecode.core.reader.attribute;
 
-import org.obicere.bytecode.core.objects.attribute.SourceDebugExtensionAttribute;
+import org.javacore.attribute.SourceDebugExtensionAttribute;
+import org.obicere.bytecode.core.objects.attribute.DefaultSourceDebugExtensionAttribute;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -17,9 +18,11 @@ public class SourceDebugExtensionAttributeReader implements Reader<SourceDebugEx
         final int length = input.readInt();
         final byte[] debugExtensionBytes = new byte[length];
         if (input.read(debugExtensionBytes) < 0) {
-            throw new ClassFormatError("reached out of file when reading source debug extension");
+            throw new ClassFormatError("Reached out of file when reading source debug extension");
         }
+        // it also can't be read using the default `readUtf8`, since the
+        // length is 4 bytes wide (and not 2)
         final String debugExtension = new String(debugExtensionBytes, "UTF-8");
-        return new SourceDebugExtensionAttribute(debugExtension);
+        return new DefaultSourceDebugExtensionAttribute(debugExtension);
     }
 }
