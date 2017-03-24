@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
+import org.javacore.code.instruction.Wide;
 import org.obicere.bytecode.core.objects.code.instruction.DefaultWide;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
@@ -9,10 +10,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class wideReader implements Reader<DefaultWide> {
+public class WideReader implements Reader<Wide> {
 
     @Override
-    public DefaultWide read(final ByteCodeReader input) throws IOException {
+    public Wide read(final ByteCodeReader input) throws IOException {
         final byte opcode = input.readByte();
         if (!isValidWideTag(opcode)) {
             throw new ClassFormatError("invalid operation after a wide instruction listing: " + opcode);

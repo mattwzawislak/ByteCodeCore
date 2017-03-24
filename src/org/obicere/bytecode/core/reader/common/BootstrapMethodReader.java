@@ -1,10 +1,11 @@
 package org.obicere.bytecode.core.reader.common;
 
-import org.obicere.bytecode.core.objects.DefaultJCMethod;
-import org.obicere.bytecode.core.objects.common.BootstrapMethod;
-import org.obicere.bytecode.core.objects.common.MethodHandle;
-import org.obicere.bytecode.core.objects.constant.AbstractConstant;
-import org.obicere.bytecode.core.objects.constant.ConstantMethodHandle;
+import org.javacore.JCMethod;
+import org.javacore.common.BootstrapMethod;
+import org.javacore.common.MethodHandle;
+import org.javacore.constant.Constant;
+import org.javacore.constant.ConstantMethodHandle;
+import org.obicere.bytecode.core.objects.common.DefaultBootstrapMethod;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -18,13 +19,14 @@ public class BootstrapMethodReader implements Reader<BootstrapMethod> {
     public BootstrapMethod read(final ByteCodeReader input) throws IOException {
         final ConstantMethodHandle bootstrapMethodConstant = input.readConstant();
         final int numBootstrapArguments = input.readUnsignedShort();
-        final AbstractConstant[] bootstrapArgumentConstants = new AbstractConstant[numBootstrapArguments];
+        final Constant[] bootstrapArgumentConstants = new Constant[numBootstrapArguments];
 
         for(int i = 0; i < numBootstrapArguments; i++){
             bootstrapArgumentConstants[i] = input.readConstant();
         }
 
-        final MethodHandle<DefaultJCMethod> bootstrapMethod = bootstrapMethodConstant.getHandle();
-        return new BootstrapMethod(bootstrapMethod, bootstrapArgumentConstants);
+        // TODO I have to revisit this. I left in a vague type
+        final MethodHandle<JCMethod> bootstrapMethod = (MethodHandle<JCMethod>) bootstrapMethodConstant.getHandle();
+        return new DefaultBootstrapMethod(bootstrapMethod, bootstrapArgumentConstants);
     }
 }

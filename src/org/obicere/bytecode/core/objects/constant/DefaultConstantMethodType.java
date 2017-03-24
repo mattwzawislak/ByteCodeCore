@@ -4,9 +4,9 @@ import org.javacore.common.MethodType;
 import org.javacore.constant.ConstantMethodType;
 import org.javacore.constant.ConstantPool;
 import org.javacore.constant.ConstantUtf8;
+import org.javacore.type.signature.MethodSignature;
 import org.obicere.bytecode.core.objects.common.DefaultMethodType;
 import org.obicere.bytecode.core.objects.type.parser.SignatureParser;
-import org.obicere.bytecode.core.objects.type.signature.DefaultMethodSignature;
 import org.obicere.bytecode.core.reader.constant.ConstantReader;
 
 /**
@@ -29,7 +29,7 @@ public class DefaultConstantMethodType extends AbstractConstant implements Const
             final ConstantUtf8 constantDescriptor = (ConstantUtf8) constantPool.get(descriptorIndex);
             final String descriptor = constantDescriptor.getValue();
             final SignatureParser parser = new SignatureParser(descriptor);
-            final DefaultMethodSignature signature = parser.parseMethodSignature();
+            final MethodSignature signature = parser.parseMethodSignature();
 
             this.methodType = new DefaultMethodType(signature);
         }

@@ -1,7 +1,8 @@
 package org.obicere.bytecode.core.reader.common;
 
-import org.obicere.bytecode.core.objects.common.InnerClass;
-import org.obicere.bytecode.core.objects.constant.ConstantUtf8;
+import org.javacore.common.InnerClass;
+import org.javacore.constant.ConstantUtf8;
+import org.obicere.bytecode.core.objects.common.DefaultInnerClass;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -23,19 +24,19 @@ public class InnerClassReader implements Reader<InnerClass> {
         final String innerClassInfo;
         final String outerClassInfo;
         // inner name must be non-null
-        final String innerName = innerNameConstant.getBytes();
+        final String innerName = innerNameConstant.getValue();
 
         if (innerClassInfoConstant == null) {
             innerClassInfo = null;
         } else {
-            innerClassInfo = innerClassInfoConstant.getBytes();
+            innerClassInfo = innerClassInfoConstant.getValue();
         }
         if (outerClassInfoConstant == null) {
             outerClassInfo = null;
         } else {
-            outerClassInfo = outerClassInfoConstant.getBytes();
+            outerClassInfo = outerClassInfoConstant.getValue();
         }
 
-        return new InnerClass(innerClassInfo, outerClassInfo, innerName, innerClassAccessFlags);
+        return new DefaultInnerClass(innerClassInfo, outerClassInfo, innerName, innerClassAccessFlags);
     }
 }

@@ -1,6 +1,7 @@
 package org.obicere.bytecode.core.reader.constant;
 
-import org.obicere.bytecode.core.objects.constant.ConstantInteger;
+import org.javacore.constant.ConstantInteger;
+import org.obicere.bytecode.core.objects.constant.DefaultConstantInteger;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -12,6 +13,6 @@ import java.io.IOException;
 public class ConstantIntegerReader implements Reader<ConstantInteger> {
     @Override
     public ConstantInteger read(final ByteCodeReader input) throws IOException {
-        return new ConstantInteger(input.readInt());
+        return new DefaultConstantInteger(input.readInt());
     }
 }

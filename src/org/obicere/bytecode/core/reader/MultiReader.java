@@ -1,5 +1,7 @@
 package org.obicere.bytecode.core.reader;
 
+import org.javacore.Identifiable;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,7 +51,7 @@ import java.util.Map;
  * corresponding data types.
  * <p>
  * For example, the format for a
- * {@link org.obicere.bytecode.core.objects.code.instruction.AbstractInstruction} follows
+ * {@link org.javacore.code.instruction.Instruction} follows
  * the loose form of:
  * <pre>{@code Instruction {
  *     u1   opcode
@@ -59,13 +61,13 @@ import java.util.Map;
  * }
  * }</pre>
  * However, this changes from instruction-to-instruction. For example, the
- * {@link org.obicere.bytecode.core.objects.code.instruction.DefaultNop} format is just:
+ * {@link org.javacore.code.instruction.Nop} format is just:
  * <pre>{@code nop {
  *     u1   opcode
  * }
  * }</pre>
  * Contrasted to the
- * {@link org.obicere.bytecode.core.objects.code.instruction.aload} format:
+ * {@link org.javacore.code.instruction.ALoad} format:
  * <pre>{@code aload {
  *     u1   opcode
  *     u1   indexbyte1
@@ -99,7 +101,7 @@ import java.util.Map;
  * @see <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.1">jvms-4.1</a>
  * @since 0.0
  */
-public abstract class MultiReader<K, T> implements Reader<T> {
+public abstract class MultiReader<K, T extends Identifiable> implements Reader<T> {
 
     /**
      * The map containing the readers identifiable by some key

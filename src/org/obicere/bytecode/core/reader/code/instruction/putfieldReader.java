@@ -1,8 +1,10 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
+import org.javacore.JCField;
+import org.javacore.code.instruction.PutField;
+import org.javacore.constant.ConstantFieldRef;
+import org.javacore.reference.Reference;
 import org.obicere.bytecode.core.objects.code.instruction.DefaultPutField;
-import org.obicere.bytecode.core.objects.constant.DefaultConstantFieldRef;
-import org.obicere.bytecode.core.objects.reference.FieldReference;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -11,12 +13,12 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class putfieldReader implements Reader<DefaultPutField> {
+public class PutFieldReader implements Reader<PutField> {
 
     @Override
-    public DefaultPutField read(final ByteCodeReader input) throws IOException {
-        final DefaultConstantFieldRef constant = input.readConstant();
-        final FieldReference reference = constant.getReference();
+    public PutField read(final ByteCodeReader input) throws IOException {
+        final ConstantFieldRef constant = input.readConstant();
+        final Reference<JCField> reference = constant.getReference();
         return new DefaultPutField(reference);
     }
 }

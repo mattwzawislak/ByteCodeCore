@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.reader.constant;
 
+import org.javacore.constant.Constant;
 import org.obicere.bytecode.core.objects.constant.AbstractConstant;
 import org.obicere.bytecode.core.reader.MultiReader;
 import org.obicere.bytecode.core.reader.Reader;
@@ -10,7 +11,7 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class ConstantReader extends MultiReader<Integer, AbstractConstant> {
+public class ConstantReader extends MultiReader<Integer, Constant> {
 
     public static final int CONSTANT_UTF8                 = 1;
     public static final int CONSTANT_INTEGER              = 3;
@@ -45,11 +46,11 @@ public class ConstantReader extends MultiReader<Integer, AbstractConstant> {
     }
 
     @Override
-    public AbstractConstant read(final ByteCodeReader input) throws IOException {
+    public Constant read(final ByteCodeReader input) throws IOException {
         final int next = input.readUnsignedByte();
-        final Reader<? extends AbstractConstant> reader = get(next);
+        final Reader<? extends Constant> reader = get(next);
         if (reader == null) {
-            throw new ClassFormatError("invalid constant tag: " + next);
+            throw new ClassFormatError("Invalid constant tag: " + next);
         }
         return reader.read(input);
     }

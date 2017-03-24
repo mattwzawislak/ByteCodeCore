@@ -1,6 +1,7 @@
 package org.obicere.bytecode.core.reader.constant;
 
-import org.obicere.bytecode.core.objects.constant.ConstantPool;
+import org.javacore.constant.ConstantPool;
+import org.obicere.bytecode.core.objects.constant.DefaultConstantPool;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -13,6 +14,6 @@ public class ConstantPoolReader implements Reader<ConstantPool> {
 
     @Override
     public ConstantPool read(final ByteCodeReader input) throws IOException {
-        return new ConstantPool(input);
+        return new DefaultConstantPool(input);
     }
 }

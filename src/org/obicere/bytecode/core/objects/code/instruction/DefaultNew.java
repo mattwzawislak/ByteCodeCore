@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
+import org.javacore.JCClass;
 import org.javacore.code.instruction.New;
-import org.javacore.type.Type;
 import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
 
 /**
@@ -11,9 +11,9 @@ public class DefaultNew extends AbstractInstruction implements New {
 
     public static final String MNEMONIC = "new";
 
-    private final Type type;
+    private final JCClass type;
 
-    public DefaultNew(final Type type) {
+    public DefaultNew(final JCClass type) {
         this.type = type;
     }
 
@@ -23,7 +23,7 @@ public class DefaultNew extends AbstractInstruction implements New {
     }
 
     @Override
-    public Type getType() {
+    public JCClass getType() {
         return type;
     }
 

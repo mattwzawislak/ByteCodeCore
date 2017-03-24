@@ -1,7 +1,8 @@
 package org.obicere.bytecode.core.reader.common;
 
-import org.obicere.bytecode.core.objects.common.Parameter;
-import org.obicere.bytecode.core.objects.constant.ConstantUtf8;
+import org.javacore.common.Parameter;
+import org.javacore.constant.ConstantUtf8;
+import org.obicere.bytecode.core.objects.common.DefaultParameter;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -16,8 +17,8 @@ public class ParameterReader implements Reader<Parameter> {
         final ConstantUtf8 nameConstant = input.readConstant();
         final int accessFlags = input.readUnsignedShort();
 
-        final String name = nameConstant.getBytes();
+        final String name = nameConstant.getValue();
 
-        return new Parameter(name, accessFlags);
+        return new DefaultParameter(name, accessFlags);
     }
 }

@@ -1,8 +1,9 @@
 package org.obicere.bytecode.core.reader;
 
+import org.javacore.JCMethod;
+import org.javacore.constant.ConstantUtf8;
 import org.obicere.bytecode.core.objects.DefaultJCMethod;
 import org.obicere.bytecode.core.objects.attribute.AttributeSet;
-import org.obicere.bytecode.core.objects.constant.ConstantUtf8;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class MethodReader implements Reader<DefaultJCMethod> {
+public class MethodReader implements Reader<JCMethod> {
 
     @Override
     public DefaultJCMethod read(final ByteCodeReader input) throws IOException {
@@ -18,8 +19,8 @@ public class MethodReader implements Reader<DefaultJCMethod> {
         final ConstantUtf8 nameConstant = input.readConstant();
         final ConstantUtf8 descriptorConstant = input.readConstant();
 
-        final String name = nameConstant.getBytes();
-        final String descriptor = nameConstant.getBytes();
+        final String name = nameConstant.getValue();
+        final String descriptor = descriptorConstant.getValue();
 
         final AttributeSet attributeSet = input.readAttributeSet();
 

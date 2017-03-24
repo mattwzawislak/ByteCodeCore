@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
+import org.javacore.code.instruction.INeg;
 import org.obicere.bytecode.core.objects.code.instruction.DefaultINeg;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
@@ -9,10 +10,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class inegReader implements Reader<DefaultINeg> {
+public class INegReader implements Reader<INeg> {
 
     @Override
-    public DefaultINeg read(final ByteCodeReader input) throws IOException {
+    public INeg read(final ByteCodeReader input) throws IOException {
         return DefaultINeg.INSTANCE;
     }
 }

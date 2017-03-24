@@ -1,9 +1,10 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
-import org.obicere.bytecode.core.objects.DefaultJCMethod;
+import org.javacore.JCMethod;
+import org.javacore.code.instruction.InvokeVirtual;
+import org.javacore.constant.ConstantMethodRef;
+import org.javacore.reference.Reference;
 import org.obicere.bytecode.core.objects.code.instruction.DefaultInvokeVirtual;
-import org.obicere.bytecode.core.objects.constant.ConstantRef;
-import org.obicere.bytecode.core.objects.reference.MethodReference;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -12,12 +13,12 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class invokevirtualReader implements Reader<DefaultInvokeVirtual> {
+public class InvokeVirtualReader implements Reader<InvokeVirtual> {
 
     @Override
-    public DefaultInvokeVirtual read(final ByteCodeReader input) throws IOException {
-        final ConstantRef<DefaultJCMethod> ref = input.readConstant();
-        final MethodReference reference = (MethodReference) ref.getReference();
+    public InvokeVirtual read(final ByteCodeReader input) throws IOException {
+        final ConstantMethodRef ref = input.readConstant();
+        final Reference<JCMethod> reference = ref.getReference();
         return new DefaultInvokeVirtual(reference);
     }
 }

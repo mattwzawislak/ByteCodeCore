@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
+import org.javacore.code.instruction.IShL;
 import org.obicere.bytecode.core.objects.code.instruction.DefaultIShL;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
@@ -9,10 +10,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class ishlReader implements Reader<DefaultIShL> {
+public class IShLReader implements Reader<IShL> {
 
     @Override
-    public DefaultIShL read(final ByteCodeReader input) throws IOException {
+    public IShL read(final ByteCodeReader input) throws IOException {
         return DefaultIShL.INSTANCE;
     }
 }

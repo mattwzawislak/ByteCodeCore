@@ -36,6 +36,9 @@ public class DefaultReaders extends AbstractReaders {
         // multi readers delegate to the individual readers.
         // should I bother adding those individual readers in? Maybe
 
+        // update on 2017-03-34: yes you should add the individual ones in
+        // TODO be smart
+
         setReader(Identifier.ATTRIBUTE, new AttributeReader());
         setReader(Identifier.ELEMENT_VALUE, new ElementValueReader());
         setReader(Identifier.INSTRUCTION, new InstructionReader());

@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
+import org.javacore.code.instruction.LAdd;
 import org.obicere.bytecode.core.objects.code.instruction.DefaultLAdd;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
@@ -9,10 +10,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class laddReader implements Reader<DefaultLAdd> {
+public class LAddReader implements Reader<LAdd> {
 
     @Override
-    public DefaultLAdd read(final ByteCodeReader input) throws IOException {
+    public LAdd read(final ByteCodeReader input) throws IOException {
         return DefaultLAdd.INSTANCE;
     }
 }
