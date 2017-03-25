@@ -5,18 +5,18 @@ import org.javacore.JCMethod;
 import org.javacore.type.Type;
 import org.javacore.type.factory.TypeFactory;
 import org.javacore.type.generic.GenericDeclaration;
+import org.javacore.type.generic.MethodGenericDeclaration;
 import org.javacore.type.signature.JavaTypeSignature;
+import org.javacore.type.signature.MethodSignature;
 import org.javacore.type.signature.ThrowsSignature;
 import org.javacore.type.signature.TypeSignature;
-import org.obicere.bytecode.core.objects.DefaultJCMethod;
-import org.obicere.bytecode.core.objects.type.signature.DefaultMethodSignature;
 
 /**
  * @author Obicere
  */
-public class DefaultMethodGenericDeclaration extends AbstractGenericDeclaration<JCMethod> {
+public class DefaultMethodGenericDeclaration extends AbstractGenericDeclaration<JCMethod> implements MethodGenericDeclaration {
 
-    private final DefaultJCMethod method;
+    private final JCMethod method;
 
     private volatile JavaTypeSignature[] parameters;
 
@@ -30,7 +30,7 @@ public class DefaultMethodGenericDeclaration extends AbstractGenericDeclaration<
 
     private volatile Type[] resolvedExceptions;
 
-    public DefaultMethodGenericDeclaration(final DefaultJCMethod method, final DefaultMethodSignature signature, final TypeFactory factory) {
+    public DefaultMethodGenericDeclaration(final JCMethod method, final MethodSignature signature, final TypeFactory factory) {
         super(signature.getTypeParameters(), factory);
 
         this.method = method;
@@ -39,7 +39,8 @@ public class DefaultMethodGenericDeclaration extends AbstractGenericDeclaration<
         this.exceptions = signature.getThrowsSignatures();
     }
 
-    public Type[] getParameters() {
+    @Override
+    public Type[] getParameterTypes() {
         Type[] types = resolvedParameters;
         if (types == null) {
             final TypeFactory factory = getFactory();
@@ -61,9 +62,10 @@ public class DefaultMethodGenericDeclaration extends AbstractGenericDeclaration<
         return types.clone();
     }
 
+    @Override
     public Type getReturnType() {
         Type type = resolvedReturnType;
-        if(type == null){
+        if (type == null) {
             type = returnType.getType(getFactory());
 
             // cache result
@@ -75,7 +77,8 @@ public class DefaultMethodGenericDeclaration extends AbstractGenericDeclaration<
         return type;
     }
 
-    public Type[] getExceptions() {
+    @Override
+    public Type[] getExceptionTypes() {
         Type[] types = resolvedExceptions;
         if (types == null) {
             final TypeFactory factory = getFactory();
@@ -99,8 +102,11 @@ public class DefaultMethodGenericDeclaration extends AbstractGenericDeclaration<
 
     @Override
     public GenericDeclaration getOuterDeclaration() {
-        final JCClass outerType = method.getContainingClass();
-        return outerType.getDeclaration();
+        final JCClass declaring = method.getDeclaringClass();
+        if (declaring == null) {
+            return null;
+        }
+        return declaring.getDeclaration();
     }
 
     @Override

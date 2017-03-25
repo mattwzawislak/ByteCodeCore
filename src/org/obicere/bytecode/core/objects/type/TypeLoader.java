@@ -2,7 +2,7 @@ package org.obicere.bytecode.core.objects.type;
 
 import org.javacore.type.Type;
 import org.javacore.type.TypeRepository;
-import org.javacore.type.generic.GenericDeclarationDeclarer;
+import org.javacore.type.generic.Declaration;
 import org.obicere.bytecode.core.objects.type.path.ClassPath;
 
 import java.io.Serializable;
@@ -89,7 +89,7 @@ public final class TypeLoader implements TypeRepository {
     }
 
     @Override
-    public Type getType(final String name, final GenericDeclarationDeclarer<?> scope) {
+    public Type getType(final String name, final Declaration<?> scope) {
         if (name == null) {
             throw new NullPointerException("name must be non-null.");
         }
@@ -102,7 +102,7 @@ public final class TypeLoader implements TypeRepository {
         }
     }
 
-    private Type loadType(final String name, final GenericDeclarationDeclarer<?> scope) {
+    private Type loadType(final String name, final Declaration<?> scope) {
         // TODO make clean and reliable. Define a well-formed behavior
         // TODO add in the trace elements to resolve name changes (?)
         final Type newType;

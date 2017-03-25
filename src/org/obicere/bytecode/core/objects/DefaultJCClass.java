@@ -1,28 +1,21 @@
 package org.obicere.bytecode.core.objects;
 
+import org.javacore.Identifier;
 import org.javacore.JCClass;
 import org.javacore.JCField;
 import org.javacore.JCMethod;
 import org.javacore.annotation.Annotation;
 import org.javacore.attribute.Attribute;
-import org.javacore.attribute.InnerClassesAttribute;
-import org.javacore.attribute.SignatureAttribute;
+import org.javacore.attribute.UnknownAttribute;
 import org.javacore.common.BootstrapMethod;
-import org.javacore.common.InnerClass;
 import org.javacore.constant.ConstantClass;
 import org.javacore.constant.ConstantPool;
 import org.javacore.type.GenericType;
 import org.javacore.type.TypedClass;
-import org.javacore.type.factory.TypeFactory;
 import org.javacore.type.generic.ClassGenericDeclaration;
-import org.javacore.type.signature.ClassSignature;
 import org.obicere.bytecode.core.objects.attribute.AttributeSet;
 import org.obicere.bytecode.core.objects.common.Version;
 import org.obicere.bytecode.core.objects.constant.DefaultConstantPool;
-import org.obicere.bytecode.core.objects.type.factory.DefaultTypeFactory;
-import org.obicere.bytecode.core.objects.type.parser.SignatureParser;
-import org.obicere.bytecode.core.reader.FieldReader;
-import org.obicere.bytecode.core.reader.MethodReader;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -38,57 +31,68 @@ public class DefaultJCClass implements JCClass {
 
     private int majorVersion;
 
-    private String packageName;
-
-    private String simpleName;
-
+    // dependencies: InnerClasses
     private int accessFlags;
 
-    // this is only needed for access flags, as this is a very simple bit
-    // of information that can be set initially, yet updated with
-    private boolean innerClassAccessFlagsInitialized;
+    private String name;
 
-    private ClassGenericDeclaration declaration;
+    // retention: disposable
+    private String superName;
 
-    private boolean classGenericDeclarationInitialized;
-
-    private JCClass superClass;
-
-    private TypedClass genericSuperClass;
-
-    private JCClass[] superInterfaces;
-
-    private TypedClass[] genericSuperInterfaces;
-
-    private GenericType[] genericTypes;
-
-    private JCClass enclosingClass;
-
-    private JCClass[] innerClasses;
+    // retention: disposable
+    private String[] interfaces;
 
     private JCMethod[] methods;
 
     private JCField[] fields;
 
-    private JCMethod enclosingMethod;
-
-    private BootstrapMethod[] bootstrapMethods;
-
-    // Lazy flag specifying whether all the relevant information has been
-    // extracted from the constant pool and attribute set structures.
-    // If so, they can be disposed completely.
-    private boolean fullyInitialized;
-
-    // disposable fields should be up here
-    // all important information needs to be in an information structure
-    // this is to avoid duplication of materials and illegal states
-    private ConstantPool constantPool;
-
+    // retention: disposable
     private AttributeSet attributeSet;
 
-    private String superName;
+    // special information
 
-    private String[] interfaces;
+    // dependencies: SourceFileAttribute
+    private String sourceFile;
+
+    // dependencies: SourceDebugExtension
+    private String sourceDebugExtension;
+
+    // dependencies: superName, Signature, RuntimeVisibleTypeAnnotations, RuntimeInvisibleTypeAnnotations
+    private TypedClass genericSuperClass;
+
+    // dependencies: interfaces, Signature, RuntimeVisibleTypeAnnotations, RuntimeInvisibleTypeAnnotations
+    private TypedClass[] genericSuperInterfaces;
+
+    // dependencies: Signature, RuntimeVisibleTypeAnnotations, RuntimeInvisibleTypeAnnotations
+    private GenericType[] genericTypes;
+
+    // dependencies: InnerClasses, EnclosingMethod
+    private JCClass outerClass;
+
+    // dependencies: InnerClasses
+    private JCClass enclosingClass;
+
+    // dependencies: InnerClasses
+    private JCClass[] innerClasses;
+
+    // dependencies EnclosingMethod
+    private JCMethod enclosingMethod;
+
+    // dependencies: BootstrapMethods
+    private BootstrapMethod[] bootstrapMethods;
+
+    // dependencies: Synthetic
+    private boolean synthetic;
+
+    // dependencies: Deprecated
+    private boolean deprecated;
+
+    // dependencies: RuntimeVisibleAnnotations, RuntimeInvisibleAnnotations
+    private Annotation[] annotations;
+
+    private ClassGenericDeclaration declaration;
+
+    private UnknownAttribute[] unknownAttributes;
 
     public DefaultJCClass() {
 
@@ -133,21 +137,17 @@ public class DefaultJCClass implements JCClass {
         }
 
         // read all the fields
-        final FieldReader fieldReader = new FieldReader();
-
         final int fieldsCount = input.readUnsignedShort();
         final JCField[] fields = new JCField[fieldsCount];
         for (int i = 0; i < fieldsCount; i++) {
-            fields[i] = fieldReader.read(input);
+            fields[i] = input.read(Identifier.FIELD);
         }
 
         // read all the methods
-        final MethodReader methodReader = new MethodReader();
-
         final int methodsCount = input.readUnsignedShort();
         final JCMethod[] methods = new JCMethod[methodsCount];
         for (int i = 0; i < methodsCount; i++) {
-            methods[i] = methodReader.read(input);
+            methods[i] = input.read(Identifier.METHOD);
         }
 
         final AttributeSet attributeSet = input.readAttributeSet();
@@ -155,36 +155,15 @@ public class DefaultJCClass implements JCClass {
         this.minorVersion = minorVersion;
         this.majorVersion = majorVersion;
         this.accessFlags = accessFlags;
-        // need to set the name independently
+        this.name = thisName;
         this.superName = superName;
         this.interfaces = interfaces;
         this.fields = fields;
         this.methods = methods;
-
-        this.constantPool = constantPool;
         this.attributeSet = attributeSet;
-        this.superName = superName;
-        this.interfaces = interfaces;
 
         input.pollConstants(constantPool);
         input.exitParent(this);
-    }
-
-    public DefaultJCClass(final int minorVersion, final int majorVersion, final ConstantPool constantPool, final int accessFlags, final String name, final String superName, final String[] interfaces, final DefaultJCField[] fields, final DefaultJCMethod[] methods, final AttributeSet attributeSet) {
-        // set all the simple information here
-        this.minorVersion = minorVersion;
-        this.majorVersion = majorVersion;
-        this.accessFlags = accessFlags;
-        // need to set the name independently
-        this.superName = superName;
-        this.interfaces = interfaces;
-        this.fields = fields;
-        this.methods = methods;
-
-        this.constantPool = constantPool;
-        this.attributeSet = attributeSet;
-        this.superName = superName;
-        this.interfaces = interfaces;
     }
 
     @Override
@@ -192,6 +171,7 @@ public class DefaultJCClass implements JCClass {
         return minorVersion;
     }
 
+    @Override
     public void setMinorVersion(final int minorVersion) {
         this.minorVersion = minorVersion;
     }
@@ -201,6 +181,7 @@ public class DefaultJCClass implements JCClass {
         return majorVersion;
     }
 
+    @Override
     public void setMajorVersion(final int majorVersion) {
         this.majorVersion = majorVersion;
     }
@@ -218,84 +199,24 @@ public class DefaultJCClass implements JCClass {
 
     @Override
     public int getAccessFlags() {
-        if (!innerClassAccessFlagsInitialized) {
-            initializeInnerClassAccessFlags();
-        }
+        initializeInnerClasses();
         return accessFlags;
     }
 
-    private void initializeInnerClassAccessFlags() {
-        final AttributeSet attributeSet = this.attributeSet;
-        if (attributeSet != null) {
-            // should we have an accessor for this?
-            // it would be needed for getting the inner classes, enclosing
-            // class and access flags. After all of those are initialized
-            // it can be removed and therefore a single access point would
-            // control exactly when and where we can remove it
-            //
-            // maybe
-            // private InnerClass[] innerClassInfo;
-            // private InnerClass thisInnerClassInfo;
-            final InnerClassesAttribute attribute = attributeSet.getAttribute(InnerClassesAttribute.class);
-            final InnerClass[] innerClasses = attribute.getClasses();
-            for (final InnerClass innerClass : innerClasses) {
-                if (innerClass != null) {
-                    final String outerInfo = innerClass.getOuterClassInfo();
-                    final String innerInfo = innerClass.getInnerClassInfo();
-                    final String innerName = innerClass.getInnerName();
-                    final int accessFlags = innerClass.getInnerClassAccessFlags();
-
-                    System.out.printf("Printing Inner Class information: [outerInfo=%s, innerInfo=%s, innerName=%s, accessFlags=%x]%n", outerInfo, innerInfo, innerName, accessFlags);
-                    /*
-                    if (innerName.equals(simpleName) && blah blah blah fuck this shit) {
-                        this.accessFlags = accessFlags;
-                    }
-                     */
-                }
-            }
-        }
-        innerClassAccessFlagsInitialized = true;
-    }
-
+    @Override
     public void setAccessFlags(final int accessFlags) {
+        initializeInnerClasses();
         this.accessFlags = accessFlags;
     }
 
     @Override
-    public int getFieldsCount() {
-        return 0;
-    }
-
-    @Override
-    public JCField[] getFields() {
-        return fields;
-    }
-
-    public void setFields(final JCField[] fields) {
-        this.fields = fields;
-    }
-
-    @Override
-    public int getMethodsCount() {
-        return 0;
-    }
-
-    public JCMethod[] getMethods() {
-        return methods;
-    }
-
-    public void setMethods(final JCMethod[] methods) {
-        this.methods = methods;
-    }
-
-    @Override
-    public Annotation[] getAnnotations() {
-        return new Annotation[0];
+    public String getPackage() {
+        return null;
     }
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     @Override
@@ -323,89 +244,394 @@ public class DefaultJCClass implements JCClass {
         return false;
     }
 
-    public JCClass getSuperClass() {
-        if (superClass == null && superName != null) {
-            superClass = null; // TODO resolve class
+    @Override
+    public int getFieldsCount() {
+        return fields.length;
+    }
+
+    @Override
+    public JCField[] getFields() {
+        return fields.clone();
+    }
+
+    @Override
+    public void setFields(final JCField[] fields) {
+        if (fields == null) {
+            this.fields = new JCField[0];
+            return;
         }
-        return superClass;
+        this.fields = fields.clone();
+    }
+
+    @Override
+    public int getMethodsCount() {
+        return methods.length;
+    }
+
+    @Override
+    public JCMethod[] getMethods() {
+        return methods.clone();
+    }
+
+    @Override
+    public void setMethods(final JCMethod[] methods) {
+        if (methods == null) {
+            this.methods = new JCMethod[0];
+            return;
+        }
+        this.methods = methods.clone();
+    }
+
+    @Override
+    public String getSourceFile() {
+        initializeSourceFile();
+        return sourceFile;
+    }
+
+    @Override
+    public void setSourceFile(final String sourceFile) {
+        initializeSourceFile();
+        this.sourceFile = sourceFile;
+    }
+
+    @Override
+    public String getSourceDebugExtension() {
+        initializeSourceDebugExtension();
+        return sourceDebugExtension;
+    }
+
+    @Override
+    public void setSourceDebugExtension(final String sourceDebugExtension) {
+        initializeSourceDebugExtension();
+        this.sourceDebugExtension = sourceDebugExtension;
+    }
+
+    @Override
+    public JCClass getSuperClass() {
+        initializeSignature();
+        initializeTypeAnnotations();
+        return genericSuperClass.getRawType();
+    }
+
+    @Override
+    public TypedClass getGenericSuperClass() {
+        initializeSignature();
+        initializeTypeAnnotations();
+        return genericSuperClass;
+    }
+
+    @Override
+    public void setSuperClass(final JCClass superClass) {
+        initializeSignature();
+        initializeTypeAnnotations();
+        genericSuperClass.setRawType(superClass);
+    }
+
+    @Override
+    public void setGenericSuperClass(final TypedClass genericSuperClass) {
+        initializeSignature();
+        initializeTypeAnnotations();
+        this.genericSuperClass = genericSuperClass;
     }
 
     @Override
     public int getSuperInterfaceCount() {
-        return 0;
+        initializeSignature();
+        initializeTypeAnnotations();
+        return genericSuperInterfaces.length;
     }
 
     @Override
     public JCClass[] getSuperInterfaces() {
-        if (superInterfaces == null && interfaces != null) {
-            final int length = interfaces.length;
-            final JCClass[] superInterfaces = new DefaultJCClass[length];
-            for (int i = 0; i < length; i++) {
-                if (interfaces[i] != null) {
-                    superInterfaces[i] = null; // TODO resolve class
-                }
-            }
-            this.superInterfaces = superInterfaces;
+        initializeSignature();
+        initializeTypeAnnotations();
+        final int length = genericSuperInterfaces.length;
+        final JCClass[] clone = new JCClass[length];
+        for (int i = 0; i < length; i++) {
+            clone[i] = genericSuperInterfaces[i].getRawType();
         }
-        return superInterfaces;
+        return clone;
     }
 
-    public TypedClass getGenericSuperClass() {
-        if (genericSuperClass == null) {
-            final ClassGenericDeclaration declaration = getDeclaration();
-            if (declaration != null) {
-                this.genericSuperClass = declaration.getSuperClass();
-            }
+    @Override
+    public void setSuperInterfaces(final JCClass[] superInterfaces) {
+        initializeSignature();
+        initializeTypeAnnotations();
+        if (superInterfaces == null) {
+            this.genericSuperInterfaces = new TypedClass[0];
+            return;
         }
-        return genericSuperClass;
+        for (int i = 0; i < genericSuperInterfaces.length; i++) {
+            genericSuperInterfaces[i].setRawType(superInterfaces[i]);
+        }
     }
 
+    @Override
     public TypedClass[] getGenericSuperInterfaces() {
+        initializeSignature();
+        initializeTypeAnnotations();
+        return genericSuperInterfaces.clone();
+    }
+
+    @Override
+    public void setGenericSuperInterfaces(final TypedClass[] genericSuperInterfaces) {
+        initializeSignature();
+        initializeTypeAnnotations();
         if (genericSuperInterfaces == null) {
-            final ClassGenericDeclaration declaration = getDeclaration();
-            if (declaration != null) {
-                this.genericSuperInterfaces = declaration.getSuperInterfaces();
-            }
+            this.genericSuperInterfaces = new TypedClass[0];
+            return;
         }
-        return genericSuperInterfaces;
+        this.genericSuperInterfaces = genericSuperInterfaces.clone();
     }
 
-    public JCClass[] getInnerClasses() {
-        return null;
-    }
-
-    public JCClass getOuterClass() {
-        return null;
-    }
-
+    @Override
     public GenericType[] getGenericTypes() {
-        return null;
+        initializeSignature();
+        initializeTypeAnnotations();
+        return genericTypes.clone();
+    }
+
+    @Override
+    public void setGenericTypes(final GenericType[] genericTypes) {
+        initializeSignature();
+        initializeTypeAnnotations();
+        this.genericTypes = genericTypes.clone();
+    }
+
+    @Override
+    public JCClass getOuterClass() {
+        initializeInnerClasses();
+        return outerClass;
+    }
+
+    @Override
+    public void setOuterClass(final JCClass outerClass) {
+        initializeInnerClasses();
+        this.outerClass = outerClass;
+    }
+
+    @Override
+    public JCClass getEnclosingClass() {
+        initializeInnerClasses();
+        initializeEnclosingMethod();
+        return outerClass;
+    }
+
+    @Override
+    public JCClass[] getInnerClasses() {
+        initializeInnerClasses();
+        return innerClasses.clone();
+    }
+
+    @Override
+    public void setInnerClasses(final JCClass[] innerClasses) {
+        initializeInnerClasses();
+        if (innerClasses == null) {
+            this.innerClasses = new JCClass[0];
+            return;
+        }
+        this.innerClasses = innerClasses.clone();
+    }
+
+    @Override
+    public JCMethod getEnclosingMethod() {
+        initializeEnclosingMethod();
+        return enclosingMethod;
+    }
+
+    @Override
+    public void setEnclosingMethod(final JCMethod enclosingMethod) {
+        initializeEnclosingMethod();
+        this.enclosingMethod = enclosingMethod;
+    }
+
+    @Override
+    public BootstrapMethod[] getBootstrapMethods() {
+        initializeBootstrapMethods();
+        return bootstrapMethods.clone();
+    }
+
+    @Override
+    public void setBootstrapMethods(final BootstrapMethod[] bootstrapMethods) {
+        initializeBootstrapMethods();
+        if (bootstrapMethods == null) {
+            this.bootstrapMethods = new BootstrapMethod[0];
+            return;
+        }
+        this.bootstrapMethods = bootstrapMethods;
+    }
+
+    @Override
+    public boolean isSynthetic() {
+        initializeSynthetic();
+        return synthetic;
+    }
+
+    @Override
+    public void setSynthetic(final boolean synthetic) {
+        initializeSynthetic();
+        this.synthetic = synthetic;
+    }
+
+    @Override
+    public boolean isDeprecated() {
+        initializeDeprecated();
+        return deprecated;
+    }
+
+    @Override
+    public void setDeprecated(final boolean deprecated) {
+        initializeDeprecated();
+        this.deprecated = deprecated;
+    }
+
+    @Override
+    public Annotation[] getAnnotations() {
+        initializeAnnotations();
+        return annotations.clone();
+    }
+
+    @Override
+    public void setAnnotations(final Annotation[] annotations) {
+        initializeAnnotations();
+        if (annotations == null) {
+            this.annotations = new Annotation[0];
+            return;
+        }
+        this.annotations = annotations.clone();
     }
 
     @Override
     public ClassGenericDeclaration getDeclaration() {
-        if (!classGenericDeclarationInitialized) {
-            initializeGenericDeclaration();
-        }
+        initializeSignature();
+        initializeTypeAnnotations();
         return declaration;
     }
 
     @Override
     public Attribute[] getAttributes() {
-        return new Attribute[0];
+        throw new UnsupportedOperationException("oh helllllllll naw fam. This shit is so halal");
     }
 
-    private void initializeGenericDeclaration() {
-        final SignatureAttribute attribute = attributeSet.getAttribute(SignatureAttribute.class);
-        if (attribute != null) {
-            final String signatureText = attribute.getSignature();
-            final ClassSignature signature = new SignatureParser(signatureText).parseClassSignature();
+    @Override
+    public UnknownAttribute[] getUnknownAttributes() {
+        initializeUnknownAttributes();
+        return unknownAttributes;
+    }
 
-            final TypeFactory factory = new DefaultTypeFactory(this);
+    @Override
+    public void setUnknownAttributes(final UnknownAttribute[] unknownAttributes) {
+        initializeUnknownAttributes();
+        this.unknownAttributes = unknownAttributes;
+    }
 
-            declaration = new ClassGenericDeclaration(this, signature, factory);
+    private boolean sourceFileInitialized = false;
+
+    private boolean innerClassesInitialized = false;
+
+    private boolean enclosingMethodInitialized = false;
+
+    private boolean sourceDebugExtensionInitialized = false;
+
+    private boolean bootstrapMethodsInitialized = false;
+
+    private boolean syntheticInitialized = false;
+
+    private boolean deprecatedInitialized = false;
+
+    private boolean signatureInitialized = false;
+
+    private boolean annotationsInitialized = false;
+
+    private boolean typeAnnotationsInitialized = false;
+
+    private boolean unknownAttributesInitialized = false;
+
+    private void initializeSourceFile() {
+        if (sourceFileInitialized) {
+            return;
         }
 
-        classGenericDeclarationInitialized = true;
+        sourceFileInitialized = true;
+    }
+
+    private void initializeInnerClasses() {
+        if (innerClassesInitialized) {
+            return;
+        }
+
+        innerClassesInitialized = true;
+    }
+
+    private void initializeEnclosingMethod() {
+        if (enclosingMethodInitialized) {
+            return;
+        }
+
+        enclosingMethodInitialized = true;
+    }
+
+    private void initializeSourceDebugExtension() {
+        if (sourceDebugExtensionInitialized) {
+            return;
+        }
+
+        sourceDebugExtensionInitialized = true;
+    }
+
+    private void initializeBootstrapMethods() {
+        if (bootstrapMethodsInitialized) {
+            return;
+        }
+
+        bootstrapMethodsInitialized = true;
+    }
+
+    private void initializeSynthetic() {
+        if (syntheticInitialized) {
+            return;
+        }
+
+        syntheticInitialized = true;
+    }
+
+    private void initializeDeprecated() {
+        if (deprecatedInitialized) {
+            return;
+        }
+
+        deprecatedInitialized = true;
+    }
+
+    private void initializeSignature() {
+        if (signatureInitialized) {
+            return;
+        }
+
+        signatureInitialized = true;
+    }
+
+    private void initializeAnnotations() {
+        if (annotationsInitialized) {
+            return;
+        }
+
+        annotationsInitialized = true;
+    }
+
+    private void initializeTypeAnnotations() {
+        if (typeAnnotationsInitialized) {
+            return;
+        }
+
+        typeAnnotationsInitialized = true;
+    }
+
+    private void initializeUnknownAttributes() {
+        if (unknownAttributesInitialized) {
+            return;
+        }
+
+        unknownAttributesInitialized = true;
     }
 }

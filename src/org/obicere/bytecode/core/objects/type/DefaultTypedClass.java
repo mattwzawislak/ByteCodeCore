@@ -9,9 +9,9 @@ import org.javacore.type.WildCardType;
  */
 public class DefaultTypedClass implements TypedClass {
 
-    private final WildCardType[] arguments;
+    private WildCardType[] arguments;
 
-    private final JCClass rawType;
+    private JCClass rawType;
 
     private final TypedClass outerType;
 
@@ -26,8 +26,23 @@ public class DefaultTypedClass implements TypedClass {
         return arguments;
     }
 
+    @Override
+    public void setWildcardTypes(final WildCardType[] arguments) {
+        if (arguments == null) {
+            this.arguments = new WildCardType[0];
+            return;
+        }
+        this.arguments = arguments.clone();
+    }
+
+    @Override
     public JCClass getRawType() {
         return rawType;
+    }
+
+    @Override
+    public void setRawType(final JCClass rawType) {
+        this.rawType = rawType;
     }
 
     @Override

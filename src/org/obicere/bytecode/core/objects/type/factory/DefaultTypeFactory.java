@@ -11,7 +11,7 @@ import org.javacore.type.VoidType;
 import org.javacore.type.WildCardIndicator;
 import org.javacore.type.WildCardType;
 import org.javacore.type.factory.TypeFactory;
-import org.javacore.type.generic.GenericDeclarationDeclarer;
+import org.javacore.type.generic.Declaration;
 import org.javacore.type.signature.ClassTypeSignature;
 import org.javacore.type.signature.ReferenceTypeSignature;
 import org.javacore.type.signature.SimpleClassTypeSignature;
@@ -38,9 +38,9 @@ import org.obicere.bytecode.core.objects.type.TypeLoader;
  */
 public class DefaultTypeFactory implements TypeFactory {
 
-    private GenericDeclarationDeclarer declaration;
+    private Declaration declaration;
 
-    public DefaultTypeFactory(final GenericDeclarationDeclarer<?> declaration) {
+    public DefaultTypeFactory(final Declaration<?> declaration) {
         this.declaration = declaration;
     }
 

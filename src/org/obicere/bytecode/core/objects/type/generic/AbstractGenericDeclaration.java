@@ -3,13 +3,13 @@ package org.obicere.bytecode.core.objects.type.generic;
 import org.javacore.type.GenericType;
 import org.javacore.type.factory.TypeFactory;
 import org.javacore.type.generic.GenericDeclaration;
-import org.javacore.type.generic.GenericDeclarationDeclarer;
+import org.javacore.type.generic.Declaration;
 import org.javacore.type.signature.TypeParameter;
 
 /**
  * @author Obicere
  */
-public abstract class AbstractGenericDeclaration<G extends GenericDeclarationDeclarer<? extends GenericDeclaration<G>>> implements GenericDeclaration<G> {
+public abstract class AbstractGenericDeclaration<G extends Declaration<? extends GenericDeclaration<G>>> implements GenericDeclaration<G> {
 
     private final TypeFactory factory;
 

@@ -1,32 +1,84 @@
 package org.obicere.bytecode.core.objects;
 
+import org.javacore.JCClass;
 import org.javacore.JCMethod;
-import org.obicere.bytecode.core.Identifiable;
-import org.obicere.bytecode.core.objects.attribute.AttributeSet;
-import org.obicere.bytecode.core.objects.attribute.SignatureAttribute;
-import org.obicere.bytecode.core.objects.type.factory.DefaultTypeFactory;
-import org.obicere.bytecode.core.objects.type.DefaultGenericType;
+import org.javacore.annotation.Annotation;
+import org.javacore.attribute.Attribute;
+import org.javacore.attribute.CodeAttribute;
+import org.javacore.attribute.DeprecatedAttribute;
+import org.javacore.attribute.SignatureAttribute;
+import org.javacore.attribute.SyntheticAttribute;
+import org.javacore.code.Code;
+import org.javacore.type.GenericType;
+import org.javacore.type.Type;
 import org.javacore.type.factory.TypeFactory;
-import org.javacore.type.generic.GenericDeclarationDeclarer;
+import org.javacore.type.generic.MethodGenericDeclaration;
+import org.javacore.type.signature.MethodSignature;
+import org.obicere.bytecode.core.objects.attribute.AttributeSet;
+import org.obicere.bytecode.core.objects.type.factory.DefaultTypeFactory;
 import org.obicere.bytecode.core.objects.type.generic.DefaultMethodGenericDeclaration;
 import org.obicere.bytecode.core.objects.type.parser.SignatureParser;
-import org.obicere.bytecode.core.objects.type.signature.DefaultMethodSignature;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 /**
  * @author Obicere
  */
-public class DefaultJCMethod implements JCMethod, GenericDeclarationDeclarer<DefaultMethodGenericDeclaration> {
+public class DefaultJCMethod implements JCMethod {
 
-    private final int accessFlags;
+    private int accessFlags;
 
-    private final String name;
+    private String name;
 
-    private final String descriptor;
+    private String descriptor;
 
-    private final AttributeSet attributeSet;
+    private AttributeSet attributeSet;
 
-    private DefaultJCClass outerClass;
+    private JCClass outerClass;
+
+    private MethodGenericDeclaration declaration;
+
+    private TypeFactory factory;
+
+    // code information
+
+    private Code code;
+
+    // exceptions information
+
+    private Type[] exceptions;
+
+    // parameter annotations
+
+    // TODO should these be stored with the parameters? probably
+    private Annotation[][] parameterAnnotations;
+
+    // annotation default value
+    // only for methods in annotation interfaces
+    private Object defaultValue;
+
+    // synthetic
+
+    private boolean synthetic;
+
+    // deprecated
+
+    private boolean deprecated;
+
+    // signature information
+
+    private Type returnType;
+
+    // TODO is this necessary
+    // erased types of each parameter
+    private Type[] parameterTypes;
+
+    // TODO is this necessary
+    // erased types of each exception
+    private Type[] exceptionTypes;
+
+    // runtime visible/invisible annotations
+
+    private Annotation[] annotations;
 
     public DefaultJCMethod(final ByteCodeReader reader) {
         reader.enterParent(this);
@@ -45,34 +97,65 @@ public class DefaultJCMethod implements JCMethod, GenericDeclarationDeclarer<Def
         return accessFlags;
     }
 
+    @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public Type getReturnType() {
+        if (returnType == null) {
+            initializeSignature();
+        }
+        return returnType;
+    }
+
+    @Override
+    public Type[] getParameterTypes() {
+        if (parameterTypes == null) {
+            initializeSignature();
+        }
+        return parameterTypes;
+    }
+
+    @Override
+    public Type[] getExceptionTypes() {
+        if (exceptions == null) {
+            initializeSignature();
+        }
+        return exceptions;
+    }
+
+    private void initializeSignature() {
+        final MethodGenericDeclaration declaration = getDeclaration();
+
+        this.returnType = declaration.getReturnType();
+        this.parameterTypes = declaration.getParameterTypes();
+        this.exceptions = declaration.getExceptionTypes();
     }
 
     public String getDescriptor() {
         return descriptor;
     }
 
-    public DefaultJCClass getContainingClass() {
+    @Override
+    public JCClass getDeclaringClass() {
         return outerClass;
     }
 
-    public void setContainingClass(final DefaultJCClass cls) {
+    @Override
+    public void setDeclaringClass(final JCClass cls) {
         this.outerClass = cls;
     }
 
-    public DefaultGenericType[] getGenericTypes() {
-        final DefaultMethodGenericDeclaration declaration = getDeclaration();
+    public GenericType[] getGenericTypes() {
+        final MethodGenericDeclaration declaration = getDeclaration();
         if (declaration == null) {
-            return new DefaultGenericType[0];
+            return new GenericType[0];
         } else {
             return declaration.getGenericTypes();
         }
     }
-
-    private volatile DefaultMethodGenericDeclaration declaration;
-
-    private volatile TypeFactory factory;
 
     private TypeFactory getFactory() {
         if (factory == null) {
@@ -82,20 +165,69 @@ public class DefaultJCMethod implements JCMethod, GenericDeclarationDeclarer<Def
     }
 
     @Override
-    public DefaultMethodGenericDeclaration getDeclaration() {
+    public MethodGenericDeclaration getDeclaration() {
         if (declaration == null) {
+            final String signature;
 
             final SignatureAttribute attribute = attributeSet.getAttribute(SignatureAttribute.class);
             if (attribute == null) {
-                return null;
+                signature = this.descriptor;
+            } else {
+                signature = attribute.getSignature();
+                attributeSet.removeAttributes(SignatureAttribute.class);
             }
-            final String signature = attribute.getSignature();
 
             final SignatureParser parser = new SignatureParser(signature);
-
-            final DefaultMethodSignature parsedSignature = parser.parseMethodSignature();
+            final MethodSignature parsedSignature = parser.parseMethodSignature();
             this.declaration = new DefaultMethodGenericDeclaration(this, parsedSignature, getFactory());
         }
         return declaration;
+    }
+
+    public Code getCode() {
+        if (code == null) {
+            final CodeAttribute attribute = attributeSet.getAttribute(CodeAttribute.class);
+            if (attribute == null) {
+                return null;
+            }
+            attributeSet.removeAttributes(CodeAttribute.class);
+            this.code = attribute.getCode();
+        }
+        return code;
+    }
+
+    public void setCode(final Code code) {
+        this.code = code;
+    }
+
+    public boolean isDeprecated() {
+        final DeprecatedAttribute attribute = attributeSet.getAttribute(DeprecatedAttribute.class);
+        if (attribute != null) {
+            deprecated = true;
+            attributeSet.removeAttributes(DeprecatedAttribute.class);
+        }
+        return deprecated;
+    }
+
+    public void setDeprecated(final boolean deprecated) {
+        this.deprecated = deprecated;
+    }
+
+    public boolean isSynthetic() {
+        final SyntheticAttribute attribute = attributeSet.getAttribute(SyntheticAttribute.class);
+        if (attribute != null) {
+            synthetic = true;
+            attributeSet.removeAttributes(SyntheticAttribute.class);
+        }
+        return synthetic;
+    }
+
+    public void setSynthetic(final boolean synthetic) {
+        this.synthetic = synthetic;
+    }
+
+    @Override
+    public Attribute[] getAttributes() {
+        return new Attribute[0];
     }
 }

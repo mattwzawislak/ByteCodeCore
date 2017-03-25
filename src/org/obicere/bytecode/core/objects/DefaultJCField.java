@@ -1,6 +1,7 @@
 package org.obicere.bytecode.core.objects;
 
 import org.javacore.JCField;
+import org.javacore.attribute.Attribute;
 import org.obicere.bytecode.core.objects.attribute.AttributeSet;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
@@ -9,13 +10,13 @@ import org.obicere.bytecode.core.util.ByteCodeReader;
  */
 public class DefaultJCField implements JCField {
 
-    private final int accessFlags;
+    private int accessFlags;
 
-    private final String name;
+    private String name;
 
-    private final String typeName;
+    private String typeName;
 
-    private final AttributeSet attributeSet;
+    private AttributeSet attributeSet;
 
     public DefaultJCField(final ByteCodeReader reader) {
         reader.enterParent(this);
@@ -40,5 +41,10 @@ public class DefaultJCField implements JCField {
 
     public String getTypeName() {
         return typeName;
+    }
+
+    @Override
+    public Attribute[] getAttributes() {
+        return new Attribute[0];
     }
 }

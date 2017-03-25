@@ -18,6 +18,8 @@ public class AttributeSet {
 
     private Attribute[] attributes;
 
+    private int size;
+
     public AttributeSet(final ByteCodeReader reader, final byte[] attributes) {
         this.reader = new ByteCodeReader(reader, attributes);
     }
@@ -34,11 +36,20 @@ public class AttributeSet {
             for (int i = 0; i < number; i++) {
                 newAttributes[i] = reader.read(Identifier.ATTRIBUTE);
             }
+            this.size = number;
             this.attributes = newAttributes;
         } catch (final IOException e) {
             e.printStackTrace();
             this.attributes = new Attribute[0];
         }
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
     }
 
     @SuppressWarnings("unchecked")
@@ -48,7 +59,7 @@ public class AttributeSet {
         }
         final Set<T> result = new HashSet<>();
         for (final Attribute attribute : attributes) {
-            if (cls.isInstance(attribute)) {
+            if (attribute != null && cls.isInstance(attribute)) {
                 result.add((T) attribute);
             }
         }
@@ -61,17 +72,20 @@ public class AttributeSet {
             initialize();
         }
         for (final Attribute attribute : attributes) {
-            if (cls.isInstance(attribute)) {
+            if (attribute != null && cls.isInstance(attribute)) {
                 return (T) attribute;
             }
         }
         return null;
     }
 
-    public Attribute[] getAttributes() {
-        if (attributes == null) {
-            initialize();
+    public void removeAttributes(final Class<? extends Attribute> cls) {
+        for (int i = 0; i < attributes.length; i++) {
+            final Attribute attribute = attributes[i];
+            if (attribute != null && cls.isInstance(attribute)) {
+                attributes[i] = null;
+                size--;
+            }
         }
-        return attributes;
     }
 }
