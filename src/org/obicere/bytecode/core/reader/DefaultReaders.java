@@ -29,7 +29,7 @@ public class DefaultReaders extends AbstractReaders {
     }
 
     protected void provideDefaults() {
-        setReader(Identifier.CLASS, new ClassReader());
+        setReader(Identifier.CLASS, new JCClassReader());
         setReader(Identifier.FIELD, new FieldReader());
         setReader(Identifier.METHOD, new MethodReader());
 

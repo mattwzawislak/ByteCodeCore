@@ -14,7 +14,7 @@ import org.javacore.type.Type;
 import org.javacore.type.factory.TypeFactory;
 import org.javacore.type.generic.MethodGenericDeclaration;
 import org.javacore.type.signature.MethodSignature;
-import org.obicere.bytecode.core.objects.attribute.AttributeSet;
+import org.obicere.bytecode.core.objects.attribute.Attributes;
 import org.obicere.bytecode.core.objects.type.factory.DefaultTypeFactory;
 import org.obicere.bytecode.core.objects.type.generic.DefaultMethodGenericDeclaration;
 import org.obicere.bytecode.core.objects.type.parser.SignatureParser;
@@ -31,7 +31,7 @@ public class DefaultJCMethod implements JCMethod {
 
     private String descriptor;
 
-    private AttributeSet attributeSet;
+    private Attributes attributes;
 
     private JCClass outerClass;
 
@@ -86,11 +86,11 @@ public class DefaultJCMethod implements JCMethod {
         reader.exitParent(this);
     }
 
-    public DefaultJCMethod(final int accessFlags, final String name, final String descriptor, final AttributeSet attributeSet) {
+    public DefaultJCMethod(final int accessFlags, final String name, final String descriptor, final Attributes attributes) {
         this.accessFlags = accessFlags;
         this.name = name;
         this.descriptor = descriptor;
-        this.attributeSet = attributeSet;
+        this.attributes = attributes;
     }
 
     public int getAccessFlags() {
@@ -169,12 +169,12 @@ public class DefaultJCMethod implements JCMethod {
         if (declaration == null) {
             final String signature;
 
-            final SignatureAttribute attribute = attributeSet.getAttribute(SignatureAttribute.class);
+            final SignatureAttribute attribute = attributes.getAttribute(SignatureAttribute.class);
             if (attribute == null) {
                 signature = this.descriptor;
             } else {
                 signature = attribute.getSignature();
-                attributeSet.removeAttributes(SignatureAttribute.class);
+                attributes.removeAttributes(SignatureAttribute.class);
             }
 
             final SignatureParser parser = new SignatureParser(signature);
@@ -186,11 +186,11 @@ public class DefaultJCMethod implements JCMethod {
 
     public Code getCode() {
         if (code == null) {
-            final CodeAttribute attribute = attributeSet.getAttribute(CodeAttribute.class);
+            final CodeAttribute attribute = attributes.getAttribute(CodeAttribute.class);
             if (attribute == null) {
                 return null;
             }
-            attributeSet.removeAttributes(CodeAttribute.class);
+            attributes.removeAttributes(CodeAttribute.class);
             this.code = attribute.getCode();
         }
         return code;
@@ -201,10 +201,10 @@ public class DefaultJCMethod implements JCMethod {
     }
 
     public boolean isDeprecated() {
-        final DeprecatedAttribute attribute = attributeSet.getAttribute(DeprecatedAttribute.class);
+        final DeprecatedAttribute attribute = attributes.getAttribute(DeprecatedAttribute.class);
         if (attribute != null) {
             deprecated = true;
-            attributeSet.removeAttributes(DeprecatedAttribute.class);
+            attributes.removeAttributes(DeprecatedAttribute.class);
         }
         return deprecated;
     }
@@ -214,10 +214,10 @@ public class DefaultJCMethod implements JCMethod {
     }
 
     public boolean isSynthetic() {
-        final SyntheticAttribute attribute = attributeSet.getAttribute(SyntheticAttribute.class);
+        final SyntheticAttribute attribute = attributes.getAttribute(SyntheticAttribute.class);
         if (attribute != null) {
             synthetic = true;
-            attributeSet.removeAttributes(SyntheticAttribute.class);
+            attributes.removeAttributes(SyntheticAttribute.class);
         }
         return synthetic;
     }

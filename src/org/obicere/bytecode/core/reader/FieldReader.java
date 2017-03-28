@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.reader;
 import org.javacore.JCField;
 import org.javacore.constant.ConstantUtf8;
 import org.obicere.bytecode.core.objects.DefaultJCField;
-import org.obicere.bytecode.core.objects.attribute.AttributeSet;
+import org.obicere.bytecode.core.objects.attribute.Attributes;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -22,8 +22,8 @@ public class FieldReader implements Reader<JCField> {
         final String name = nameConstant.getValue();
         final String descriptor = descriptorConstant.getValue();
 
-        final AttributeSet attributeSet = input.readAttributeSet();
+        final Attributes attributes = input.readAttributeSet();
 
-        return new DefaultJCField(accessFlags, name, descriptor, attributeSet);
+        return new DefaultJCField(accessFlags, name, descriptor, attributes);
     }
 }

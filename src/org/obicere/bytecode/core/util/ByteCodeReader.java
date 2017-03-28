@@ -7,7 +7,7 @@ import org.javacore.code.Code;
 import org.javacore.code.block.label.Label;
 import org.javacore.constant.Constant;
 import org.javacore.constant.ConstantPool;
-import org.obicere.bytecode.core.objects.attribute.AttributeSet;
+import org.obicere.bytecode.core.objects.attribute.Attributes;
 import org.obicere.bytecode.core.reader.Reader;
 import org.obicere.bytecode.core.reader.Readers;
 
@@ -152,10 +152,10 @@ public class ByteCodeReader extends IndexedDataInputStream {
         return (C) constantPool.get(index);
     }
 
-    public AttributeSet readAttributeSet() throws IOException {
+    public Attributes readAttributeSet() throws IOException {
         final int count = readUnsignedShort();
         if (count == 0) {
-            return AttributeSet.EMPTY_SET;
+            return Attributes.EMPTY_SET;
         }
         final ByteArrayOutputStream attributes = new ByteArrayOutputStream();
         final DataOutputStream helper = new DataOutputStream(attributes);
@@ -179,7 +179,7 @@ public class ByteCodeReader extends IndexedDataInputStream {
         helper.close();
 
         final byte[] bytes = attributes.toByteArray();
-        return new AttributeSet(this, bytes);
+        return new Attributes(this, bytes);
     }
 
     @SuppressWarnings("unchecked")

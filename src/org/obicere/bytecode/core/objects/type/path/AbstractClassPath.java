@@ -5,7 +5,7 @@ import org.obicere.bytecode.core.io.DirectorySource;
 import org.obicere.bytecode.core.io.LeafSource;
 import org.obicere.bytecode.core.io.Source;
 import org.obicere.bytecode.core.io.ZipArchiveSource;
-import org.obicere.bytecode.core.reader.ClassReader;
+import org.obicere.bytecode.core.reader.JCClassReader;
 import org.javacore.type.Type;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 import org.obicere.bytecode.core.util.factory.ByteCodeReaderFactory;
@@ -111,7 +111,7 @@ public abstract class AbstractClassPath implements ClassPath {
             final InputStream stream = source.getInputStream();
             final ByteCodeReader input = ByteCodeReaderFactory.createReader(stream);
 
-            final ClassReader reader = new ClassReader();
+            final JCClassReader reader = new JCClassReader();
 
             final Type cls = reader.read(input);
 

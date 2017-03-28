@@ -1,31 +1,36 @@
 package org.obicere.bytecode.core.objects;
 
-import org.javacore.Identifier;
 import org.javacore.JCClass;
 import org.javacore.JCField;
 import org.javacore.JCMethod;
 import org.javacore.annotation.Annotation;
 import org.javacore.attribute.Attribute;
+import org.javacore.attribute.DeprecatedAttribute;
+import org.javacore.attribute.RuntimeInvisibleAnnotationsAttribute;
+import org.javacore.attribute.RuntimeVisibleAnnotationsAttribute;
+import org.javacore.attribute.SourceDebugExtensionAttribute;
+import org.javacore.attribute.SourceFileAttribute;
+import org.javacore.attribute.SyntheticAttribute;
 import org.javacore.attribute.UnknownAttribute;
 import org.javacore.common.BootstrapMethod;
-import org.javacore.constant.ConstantClass;
-import org.javacore.constant.ConstantPool;
 import org.javacore.type.GenericType;
 import org.javacore.type.TypedClass;
 import org.javacore.type.generic.ClassGenericDeclaration;
-import org.obicere.bytecode.core.objects.attribute.AttributeSet;
+import org.obicere.bytecode.core.objects.attribute.Attributes;
 import org.obicere.bytecode.core.objects.common.Version;
-import org.obicere.bytecode.core.objects.constant.DefaultConstantPool;
-import org.obicere.bytecode.core.util.ByteCodeReader;
 
-import java.io.IOException;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * @author Obicere
  */
 public class DefaultJCClass implements JCClass {
 
-    private static final int MAGIC_NUMBER = 0xCAFEBABE;
+    private static final int OUTER_ACCESS_FLAGS_MASK = 0x7631;
+
+    private static final int NON_OUTER_ACCESS_FLAGS_MASK = 0x761f;
 
     private int minorVersion;
 
@@ -47,7 +52,7 @@ public class DefaultJCClass implements JCClass {
     private JCField[] fields;
 
     // retention: disposable
-    private AttributeSet attributeSet;
+    private Attributes attributes;
 
     // special information
 
@@ -94,76 +99,10 @@ public class DefaultJCClass implements JCClass {
 
     private UnknownAttribute[] unknownAttributes;
 
+    private boolean haveAttributesBeenSet = false;
+
     public DefaultJCClass() {
 
-    }
-
-    public DefaultJCClass(final ByteCodeReader input) throws IOException {
-        input.enterParent(this);
-
-        final int magic = input.readInt();
-        if (magic != MAGIC_NUMBER) {
-            throw new ClassFormatError("invalid magic number constant: " + magic);
-        }
-
-        final int minorVersion = input.readUnsignedShort();
-        final int majorVersion = input.readUnsignedShort();
-
-        final ConstantPool constantPool = new DefaultConstantPool(input);
-
-        final int accessFlags = input.readUnsignedShort();
-        final ConstantClass constantName = input.readConstant();
-        final ConstantClass constantSuperName = input.readConstant();
-        final String thisName = constantName.getName();
-
-        final String superName;
-        // superName may be null
-        if (constantSuperName == null) {
-            // for java.lang.Object only
-            if (!thisName.equals("java/lang/Object")) {
-                throw new NullPointerException("super class must be non-null");
-            }
-            superName = null;
-        } else {
-            superName = constantSuperName.getName();
-        }
-
-        // read all the interfaces
-        final int interfacesCount = input.readUnsignedShort();
-        final String[] interfaces = new String[interfacesCount];
-        for (int i = 0; i < interfacesCount; i++) {
-            final ConstantClass constantInterfaceName = input.readConstant();
-            interfaces[i] = constantInterfaceName.getName();
-        }
-
-        // read all the fields
-        final int fieldsCount = input.readUnsignedShort();
-        final JCField[] fields = new JCField[fieldsCount];
-        for (int i = 0; i < fieldsCount; i++) {
-            fields[i] = input.read(Identifier.FIELD);
-        }
-
-        // read all the methods
-        final int methodsCount = input.readUnsignedShort();
-        final JCMethod[] methods = new JCMethod[methodsCount];
-        for (int i = 0; i < methodsCount; i++) {
-            methods[i] = input.read(Identifier.METHOD);
-        }
-
-        final AttributeSet attributeSet = input.readAttributeSet();
-
-        this.minorVersion = minorVersion;
-        this.majorVersion = majorVersion;
-        this.accessFlags = accessFlags;
-        this.name = thisName;
-        this.superName = superName;
-        this.interfaces = interfaces;
-        this.fields = fields;
-        this.methods = methods;
-        this.attributeSet = attributeSet;
-
-        input.pollConstants(constantPool);
-        input.exitParent(this);
     }
 
     @Override
@@ -200,7 +139,11 @@ public class DefaultJCClass implements JCClass {
     @Override
     public int getAccessFlags() {
         initializeInnerClasses();
-        return accessFlags;
+        if (isOuterClass()) {
+            return OUTER_ACCESS_FLAGS_MASK & accessFlags;
+        } else {
+            return NON_OUTER_ACCESS_FLAGS_MASK & accessFlags;
+        }
     }
 
     @Override
@@ -242,6 +185,41 @@ public class DefaultJCClass implements JCClass {
     @Override
     public final boolean isArray() {
         return false;
+    }
+
+    @Override
+    public boolean isOuterClass() {
+
+    }
+
+    @Override
+    public boolean isInnerClass() {
+
+    }
+
+    @Override
+    public boolean isNestedClass() {
+
+    }
+
+    @Override
+    public boolean isLocalClass() {
+
+    }
+
+    @Override
+    public boolean isAnonymousClass() {
+
+    }
+
+    @Override
+    public boolean isMemberClass() {
+
+    }
+
+    @Override
+    public boolean isEnclosedClass() {
+
     }
 
     @Override
@@ -510,7 +488,16 @@ public class DefaultJCClass implements JCClass {
 
     @Override
     public Attribute[] getAttributes() {
-        throw new UnsupportedOperationException("oh helllllllll naw fam. This shit is so halal");
+        throw new UnsupportedOperationException("oh helllllllll naw fam. This shit is so haram");
+    }
+
+    @Override
+    public void setAttributes(final Attributes attributes) {
+        if (haveAttributesBeenSet) {
+            throw new IllegalStateException("attributes have already been set for the class.");
+        }
+        this.attributes = attributes;
+        this.haveAttributesBeenSet = true;
     }
 
     @Override
@@ -548,15 +535,24 @@ public class DefaultJCClass implements JCClass {
     private boolean unknownAttributesInitialized = false;
 
     private void initializeSourceFile() {
-        if (sourceFileInitialized) {
+        if (attributes == null || sourceFileInitialized) {
             return;
         }
+        final SourceFileAttribute attribute = attributes.getAttribute(SourceFileAttribute.class);
+        if (attribute != null) {
+            this.sourceFile = attribute.getSourceFile();
+        }
+
+        // remove all attributes
+        attributes.removeAttributes(SourceFileAttribute.class);
+
+        updateAttributes();
 
         sourceFileInitialized = true;
     }
 
     private void initializeInnerClasses() {
-        if (innerClassesInitialized) {
+        if (attributes == null || innerClassesInitialized) {
             return;
         }
 
@@ -564,7 +560,7 @@ public class DefaultJCClass implements JCClass {
     }
 
     private void initializeEnclosingMethod() {
-        if (enclosingMethodInitialized) {
+        if (attributes == null || enclosingMethodInitialized) {
             return;
         }
 
@@ -572,15 +568,24 @@ public class DefaultJCClass implements JCClass {
     }
 
     private void initializeSourceDebugExtension() {
-        if (sourceDebugExtensionInitialized) {
+        if (attributes == null || sourceDebugExtensionInitialized) {
             return;
         }
+        final SourceDebugExtensionAttribute attribute = attributes.getAttribute(SourceDebugExtensionAttribute.class);
+        if (attribute != null) {
+            this.sourceDebugExtension = attribute.getDebugExtension();
+        }
+
+        // remove all attributes
+        attributes.removeAttributes(SourceDebugExtensionAttribute.class);
+
+        updateAttributes();
 
         sourceDebugExtensionInitialized = true;
     }
 
     private void initializeBootstrapMethods() {
-        if (bootstrapMethodsInitialized) {
+        if (attributes == null || bootstrapMethodsInitialized) {
             return;
         }
 
@@ -588,23 +593,39 @@ public class DefaultJCClass implements JCClass {
     }
 
     private void initializeSynthetic() {
-        if (syntheticInitialized) {
+        if (attributes == null || syntheticInitialized) {
             return;
         }
+        final SyntheticAttribute attribute = attributes.getAttribute(SyntheticAttribute.class);
+
+        this.synthetic = (attribute != null);
+
+        // remove all attributes
+        attributes.removeAttributes(SyntheticAttribute.class);
+
+        updateAttributes();
 
         syntheticInitialized = true;
     }
 
     private void initializeDeprecated() {
-        if (deprecatedInitialized) {
+        if (attributes == null || deprecatedInitialized) {
             return;
         }
+        final DeprecatedAttribute attribute = attributes.getAttribute(DeprecatedAttribute.class);
+
+        this.deprecated = (attribute != null);
+
+        // remove all attributes
+        attributes.removeAttributes(DeprecatedAttribute.class);
+
+        updateAttributes();
 
         deprecatedInitialized = true;
     }
 
     private void initializeSignature() {
-        if (signatureInitialized) {
+        if (attributes == null || signatureInitialized) {
             return;
         }
 
@@ -612,15 +633,39 @@ public class DefaultJCClass implements JCClass {
     }
 
     private void initializeAnnotations() {
-        if (annotationsInitialized) {
+        if (attributes == null || annotationsInitialized) {
             return;
         }
+        final RuntimeVisibleAnnotationsAttribute visibleAttribute = attributes.getAttribute(RuntimeVisibleAnnotationsAttribute.class);
+        final RuntimeInvisibleAnnotationsAttribute invisibleAttribute = attributes.getAttribute(RuntimeInvisibleAnnotationsAttribute.class);
 
+        final Set<Annotation> annotations = new LinkedHashSet<>();
+        if (visibleAttribute != null) {
+            Collections.addAll(annotations, visibleAttribute.getAnnotations());
+        }
+        if (invisibleAttribute != null) {
+            Collections.addAll(annotations, invisibleAttribute.getAnnotations());
+        }
+
+        final int size = annotations.size();
+        if (size != 0) {
+            this.annotations = new Annotation[0];
+        } else {
+            this.annotations = annotations.toArray(new Annotation[size]);
+        }
+
+        // remove all
+        attributes.removeAttributes(RuntimeVisibleAnnotationsAttribute.class);
+        attributes.removeAttributes(RuntimeInvisibleAnnotationsAttribute.class);
+        updateAttributes();
         annotationsInitialized = true;
     }
 
     private void initializeTypeAnnotations() {
-        if (typeAnnotationsInitialized) {
+        // type annotations require signature
+        // be sure to double check!!
+        initializeSignature();
+        if (attributes == null || typeAnnotationsInitialized) {
             return;
         }
 
@@ -628,10 +673,16 @@ public class DefaultJCClass implements JCClass {
     }
 
     private void initializeUnknownAttributes() {
-        if (unknownAttributesInitialized) {
+        if (attributes == null || unknownAttributesInitialized) {
             return;
         }
 
         unknownAttributesInitialized = true;
+    }
+
+    private void updateAttributes() {
+        if (attributes.isEmpty()) {
+            attributes = null;
+        }
     }
 }

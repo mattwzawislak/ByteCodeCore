@@ -69,7 +69,7 @@ import java.io.IOException;
  * }
  * }</pre>
  * This is then mirrored in the corresponding reader:
- * {@link ClassReader} which is the
+ * {@link JCClassReader} which is the
  * responsible reader for this format.
  *
  * Due to the availability of this specification, each reader should

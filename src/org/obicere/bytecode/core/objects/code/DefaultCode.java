@@ -18,7 +18,7 @@ import org.javacore.code.instruction.Instruction;
 import org.javacore.code.table.CodeBlockTable;
 import org.javacore.code.table.CodeExceptionTable;
 import org.javacore.code.table.LocalVariableTable;
-import org.obicere.bytecode.core.objects.attribute.AttributeSet;
+import org.obicere.bytecode.core.objects.attribute.Attributes;
 import org.obicere.bytecode.core.objects.code.block.DefaultFrameCodeBlock;
 import org.obicere.bytecode.core.objects.code.block.DefaultLineCodeBlock;
 import org.obicere.bytecode.core.objects.code.block.label.DefaultLabel;
@@ -83,7 +83,7 @@ public class DefaultCode implements Code {
 
         this.exceptions = reader.read(Identifier.CODE_EXCEPTION_TABLE);
 
-        final AttributeSet attributes = reader.readAttributeSet();
+        final Attributes attributes = reader.readAttributeSet();
         this.codeBlocks = createCodeBlockTable(attributes);
         this.variables = createLocalVariableTable(attributes);
 
@@ -533,7 +533,7 @@ public class DefaultCode implements Code {
         }
     }
 
-    protected CodeBlockTable createCodeBlockTable(final AttributeSet attributes) {
+    protected CodeBlockTable createCodeBlockTable(final Attributes attributes) {
 
         final LineNumber[] lines = getLines(attributes);
         final StackMapFrame[] frames = getFrames(attributes);
@@ -541,8 +541,8 @@ public class DefaultCode implements Code {
         return initializeCodeBlockTable(lines, frames);
     }
 
-    protected StackMapFrame[] getFrames(final AttributeSet attributeSet) {
-        final StackMapTableAttribute stackMapTableAttribute = attributeSet.getAttribute(StackMapTableAttribute.class);
+    protected StackMapFrame[] getFrames(final Attributes attributes) {
+        final StackMapTableAttribute stackMapTableAttribute = attributes.getAttribute(StackMapTableAttribute.class);
         if (stackMapTableAttribute != null) {
             return stackMapTableAttribute.getEntries();
         } else {
@@ -550,8 +550,8 @@ public class DefaultCode implements Code {
         }
     }
 
-    protected LineNumber[] getLines(final AttributeSet attributeSet) {
-        final Set<LineNumberTableAttribute> lineNumberTables = attributeSet.getAttributes(LineNumberTableAttribute.class);
+    protected LineNumber[] getLines(final Attributes attributes) {
+        final Set<LineNumberTableAttribute> lineNumberTables = attributes.getAttributes(LineNumberTableAttribute.class);
         if (lineNumberTables == null) {
             return new LineNumber[0];
         }
@@ -590,10 +590,10 @@ public class DefaultCode implements Code {
         return createCodeBlockTable(blocks);
     }
 
-    protected LocalVariableTable createLocalVariableTable(final AttributeSet attributeSet) {
+    protected LocalVariableTable createLocalVariableTable(final Attributes attributes) {
         final Set<LocalVariable> variables = new LinkedHashSet<>();
 
-        final Set<LocalVariableTypeTableAttribute> localVariableTypeTableAttributes = attributeSet.getAttributes(LocalVariableTypeTableAttribute.class);
+        final Set<LocalVariableTypeTableAttribute> localVariableTypeTableAttributes = attributes.getAttributes(LocalVariableTypeTableAttribute.class);
 
         if (localVariableTypeTableAttributes != null) {
             for (final LocalVariableTypeTableAttribute localVariableTypeTableAttribute : localVariableTypeTableAttributes) {
@@ -604,7 +604,7 @@ public class DefaultCode implements Code {
             }
         }
 
-        final Set<LocalVariableTableAttribute> localVariableTableAttributes = attributeSet.getAttributes(LocalVariableTableAttribute.class);
+        final Set<LocalVariableTableAttribute> localVariableTableAttributes = attributes.getAttributes(LocalVariableTableAttribute.class);
 
         if (localVariableTableAttributes != null) {
             for (final LocalVariableTableAttribute localVariableTableAttribute : localVariableTableAttributes) {

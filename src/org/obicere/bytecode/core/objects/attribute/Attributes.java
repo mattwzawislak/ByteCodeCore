@@ -5,14 +5,15 @@ import org.javacore.attribute.Attribute;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  */
-public class AttributeSet {
+public class Attributes {
 
-    public static final AttributeSet EMPTY_SET = new AttributeSet();
+    public static final Attributes EMPTY_SET = new EmptyAttributes();
 
     private ByteCodeReader reader;
 
@@ -20,11 +21,11 @@ public class AttributeSet {
 
     private int size;
 
-    public AttributeSet(final ByteCodeReader reader, final byte[] attributes) {
+    public Attributes(final ByteCodeReader reader, final byte[] attributes) {
         this.reader = new ByteCodeReader(reader, attributes);
     }
 
-    private AttributeSet() {
+    private Attributes() {
         this.attributes = new Attribute[0];
     }
 
@@ -52,28 +53,27 @@ public class AttributeSet {
         return size == 0;
     }
 
-    @SuppressWarnings("unchecked")
     public <T extends Attribute> Set<T> getAttributes(final Class<T> cls) {
         if (attributes == null) {
             initialize();
         }
         final Set<T> result = new HashSet<>();
         for (final Attribute attribute : attributes) {
-            if (attribute != null && cls.isInstance(attribute)) {
-                result.add((T) attribute);
+            if (matches(attribute, cls)) {
+                final T typedAttribute = cls.cast(attribute);
+                result.add(typedAttribute);
             }
         }
         return result;
     }
 
-    @SuppressWarnings("unchecked")
     public <T extends Attribute> T getAttribute(final Class<T> cls) {
         if (attributes == null) {
             initialize();
         }
         for (final Attribute attribute : attributes) {
-            if (attribute != null && cls.isInstance(attribute)) {
-                return (T) attribute;
+            if (matches(attribute, cls)) {
+                return cls.cast(attribute);
             }
         }
         return null;
@@ -82,10 +82,57 @@ public class AttributeSet {
     public void removeAttributes(final Class<? extends Attribute> cls) {
         for (int i = 0; i < attributes.length; i++) {
             final Attribute attribute = attributes[i];
-            if (attribute != null && cls.isInstance(attribute)) {
+            if (matches(attribute, cls)) {
                 attributes[i] = null;
                 size--;
             }
+        }
+    }
+
+    public void removeAttribute(final Class<? extends Attribute> cls) {
+        for (int i = 0; i < attributes.length; i++) {
+            final Attribute attribute = attributes[i];
+            if (matches(attribute, cls)) {
+                attributes[i] = null;
+                size--;
+
+                break;
+            }
+        }
+    }
+
+    private boolean matches(final Attribute attribute, final Class<?> cls) {
+        return attribute != null && cls.isInstance(attribute);
+    }
+
+    private static class EmptyAttributes extends Attributes {
+
+        @Override
+        public int getSize() {
+            return 0;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return true;
+        }
+
+        @Override
+        public <T extends Attribute> Set<T> getAttributes(final Class<T> cls) {
+            return Collections.emptySet();
+        }
+
+        @Override
+        public <T extends Attribute> T getAttribute(final Class<T> cls) {
+            return null;
+        }
+
+        @Override
+        public void removeAttributes(final Class<? extends Attribute> cls) {
+        }
+
+        @Override
+        public void removeAttribute(final Class<? extends Attribute> cls) {
         }
     }
 }
