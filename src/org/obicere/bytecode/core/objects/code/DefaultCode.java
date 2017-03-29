@@ -204,68 +204,29 @@ public class DefaultCode implements Code {
         }
     }
 
-    /*
-    Give a code segment of:
-
-    L0:
-       a
-    L1:
-       b
-    L2:
-       c
-
-    With the op:
-
-    insert(L1, {e1, e2, e3})
-
-    Insert before | Insert after (false) | Insert after (true)
-    --------------+----------------------+--------------------
-    L0:           | L0:                  | L0:
-       a          |    a                 |    a
-       e1         | L1:                  | L1:
-       e2         |    e1                |    e1
-       e3         | L2:                  |    e2
-    L1:           |    e2                |    e3
-       b          |    e3                |    b
-    L2:           |    b                 | L2:
-       c          |    c                 |    c
-    --------------+----------------------+--------------------
-
-     */
-
     @Override
     public boolean insert(final Instruction[] instructions) {
-        return insertInstructions(size, instructions, 0, instructions.length, true, false);
-    }
-
-    @Override
-    public boolean insertBefore(final int pc, final Instruction[] instructions) {
-        return insertInstructions(pc, instructions, 0, instructions.length, true, true);
-    }
-
-    @Override
-    public boolean insertBefore(final int pc, final Instruction[] instructions, final int start, final int length) {
-        return insertInstructions(pc, instructions, start, length, true, true);
+        return insertInstructions(size, instructions, 0, instructions.length, true);
     }
 
     @Override
     public boolean insert(final int pc, final Instruction[] instructions) {
-        return insertInstructions(pc, instructions, 0, instructions.length, true, false);
+        return insertInstructions(pc, instructions, 0, instructions.length, true);
     }
 
     @Override
     public boolean insert(final int pc, final Instruction[] instructions, final int start, final int length) {
-        return insertInstructions(pc, instructions, start, length, true, false);
+        return insertInstructions(pc, instructions, start, length, true);
     }
 
     @Override
     public boolean insert(final int pc, final Instruction[] instructions, final boolean updateLabels) {
-        return insertInstructions(pc, instructions, 0, instructions.length, updateLabels, false);
+        return insertInstructions(pc, instructions, 0, instructions.length, updateLabels);
     }
 
     @Override
     public boolean insert(final int pc, final Instruction[] instructions, final int start, final int length, final boolean updateLabels) {
-        return insertInstructions(pc, instructions, start, length, updateLabels, false);
+        return insertInstructions(pc, instructions, start, length, updateLabels);
     }
 
     @Override
@@ -325,7 +286,7 @@ public class DefaultCode implements Code {
         return removed;
     }
 
-    private boolean insertInstructions(final int pc, final Instruction[] newInstructions, final int start, final int length, final boolean updateLabels, final boolean updateCurrent) {
+    private boolean insertInstructions(final int pc, final Instruction[] newInstructions, final int start, final int length, final boolean updateCurrent) {
         if (pc < 0 || pc > size) {
             throw new IndexOutOfBoundsException("pc value out of bounds: " + pc);
         }
@@ -387,7 +348,7 @@ public class DefaultCode implements Code {
         System.arraycopy(newPcs, start, pcValues, insertionIndex, length);
 
         // update labels
-        shiftLabelsInsert(pc, updateCurrent, updateLabels, insertionSize);
+        shiftLabelsInsert(pc, updateCurrent, insertionSize);
         // update size
         size += insertionSize;
         return true;
@@ -477,7 +438,7 @@ public class DefaultCode implements Code {
         this.instructions = Arrays.copyOf(instructions, n);
     }
 
-    private void shiftLabelsInsert(final int pc, final boolean updateCurrent, final boolean updateLabels, final int shift) {
+    private void shiftLabelsInsert(final int pc, final boolean updateCurrent, final int shift) {
         if (labels.length == 0) {
             return;
         }
@@ -489,16 +450,7 @@ public class DefaultCode implements Code {
         }
         for (int i = startIndex; i < pcKeys.length; i++) {
             final Label label = labels[i];
-            final short address;
-
-            if (updateLabels) {
-                address = (short) (label.getAddress() + shift);
-            } else {
-                final int currentAddress = label.getAddress();
-                final short minimum = (short) Math.min(currentAddress, size);
-                final int ceilIndex = ceilPcIndex(pcValues, minimum);
-                address = pcValues[ceilIndex];
-            }
+            final short address = (short) (label.getAddress() + shift);
 
             // contract!
             // pcKeys[label] = label.getAddress()
