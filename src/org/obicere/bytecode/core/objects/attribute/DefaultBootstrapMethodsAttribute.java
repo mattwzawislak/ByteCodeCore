@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.objects.attribute;
 
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.BootstrapMethodsAttribute;
 import org.javacore.common.BootstrapMethod;
 
@@ -11,7 +12,7 @@ public class DefaultBootstrapMethodsAttribute extends AbstractAttribute implemen
     private final BootstrapMethod[] bootstrapMethods;
 
     public DefaultBootstrapMethodsAttribute(final BootstrapMethod[] bootstrapMethods) {
-        super("BootstrapMethodsAttribute");
+        super(Attributes.BOOTSTRAP_METHODS_ATTRIBUTE_NAME);
         if (bootstrapMethods == null) {
             throw new NullPointerException("bootstrap methods must be non-null");
         }

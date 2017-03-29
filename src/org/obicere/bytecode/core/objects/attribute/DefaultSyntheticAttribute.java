@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.objects.attribute;
 
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.SyntheticAttribute;
 
 /**
@@ -10,7 +11,7 @@ public class DefaultSyntheticAttribute extends AbstractAttribute implements Synt
     private static final SyntheticAttribute INSTANCE = new DefaultSyntheticAttribute();
 
     private DefaultSyntheticAttribute() {
-        super("SyntheticAttribute");
+        super(Attributes.SYNTHETIC_ATTRIBUTE_NAME);
     }
 
     public static SyntheticAttribute getInstance() {

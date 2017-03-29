@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.objects.attribute;
 
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.LineNumberTableAttribute;
 import org.javacore.code.LineNumber;
 
@@ -11,7 +12,7 @@ public class DefaultLineNumberTableAttribute extends AbstractAttribute implement
     private final LineNumber[] lineNumberTable;
 
     public DefaultLineNumberTableAttribute(final LineNumber[] lineNumberTable) {
-        super("LineNumberTableAttribute");
+        super(Attributes.LINE_NUMBER_TABLE_ATTRIBUTE_NAME);
         if (lineNumberTable == null) {
             throw new NullPointerException("line number table must be non-null");
         }

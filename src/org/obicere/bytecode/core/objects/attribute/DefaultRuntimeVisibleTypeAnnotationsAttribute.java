@@ -2,6 +2,7 @@ package org.obicere.bytecode.core.objects.attribute;
 
 
 import org.javacore.annotation.TypeAnnotation;
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.RuntimeVisibleTypeAnnotationsAttribute;
 
 /**
@@ -12,7 +13,7 @@ public class DefaultRuntimeVisibleTypeAnnotationsAttribute extends AbstractAttri
     private final TypeAnnotation[] annotations;
 
     public DefaultRuntimeVisibleTypeAnnotationsAttribute(final TypeAnnotation[] annotations) {
-        super("RuntimeVisibleTypeAnnotationsAttribute");
+        super(Attributes.RUNTIME_VISIBLE_TYPE_ANNOTATIONS_ATTRIBUTE_NAME);
         if (annotations == null) {
             throw new NullPointerException("annotations must be non-null");
         }

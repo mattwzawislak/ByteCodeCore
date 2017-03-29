@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.objects.attribute;
 
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.CodeAttribute;
 import org.javacore.code.Code;
 import org.javacore.code.table.CodeExceptionTable;
@@ -16,7 +17,7 @@ public class DefaultCodeAttribute extends AbstractAttribute implements CodeAttri
     private final Code code;
 
     public DefaultCodeAttribute(final ByteCodeReader reader) throws IOException {
-        super("Code");
+        super(Attributes.CODE_ATTRIBUTE_NAME);
         // TODO this needs a lot of work
         this.code = new DefaultCode(reader);
     }

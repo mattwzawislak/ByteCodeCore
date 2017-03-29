@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.objects.attribute;
 
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.LocalVariableTypeTableAttribute;
 import org.javacore.code.LocalVariable;
 
@@ -11,7 +12,7 @@ public class DefaultLocalVariableTypeTableAttribute extends AbstractAttribute im
     private final LocalVariable[] localVariableTypeTable;
 
     public DefaultLocalVariableTypeTableAttribute(final LocalVariable[] localVariableTypeTable) {
-        super("LocalVariableTypeTableAttribute");
+        super(Attributes.LOCAL_VARIABLE_TYPE_TABLE_ATTRIBUTE_NAME);
         if (localVariableTypeTable == null) {
             throw new NullPointerException("local variable type table must be non-null");
         }

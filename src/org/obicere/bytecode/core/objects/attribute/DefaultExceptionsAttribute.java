@@ -1,6 +1,7 @@
 package org.obicere.bytecode.core.objects.attribute;
 
 import org.javacore.JCClass;
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.ExceptionsAttribute;
 
 /**
@@ -11,7 +12,7 @@ public class DefaultExceptionsAttribute extends AbstractAttribute implements Exc
     private final JCClass[] exceptions;
 
     public DefaultExceptionsAttribute(final JCClass[] exceptions) {
-        super("ExceptionsAttribute");
+        super(Attributes.EXCEPTIONS_ATTRIBUTE_NAME);
         if (exceptions == null) {
             throw new NullPointerException("exceptions must be non-null");
         }

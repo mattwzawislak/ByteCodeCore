@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.objects.attribute;
 
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.InnerClassesAttribute;
 import org.javacore.common.InnerClass;
 
@@ -11,7 +12,7 @@ public class DefaultInnerClassesAttribute extends AbstractAttribute implements I
     private final InnerClass[] classes;
 
     public DefaultInnerClassesAttribute(final InnerClass[] classes) {
-        super("InnerClassesAttribute");
+        super(Attributes.INNER_CLASSES_ATTRIBUTE_NAME);
         if (classes == null) {
             throw new NullPointerException("inner classes must be non-null");
         }

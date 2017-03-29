@@ -1,6 +1,7 @@
 package org.obicere.bytecode.core.objects.attribute;
 
 import org.javacore.annotation.Annotation;
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.RuntimeInvisibleAnnotationsAttribute;
 
 /**
@@ -11,7 +12,7 @@ public class DefaultRuntimeInvisibleAnnotationsAttribute extends AbstractAttribu
     private final Annotation[] annotations;
 
     public DefaultRuntimeInvisibleAnnotationsAttribute(final Annotation[] annotations) {
-        super("RuntimeInvisibleAnnotationsAttribute");
+        super(Attributes.RUNTIME_INVISIBLE_ANNOTATIONS_ATTRIBUTE_NAME);
         if (annotations == null) {
             throw new NullPointerException("annotations must be non-null");
         }

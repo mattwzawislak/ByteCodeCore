@@ -2,6 +2,7 @@ package org.obicere.bytecode.core.objects.attribute;
 
 import org.javacore.annotation.ElementValue;
 import org.javacore.attribute.AnnotationDefaultAttribute;
+import org.javacore.attribute.Attributes;
 
 /**
  * @author Obicere
@@ -11,7 +12,7 @@ public class DefaultAnnotationDefaultAttribute extends AbstractAttribute impleme
     private final ElementValue defaultValue;
 
     public DefaultAnnotationDefaultAttribute(final ElementValue defaultValue) {
-        super("AnnotationDefaultAttribute");
+        super(Attributes.ANNOTATION_DEFAULT_ATTRIBUTE_NAME);
         if (defaultValue == null) {
             throw new NullPointerException("default value must be non-null");
         }

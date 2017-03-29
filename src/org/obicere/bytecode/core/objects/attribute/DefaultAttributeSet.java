@@ -2,6 +2,7 @@ package org.obicere.bytecode.core.objects.attribute;
 
 import org.javacore.Identifier;
 import org.javacore.attribute.Attribute;
+import org.javacore.attribute.AttributeSet;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -11,9 +12,9 @@ import java.util.Set;
 
 /**
  */
-public class Attributes {
+public class DefaultAttributeSet implements AttributeSet {
 
-    public static final Attributes EMPTY_SET = new EmptyAttributes();
+    public static final AttributeSet EMPTY_SET = new EmptyAttributeSet();
 
     private ByteCodeReader reader;
 
@@ -21,11 +22,11 @@ public class Attributes {
 
     private int size;
 
-    public Attributes(final ByteCodeReader reader, final byte[] attributes) {
+    public DefaultAttributeSet(final ByteCodeReader reader, final byte[] attributes) {
         this.reader = new ByteCodeReader(reader, attributes);
     }
 
-    private Attributes() {
+    private DefaultAttributeSet() {
         this.attributes = new Attribute[0];
     }
 
@@ -45,14 +46,17 @@ public class Attributes {
         }
     }
 
+    @Override
     public int getSize() {
         return size;
     }
 
+    @Override
     public boolean isEmpty() {
         return size == 0;
     }
 
+    @Override
     public <T extends Attribute> Set<T> getAttributes(final Class<T> cls) {
         if (attributes == null) {
             initialize();
@@ -67,6 +71,7 @@ public class Attributes {
         return result;
     }
 
+    @Override
     public <T extends Attribute> T getAttribute(final Class<T> cls) {
         if (attributes == null) {
             initialize();
@@ -79,6 +84,7 @@ public class Attributes {
         return null;
     }
 
+    @Override
     public void removeAttributes(final Class<? extends Attribute> cls) {
         for (int i = 0; i < attributes.length; i++) {
             final Attribute attribute = attributes[i];
@@ -89,6 +95,7 @@ public class Attributes {
         }
     }
 
+    @Override
     public void removeAttribute(final Class<? extends Attribute> cls) {
         for (int i = 0; i < attributes.length; i++) {
             final Attribute attribute = attributes[i];
@@ -105,7 +112,7 @@ public class Attributes {
         return attribute != null && cls.isInstance(attribute);
     }
 
-    private static class EmptyAttributes extends Attributes {
+    private static class EmptyAttributeSet extends DefaultAttributeSet {
 
         @Override
         public int getSize() {

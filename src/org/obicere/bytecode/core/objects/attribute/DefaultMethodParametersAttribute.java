@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.objects.attribute;
 
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.MethodParametersAttribute;
 import org.javacore.common.Parameter;
 
@@ -11,7 +12,7 @@ public class DefaultMethodParametersAttribute extends AbstractAttribute implemen
     private final Parameter[] parameters;
 
     public DefaultMethodParametersAttribute(final Parameter[] parameters) {
-        super("MethodParametersAttribute");
+        super(Attributes.METHOD_PARAMETERS_ATTRIBUTE_NAME);
         if (parameters == null) {
             throw new NullPointerException("parameters must be non-null");
         }

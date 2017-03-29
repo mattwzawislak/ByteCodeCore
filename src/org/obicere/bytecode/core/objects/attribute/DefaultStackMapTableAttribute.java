@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.objects.attribute;
 
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.StackMapTableAttribute;
 import org.javacore.code.frame.StackMapFrame;
 
@@ -11,7 +12,7 @@ public class DefaultStackMapTableAttribute extends AbstractAttribute implements 
     private final StackMapFrame[] entries;
 
     public DefaultStackMapTableAttribute(final StackMapFrame[] entries) {
-        super("StackMapTableAttribute");
+        super(Attributes.STACK_MAP_TABLE_ATTRIBUTE_NAME);
         if (entries == null) {
             throw new NullPointerException("entries must be non-null");
         }

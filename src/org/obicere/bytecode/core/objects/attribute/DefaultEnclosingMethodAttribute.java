@@ -2,6 +2,7 @@ package org.obicere.bytecode.core.objects.attribute;
 
 import org.javacore.JCClass;
 import org.javacore.JCMethod;
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.EnclosingMethodAttribute;
 
 /**
@@ -13,7 +14,7 @@ public class DefaultEnclosingMethodAttribute extends AbstractAttribute implement
     private final JCMethod enclosingMethod;
 
     public DefaultEnclosingMethodAttribute(final JCClass enclosingClass, final JCMethod enclosingMethod) {
-        super("EnclosingMethod");
+        super(Attributes.ENCLOSING_METHOD_ATTRIBUTE_NAME);
         if (enclosingClass == null) {
             throw new NullPointerException("enclosing class must be non-null");
         }

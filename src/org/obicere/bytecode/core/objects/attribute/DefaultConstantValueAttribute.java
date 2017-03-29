@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.objects.attribute;
 
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.ConstantValueAttribute;
 import org.javacore.constant.Constant;
 
@@ -11,7 +12,7 @@ public class DefaultConstantValueAttribute extends AbstractAttribute implements 
     private final Constant value;
 
     public DefaultConstantValueAttribute(final Constant value) {
-        super("ConstantValueAttribute");
+        super(Attributes.CONSTANT_VALUE_ATTRIBUTE_NAME);
         this.value = value;
     }
 

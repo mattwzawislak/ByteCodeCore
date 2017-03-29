@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.objects.attribute;
 
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.SourceFileAttribute;
 
 /**
@@ -10,7 +11,7 @@ public class DefaultSourceFileAttribute extends AbstractAttribute implements Sou
     private final String sourceFile;
 
     public DefaultSourceFileAttribute(final String sourceFile) {
-        super("SourceFileAttribute");
+        super(Attributes.SOURCE_FILE_ATTRIBUTE_NAME);
         this.sourceFile = sourceFile;
     }
 

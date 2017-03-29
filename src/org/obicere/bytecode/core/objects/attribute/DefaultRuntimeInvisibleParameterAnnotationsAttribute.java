@@ -1,6 +1,7 @@
 package org.obicere.bytecode.core.objects.attribute;
 
 import org.javacore.annotation.Annotation;
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.RuntimeInvisibleParameterAnnotationsAttribute;
 
 /**
@@ -11,7 +12,7 @@ public class DefaultRuntimeInvisibleParameterAnnotationsAttribute extends Abstra
     private final Annotation[][] parameterAnnotations;
 
     public DefaultRuntimeInvisibleParameterAnnotationsAttribute(final Annotation[][] parameterAnnotations) {
-        super("RuntimeInvisibleParameterAnnotationsAttribute");
+        super(Attributes.RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS_ATTRIBUTE_NAME);
         if (parameterAnnotations == null) {
             throw new NullPointerException("parameter must be non-null");
         }

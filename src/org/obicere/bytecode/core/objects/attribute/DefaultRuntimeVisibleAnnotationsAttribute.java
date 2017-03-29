@@ -1,6 +1,7 @@
 package org.obicere.bytecode.core.objects.attribute;
 
 import org.javacore.annotation.Annotation;
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.RuntimeVisibleAnnotationsAttribute;
 
 /**
@@ -11,7 +12,7 @@ public class DefaultRuntimeVisibleAnnotationsAttribute extends AbstractAttribute
     private final Annotation[] annotations;
 
     public DefaultRuntimeVisibleAnnotationsAttribute(final Annotation[] annotations) {
-        super("RuntimeVisibleAnnotationsAttribute");
+        super(Attributes.RUNTIME_VISIBLE_ANNOTATIONS_ATTRIBUTE_NAME);
         if (annotations == null) {
             throw new NullPointerException("annotations must be non-null");
         }

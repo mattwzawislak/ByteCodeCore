@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.objects.attribute;
 
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.SignatureAttribute;
 
 /**
@@ -10,7 +11,7 @@ public class DefaultSignatureAttribute extends AbstractAttribute implements Sign
     private final String signature;
 
     public DefaultSignatureAttribute(final String signature) {
-        super("SignatureAttribute");
+        super(Attributes.SIGNATURE_ATTRIBUTE_NAME);
         this.signature = signature;
     }
 

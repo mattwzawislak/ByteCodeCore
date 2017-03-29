@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.objects.attribute;
 
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.DeprecatedAttribute;
 
 /**
@@ -10,7 +11,7 @@ public class DefaultDeprecatedAttribute extends AbstractAttribute implements Dep
     private static final DeprecatedAttribute INSTANCE = new DefaultDeprecatedAttribute();
 
     private DefaultDeprecatedAttribute() {
-        super("DeprecatedAttribute");
+        super(Attributes.DEPRECATED_ATTRIBUTE_NAME);
     }
 
     public static DeprecatedAttribute getInstance() {

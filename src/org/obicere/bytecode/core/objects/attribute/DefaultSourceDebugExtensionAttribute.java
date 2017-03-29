@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.objects.attribute;
 
+import org.javacore.attribute.Attributes;
 import org.javacore.attribute.SourceDebugExtensionAttribute;
 
 /**
@@ -10,7 +11,7 @@ public class DefaultSourceDebugExtensionAttribute extends AbstractAttribute impl
     private final String debugExtension;
 
     public DefaultSourceDebugExtensionAttribute(final String debugExtension) {
-        super("SourceDebugExtensionAttribute");
+        super(Attributes.SOURCE_DEBUG_EXTENSION_ATTRIBUTE_NAME);
         if (debugExtension == null) {
             throw new NullPointerException("debug extension must be non-null");
         }
