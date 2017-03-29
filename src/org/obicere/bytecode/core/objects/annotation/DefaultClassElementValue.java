@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.annotation;
 
 import org.javacore.annotation.ClassElementValue;
-import org.obicere.bytecode.core.reader.annotation.ElementValueReader;
+import org.javacore.annotation.ElementValues;
 import org.javacore.type.Type;
 
 /**
@@ -12,7 +12,7 @@ public class DefaultClassElementValue extends AbstractElementValue implements Cl
     private final Type type;
 
     public DefaultClassElementValue(final Type type) {
-        super(ElementValueReader.TAG_CLASS);
+        super(ElementValues.TAG_CLASS);
         if (type == null) {
             throw new NullPointerException("type must be non-null");
         }

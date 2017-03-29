@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.annotation;
 
 import org.javacore.annotation.BooleanElementValue;
-import org.obicere.bytecode.core.reader.annotation.ElementValueReader;
+import org.javacore.annotation.ElementValues;
 
 /**
  * @author Obicere
@@ -11,7 +11,7 @@ public class DefaultBooleanElementValue extends AbstractElementValue implements 
     private final boolean value;
 
     public DefaultBooleanElementValue(final boolean value) {
-        super(ElementValueReader.TAG_BOOLEAN);
+        super(ElementValues.TAG_BOOLEAN);
         this.value = value;
     }
 

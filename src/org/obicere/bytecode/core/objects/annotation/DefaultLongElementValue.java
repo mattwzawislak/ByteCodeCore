@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.annotation;
 
 import org.javacore.annotation.LongElementValue;
-import org.obicere.bytecode.core.reader.annotation.ElementValueReader;
+import org.javacore.annotation.ElementValues;
 
 /**
  * @author Obicere
@@ -11,7 +11,7 @@ public class DefaultLongElementValue extends AbstractElementValue implements Lon
     private final long value;
 
     public DefaultLongElementValue(final long value) {
-        super(ElementValueReader.TAG_LONG);
+        super(ElementValues.TAG_LONG);
         this.value = value;
     }
 

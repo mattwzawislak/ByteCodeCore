@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.annotation;
 
 import org.javacore.annotation.CharacterElementValue;
-import org.obicere.bytecode.core.reader.annotation.ElementValueReader;
+import org.javacore.annotation.ElementValues;
 
 /**
  * @author Obicere
@@ -11,7 +11,7 @@ public class DefaultCharacterElementValue extends AbstractElementValue implement
     private final char value;
 
     public DefaultCharacterElementValue(final char value) {
-        super(ElementValueReader.TAG_CHARACTER);
+        super(ElementValues.TAG_CHARACTER);
         this.value = value;
     }
 

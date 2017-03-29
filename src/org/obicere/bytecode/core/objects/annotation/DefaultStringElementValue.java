@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.annotation;
 
 import org.javacore.annotation.StringElementValue;
-import org.obicere.bytecode.core.reader.annotation.ElementValueReader;
+import org.javacore.annotation.ElementValues;
 
 /**
  * @author Obicere
@@ -11,7 +11,7 @@ public class DefaultStringElementValue extends AbstractElementValue implements S
     private final String value;
 
     public DefaultStringElementValue(final String value) {
-        super(ElementValueReader.TAG_STRING);
+        super(ElementValues.TAG_STRING);
         this.value = value;
     }
 

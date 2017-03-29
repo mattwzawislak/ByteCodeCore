@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.annotation;
 
 import org.javacore.annotation.ByteElementValue;
-import org.obicere.bytecode.core.reader.annotation.ElementValueReader;
+import org.javacore.annotation.ElementValues;
 
 /**
  * @author Obicere
@@ -11,7 +11,7 @@ public class DefaultByteElementValue extends AbstractElementValue implements Byt
     private final byte value;
 
     public DefaultByteElementValue(final byte value) {
-        super(ElementValueReader.TAG_BYTE);
+        super(ElementValues.TAG_BYTE);
         this.value = value;
     }
 

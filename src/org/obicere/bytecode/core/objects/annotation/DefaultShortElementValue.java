@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.annotation;
 
 import org.javacore.annotation.ShortElementValue;
-import org.obicere.bytecode.core.reader.annotation.ElementValueReader;
+import org.javacore.annotation.ElementValues;
 
 /**
  * @author Obicere
@@ -11,7 +11,7 @@ public class DefaultShortElementValue extends AbstractElementValue implements Sh
     private final short value;
 
     public DefaultShortElementValue(final short value) {
-        super(ElementValueReader.TAG_SHORT);
+        super(ElementValues.TAG_SHORT);
         this.value = value;
     }
 

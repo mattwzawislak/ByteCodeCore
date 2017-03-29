@@ -2,7 +2,7 @@ package org.obicere.bytecode.core.objects.annotation;
 
 import org.javacore.JCClass;
 import org.javacore.annotation.EnumElementValue;
-import org.obicere.bytecode.core.reader.annotation.ElementValueReader;
+import org.javacore.annotation.ElementValues;
 
 /**
  * @author Obicere
@@ -13,7 +13,7 @@ public class DefaultEnumElementValue extends AbstractElementValue implements Enu
     private final String  name;
 
     public DefaultEnumElementValue(final JCClass type, final String name) {
-        super(ElementValueReader.TAG_ENUM);
+        super(ElementValues.TAG_ENUM);
         this.type = type;
         this.name = name;
     }
