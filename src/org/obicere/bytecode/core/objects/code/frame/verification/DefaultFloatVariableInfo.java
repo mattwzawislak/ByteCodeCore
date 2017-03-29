@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.frame.verification;
 
 import org.javacore.code.frame.verification.FloatVariableInfo;
-import org.obicere.bytecode.core.reader.code.frame.verification.VerificationTypeInfoReader;
+import org.javacore.code.frame.verification.VerificationTypeInfos;
 
 /**
  */
@@ -10,7 +10,7 @@ public class DefaultFloatVariableInfo extends AbstractVerificationTypeInfo imple
     private static final FloatVariableInfo INSTANCE = new DefaultFloatVariableInfo();
 
     private DefaultFloatVariableInfo() {
-        super(VerificationTypeInfoReader.ITEM_FLOAT);
+        super(VerificationTypeInfos.ITEM_FLOAT);
     }
 
     public static FloatVariableInfo getInstance() {

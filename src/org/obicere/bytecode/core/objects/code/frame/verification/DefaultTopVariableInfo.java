@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.frame.verification;
 
 import org.javacore.code.frame.verification.TopVariableInfo;
-import org.obicere.bytecode.core.reader.code.frame.verification.VerificationTypeInfoReader;
+import org.javacore.code.frame.verification.VerificationTypeInfos;
 
 /**
  */
@@ -10,7 +10,7 @@ public class DefaultTopVariableInfo extends AbstractVerificationTypeInfo impleme
     private static final TopVariableInfo INSTANCE = new DefaultTopVariableInfo();
 
     private DefaultTopVariableInfo() {
-        super(VerificationTypeInfoReader.ITEM_TOP);
+        super(VerificationTypeInfos.ITEM_TOP);
     }
 
     public static TopVariableInfo getInstance() {

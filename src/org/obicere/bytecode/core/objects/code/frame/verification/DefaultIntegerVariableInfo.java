@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.frame.verification;
 
 import org.javacore.code.frame.verification.IntegerVariableInfo;
-import org.obicere.bytecode.core.reader.code.frame.verification.VerificationTypeInfoReader;
+import org.javacore.code.frame.verification.VerificationTypeInfos;
 
 /**
  */
@@ -10,7 +10,7 @@ public class DefaultIntegerVariableInfo extends AbstractVerificationTypeInfo imp
     private static final IntegerVariableInfo INSTANCE = new DefaultIntegerVariableInfo();
 
     private DefaultIntegerVariableInfo() {
-        super(VerificationTypeInfoReader.ITEM_INTEGER);
+        super(VerificationTypeInfos.ITEM_INTEGER);
     }
 
     public static IntegerVariableInfo getInstance() {

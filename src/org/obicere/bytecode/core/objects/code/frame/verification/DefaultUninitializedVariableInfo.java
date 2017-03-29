@@ -2,7 +2,7 @@ package org.obicere.bytecode.core.objects.code.frame.verification;
 
 import org.javacore.code.block.label.Label;
 import org.javacore.code.frame.verification.UninitializedVariableInfo;
-import org.obicere.bytecode.core.reader.code.frame.verification.VerificationTypeInfoReader;
+import org.javacore.code.frame.verification.VerificationTypeInfos;
 
 /**
  */
@@ -11,7 +11,7 @@ public class DefaultUninitializedVariableInfo extends AbstractVerificationTypeIn
     private final Label offset;
 
     public DefaultUninitializedVariableInfo(final Label offset) {
-        super(VerificationTypeInfoReader.ITEM_UNINITIALIZED);
+        super(VerificationTypeInfos.ITEM_UNINITIALIZED);
         this.offset = offset;
     }
 

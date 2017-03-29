@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.frame.verification;
 
 import org.javacore.code.frame.verification.LongVariableInfo;
-import org.obicere.bytecode.core.reader.code.frame.verification.VerificationTypeInfoReader;
+import org.javacore.code.frame.verification.VerificationTypeInfos;
 
 /**
  */
@@ -10,7 +10,7 @@ public class DefaultLongVariableInfo extends AbstractVerificationTypeInfo implem
     private static final LongVariableInfo INSTANCE = new DefaultLongVariableInfo();
 
     private DefaultLongVariableInfo() {
-        super(VerificationTypeInfoReader.ITEM_LONG);
+        super(VerificationTypeInfos.ITEM_LONG);
     }
 
     public static LongVariableInfo getInstance() {
