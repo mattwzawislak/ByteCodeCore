@@ -7,7 +7,7 @@ import org.javacore.constant.ConstantUtf8;
 import org.javacore.type.signature.MethodSignature;
 import org.obicere.bytecode.core.objects.common.DefaultMethodType;
 import org.obicere.bytecode.core.objects.type.parser.SignatureParser;
-import org.obicere.bytecode.core.reader.constant.ConstantReader;
+import org.javacore.constant.Constants;
 
 /**
  * @author Obicere
@@ -19,7 +19,7 @@ public class DefaultConstantMethodType extends AbstractConstant implements Const
     private volatile MethodType methodType;
 
     public DefaultConstantMethodType(final ConstantPool constantPool, final int descriptorIndex) {
-        super(constantPool, ConstantReader.CONSTANT_METHOD_TYPE);
+        super(constantPool, Constants.CONSTANT_METHOD_TYPE);
         this.descriptorIndex = descriptorIndex;
     }
 

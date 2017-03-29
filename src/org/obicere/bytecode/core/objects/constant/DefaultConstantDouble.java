@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.constant;
 
 import org.javacore.constant.ConstantDouble;
-import org.obicere.bytecode.core.reader.constant.ConstantReader;
+import org.javacore.constant.Constants;
 
 /**
  * @author Obicere
@@ -11,7 +11,7 @@ public class DefaultConstantDouble extends AbstractConstant implements ConstantD
     private final double bytes;
 
     public DefaultConstantDouble(final double bytes) {
-        super(null, ConstantReader.CONSTANT_DOUBLE);
+        super(null, Constants.CONSTANT_DOUBLE);
         this.bytes = bytes;
     }
 

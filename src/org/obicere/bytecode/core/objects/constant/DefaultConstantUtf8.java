@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.constant;
 
 import org.javacore.constant.ConstantUtf8;
-import org.obicere.bytecode.core.reader.constant.ConstantReader;
+import org.javacore.constant.Constants;
 
 /**
  * @author Obicere
@@ -11,7 +11,7 @@ public class DefaultConstantUtf8 extends AbstractConstant implements ConstantUtf
     private final String bytes;
 
     public DefaultConstantUtf8(final String bytes) {
-        super(null, ConstantReader.CONSTANT_UTF8);
+        super(null, Constants.CONSTANT_UTF8);
         if (bytes == null) {
             throw new NullPointerException("bytes must be non-null");
         }

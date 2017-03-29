@@ -7,7 +7,7 @@ import org.javacore.constant.ConstantRef;
 import org.javacore.reference.Reference;
 import org.javacore.reference.ReferenceKind;
 import org.obicere.bytecode.core.objects.common.DefaultMethodHandle;
-import org.obicere.bytecode.core.reader.constant.ConstantReader;
+import org.javacore.constant.Constants;
 
 /**
  * @author Obicere
@@ -21,7 +21,7 @@ public class DefaultConstantMethodHandle extends AbstractConstant implements Con
     private volatile MethodHandle<?> handle;
 
     public DefaultConstantMethodHandle(final ConstantPool constantPool, final int referenceKind, final int referenceIndex) {
-        super(constantPool, ConstantReader.CONSTANT_METHOD_HANDLE);
+        super(constantPool, Constants.CONSTANT_METHOD_HANDLE);
         this.referenceKind = ReferenceKind.get(referenceKind);
         this.referenceIndex = referenceIndex;
     }

@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects.constant;
 import org.javacore.constant.ConstantNameAndType;
 import org.javacore.constant.ConstantPool;
 import org.javacore.constant.ConstantUtf8;
-import org.obicere.bytecode.core.reader.constant.ConstantReader;
+import org.javacore.constant.Constants;
 
 /**
  * @author Obicere
@@ -15,7 +15,7 @@ public class DefaultConstantNameAndType extends AbstractConstant implements Cons
     private final int typeIndex;
 
     public DefaultConstantNameAndType(final ConstantPool constantPool, final int nameIndex, final int typeIndex) {
-        super(constantPool, ConstantReader.CONSTANT_NAME_AND_TYPE);
+        super(constantPool, Constants.CONSTANT_NAME_AND_TYPE);
         this.nameIndex = nameIndex;
         this.typeIndex = typeIndex;
     }

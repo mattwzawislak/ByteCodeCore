@@ -4,7 +4,7 @@ import org.javacore.common.BootstrapMethodLink;
 import org.javacore.constant.ConstantInvokeDynamic;
 import org.javacore.constant.ConstantNameAndType;
 import org.javacore.constant.ConstantPool;
-import org.obicere.bytecode.core.reader.constant.ConstantReader;
+import org.javacore.constant.Constants;
 
 /**
  * @author Obicere
@@ -20,7 +20,7 @@ public class DefaultConstantInvokeDynamic extends AbstractConstant implements Co
     private volatile String type;
 
     public DefaultConstantInvokeDynamic(final ConstantPool constantPool, final int bootstrapMethodAttrIndex, final int nameAndTypeIndex) {
-        super(constantPool, ConstantReader.CONSTANT_INVOKE_DYNAMIC);
+        super(constantPool, Constants.CONSTANT_INVOKE_DYNAMIC);
         this.bootstrapMethodAttrIndex = bootstrapMethodAttrIndex;
         this.nameAndTypeIndex = nameAndTypeIndex;
     }

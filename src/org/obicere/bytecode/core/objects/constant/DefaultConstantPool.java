@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects.constant;
 import org.javacore.Identifier;
 import org.javacore.constant.Constant;
 import org.javacore.constant.ConstantPool;
-import org.obicere.bytecode.core.reader.constant.ConstantReader;
+import org.javacore.constant.Constants;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -50,7 +50,7 @@ public class DefaultConstantPool implements ConstantPool {
             //    ~ Someone who had a bit of sense
 
             // Why they did this still shocks me.
-            if (tag == ConstantReader.CONSTANT_LONG || tag == ConstantReader.CONSTANT_DOUBLE) {
+            if (tag == Constants.CONSTANT_LONG || tag == Constants.CONSTANT_DOUBLE) {
                 i++;
             }
         }

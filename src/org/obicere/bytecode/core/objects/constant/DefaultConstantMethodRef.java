@@ -5,7 +5,7 @@ import org.javacore.constant.ConstantMethodRef;
 import org.javacore.constant.ConstantNameAndType;
 import org.javacore.constant.ConstantPool;
 import org.obicere.bytecode.core.objects.reference.MethodReference;
-import org.obicere.bytecode.core.reader.constant.ConstantReader;
+import org.javacore.constant.Constants;
 
 /**
  * @author Obicere
@@ -19,7 +19,7 @@ public class DefaultConstantMethodRef extends AbstractConstant implements Consta
     private volatile MethodReference ref;
 
     public DefaultConstantMethodRef(final ConstantPool constantPool, final int classIndex, final int nameAndTypeIndex) {
-        super(constantPool, ConstantReader.CONSTANT_INTERFACE_METHOD_REF);
+        super(constantPool, Constants.CONSTANT_INTERFACE_METHOD_REF);
         this.classIndex = classIndex;
         this.nameAndTypeIndex = nameAndTypeIndex;
     }

@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.constant;
 
 import org.javacore.constant.ConstantLong;
-import org.obicere.bytecode.core.reader.constant.ConstantReader;
+import org.javacore.constant.Constants;
 
 /**
  * @author Obicere
@@ -11,7 +11,7 @@ public class DefaultConstantLong extends AbstractConstant implements ConstantLon
     private final long bytes;
 
     public DefaultConstantLong(final long bytes) {
-        super(null, ConstantReader.CONSTANT_LONG);
+        super(null, Constants.CONSTANT_LONG);
         this.bytes = bytes;
     }
 

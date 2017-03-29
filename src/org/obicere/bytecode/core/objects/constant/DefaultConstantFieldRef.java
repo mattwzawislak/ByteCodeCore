@@ -5,7 +5,7 @@ import org.javacore.constant.ConstantFieldRef;
 import org.javacore.constant.ConstantNameAndType;
 import org.javacore.constant.ConstantPool;
 import org.obicere.bytecode.core.objects.reference.FieldReference;
-import org.obicere.bytecode.core.reader.constant.ConstantReader;
+import org.javacore.constant.Constants;
 
 /**
  * @author Obicere
@@ -19,7 +19,7 @@ public class DefaultConstantFieldRef extends AbstractConstant implements Constan
     private volatile FieldReference ref;
 
     public DefaultConstantFieldRef(final ConstantPool constantPool1, final int classIndex, final int nameAndTypeIndex) {
-        super(constantPool1, ConstantReader.CONSTANT_FIELD_REF);
+        super(constantPool1, Constants.CONSTANT_FIELD_REF);
         this.classIndex = classIndex;
         this.nameAndTypeIndex = nameAndTypeIndex;
     }

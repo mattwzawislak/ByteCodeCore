@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.constant;
 
 import org.javacore.constant.ConstantInteger;
-import org.obicere.bytecode.core.reader.constant.ConstantReader;
+import org.javacore.constant.Constants;
 
 /**
  * @author Obicere
@@ -11,7 +11,7 @@ public class DefaultConstantInteger extends AbstractConstant implements Constant
     private final int bytes;
 
     public DefaultConstantInteger(final int bytes) {
-        super(null, ConstantReader.CONSTANT_INTEGER);
+        super(null, Constants.CONSTANT_INTEGER);
         this.bytes = bytes;
     }
 

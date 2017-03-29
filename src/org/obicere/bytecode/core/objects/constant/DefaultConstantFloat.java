@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.constant;
 
 import org.javacore.constant.ConstantFloat;
-import org.obicere.bytecode.core.reader.constant.ConstantReader;
+import org.javacore.constant.Constants;
 
 /**
  * @author Obicere
@@ -11,7 +11,7 @@ public class DefaultConstantFloat extends AbstractConstant implements ConstantFl
     private final float bytes;
 
     public DefaultConstantFloat(final float bytes) {
-        super(null, ConstantReader.CONSTANT_FLOAT);
+        super(null, Constants.CONSTANT_FLOAT);
         this.bytes = bytes;
     }
 

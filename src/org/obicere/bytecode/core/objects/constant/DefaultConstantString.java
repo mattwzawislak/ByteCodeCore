@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects.constant;
 import org.javacore.constant.ConstantPool;
 import org.javacore.constant.ConstantString;
 import org.javacore.constant.ConstantUtf8;
-import org.obicere.bytecode.core.reader.constant.ConstantReader;
+import org.javacore.constant.Constants;
 
 /**
  * @author Obicere
@@ -13,7 +13,7 @@ public class DefaultConstantString extends AbstractConstant implements ConstantS
     private final int stringIndex;
 
     public DefaultConstantString(final ConstantPool constantPool, final int stringIndex) {
-        super(constantPool, ConstantReader.CONSTANT_STRING);
+        super(constantPool, Constants.CONSTANT_STRING);
         this.stringIndex = stringIndex;
     }
 
