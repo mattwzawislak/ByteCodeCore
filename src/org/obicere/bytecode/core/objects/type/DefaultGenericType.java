@@ -59,7 +59,7 @@ public class DefaultGenericType implements GenericType {
 
     @Override
     public String getName() {
-        return name;
+        return "T" + name + ";";
     }
 
     @Override

@@ -4,6 +4,7 @@ import org.javacore.JCClass;
 import org.javacore.JCMethod;
 import org.javacore.annotation.Annotation;
 import org.javacore.attribute.Attribute;
+import org.javacore.attribute.AttributeSet;
 import org.javacore.attribute.CodeAttribute;
 import org.javacore.attribute.DeprecatedAttribute;
 import org.javacore.attribute.SignatureAttribute;
@@ -14,7 +15,6 @@ import org.javacore.type.Type;
 import org.javacore.type.factory.TypeFactory;
 import org.javacore.type.generic.MethodGenericDeclaration;
 import org.javacore.type.signature.MethodSignature;
-import org.obicere.bytecode.core.objects.attribute.Attributes;
 import org.obicere.bytecode.core.objects.type.factory.DefaultTypeFactory;
 import org.obicere.bytecode.core.objects.type.generic.DefaultMethodGenericDeclaration;
 import org.obicere.bytecode.core.objects.type.parser.SignatureParser;
@@ -31,7 +31,7 @@ public class DefaultJCMethod implements JCMethod {
 
     private String descriptor;
 
-    private Attributes attributes;
+    private AttributeSet attributes;
 
     private JCClass outerClass;
 
@@ -86,7 +86,7 @@ public class DefaultJCMethod implements JCMethod {
         reader.exitParent(this);
     }
 
-    public DefaultJCMethod(final int accessFlags, final String name, final String descriptor, final Attributes attributes) {
+    public DefaultJCMethod(final int accessFlags, final String name, final String descriptor, final AttributeSet attributes) {
         this.accessFlags = accessFlags;
         this.name = name;
         this.descriptor = descriptor;

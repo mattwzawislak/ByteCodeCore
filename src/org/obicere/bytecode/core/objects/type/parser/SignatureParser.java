@@ -43,6 +43,40 @@ public class SignatureParser {
         this.string = new QueueString(string);
     }
 
+    public static String createSignature(final String superName, final String[] interfaceNames) {
+        if (interfaceNames == null) {
+            throw new NullPointerException("interfaceNames must be non-null");
+        }
+        final String safeName;
+        if (superName == null) {
+            safeName = "[java/lang/Object;";
+        } else {
+            safeName = superName;
+        }
+
+        final StringBuilder builder = new StringBuilder();
+
+        appendName(safeName, builder);
+        for (final String interfaceName : interfaceNames) {
+            appendName(interfaceName, builder);
+        }
+
+        return builder.toString();
+    }
+
+    private static void appendName(final String name, final StringBuilder builder) {
+        if (name == null) {
+            throw new NullPointerException("name must be non-null");
+        }
+        if (!name.startsWith("L")) {
+            builder.append('L');
+        }
+        builder.append(name);
+        if (!name.endsWith(";")) {
+            builder.append(';');
+        }
+    }
+
     public ClassSignature parseClassSignature() {
         final TypeParameter[] typeParameters = parseTypeParameters();
         final ClassTypeSignature superClass = parseClassTypeSignature();

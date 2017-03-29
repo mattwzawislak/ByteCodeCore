@@ -11,6 +11,9 @@ public final class DefaultArrayType implements ArrayType {
     private final Type component;
 
     public DefaultArrayType(final Type component) {
+        if(component == null){
+            throw new NullPointerException("component must be non-null");
+        }
         this.component = component;
     }
 
@@ -24,7 +27,7 @@ public final class DefaultArrayType implements ArrayType {
         if (componentName == null) {
             return null;
         } else {
-            return componentName + "[]";
+            return "[" + componentName;
         }
     }
 

@@ -8,6 +8,7 @@ import org.javacore.type.generic.ClassGenericDeclaration;
 import org.javacore.type.generic.GenericDeclaration;
 import org.javacore.type.signature.ClassSignature;
 import org.javacore.type.signature.ClassTypeSignature;
+import org.javacore.type.signature.TypeParameter;
 
 /**
  * @author Obicere
@@ -30,6 +31,11 @@ public class DefaultClassGenericDeclaration extends AbstractGenericDeclaration<J
         this.classType = classType;
         this.superClass = signature.getSuperClass();
         this.superInterfaces = signature.getSuperInterfaces();
+    }
+
+    public DefaultClassGenericDeclaration(final JCClass classType, final String superName, final String[] superInterfaces, final TypeFactory factory) {
+        super(new TypeParameter[0], factory);
+        this.classType = classType;
     }
 
     @Override
@@ -71,7 +77,6 @@ public class DefaultClassGenericDeclaration extends AbstractGenericDeclaration<J
 
     @Override
     public GenericDeclaration getOuterDeclaration() {
-        // TODO: first, check enclosing method
         final JCMethod enclosing = classType.getEnclosingMethod();
         if(enclosing != null) {
             return enclosing.getDeclaration();

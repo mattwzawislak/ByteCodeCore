@@ -5,9 +5,11 @@ import org.javacore.JCField;
 import org.javacore.JCMethod;
 import org.javacore.annotation.Annotation;
 import org.javacore.attribute.Attribute;
+import org.javacore.attribute.AttributeSet;
 import org.javacore.attribute.DeprecatedAttribute;
 import org.javacore.attribute.RuntimeInvisibleAnnotationsAttribute;
 import org.javacore.attribute.RuntimeVisibleAnnotationsAttribute;
+import org.javacore.attribute.SignatureAttribute;
 import org.javacore.attribute.SourceDebugExtensionAttribute;
 import org.javacore.attribute.SourceFileAttribute;
 import org.javacore.attribute.SyntheticAttribute;
@@ -15,9 +17,13 @@ import org.javacore.attribute.UnknownAttribute;
 import org.javacore.common.BootstrapMethod;
 import org.javacore.type.GenericType;
 import org.javacore.type.TypedClass;
+import org.javacore.type.factory.TypeFactory;
 import org.javacore.type.generic.ClassGenericDeclaration;
-import org.obicere.bytecode.core.objects.attribute.Attributes;
+import org.javacore.type.signature.ClassSignature;
 import org.obicere.bytecode.core.objects.common.Version;
+import org.obicere.bytecode.core.objects.type.factory.DefaultTypeFactory;
+import org.obicere.bytecode.core.objects.type.generic.DefaultClassGenericDeclaration;
+import org.obicere.bytecode.core.objects.type.parser.SignatureParser;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -52,7 +58,7 @@ public class DefaultJCClass implements JCClass {
     private JCField[] fields;
 
     // retention: disposable
-    private Attributes attributes;
+    private AttributeSet attributes;
 
     // special information
 
@@ -96,6 +102,8 @@ public class DefaultJCClass implements JCClass {
     private Annotation[] annotations;
 
     private ClassGenericDeclaration declaration;
+
+    private TypeFactory factory;
 
     private UnknownAttribute[] unknownAttributes;
 
@@ -153,6 +161,18 @@ public class DefaultJCClass implements JCClass {
     }
 
     @Override
+    public void setSuperName(final String superName) {
+        initializeSignature();
+        this.superName = superName;
+    }
+
+    @Override
+    public void setSuperInterfaces(final String[] interfaces) {
+        initializeSignature();
+        this.interfaces = interfaces;
+    }
+
+    @Override
     public String getPackage() {
         return null;
     }
@@ -160,6 +180,11 @@ public class DefaultJCClass implements JCClass {
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void setName(final String name) {
+        this.name = name;
     }
 
     @Override
@@ -189,37 +214,37 @@ public class DefaultJCClass implements JCClass {
 
     @Override
     public boolean isOuterClass() {
-
+        return true;
     }
 
     @Override
     public boolean isInnerClass() {
-
+        return false;
     }
 
     @Override
     public boolean isNestedClass() {
-
+        return false;
     }
 
     @Override
     public boolean isLocalClass() {
-
+        return false;
     }
 
     @Override
     public boolean isAnonymousClass() {
-
+        return false;
     }
 
     @Override
     public boolean isMemberClass() {
-
+        return false;
     }
 
     @Override
     public boolean isEnclosedClass() {
-
+        return false;
     }
 
     @Override
@@ -492,7 +517,7 @@ public class DefaultJCClass implements JCClass {
     }
 
     @Override
-    public void setAttributes(final Attributes attributes) {
+    public void setAttributes(final AttributeSet attributes) {
         if (haveAttributesBeenSet) {
             throw new IllegalStateException("attributes have already been set for the class.");
         }
@@ -510,6 +535,13 @@ public class DefaultJCClass implements JCClass {
     public void setUnknownAttributes(final UnknownAttribute[] unknownAttributes) {
         initializeUnknownAttributes();
         this.unknownAttributes = unknownAttributes;
+    }
+
+    protected TypeFactory getFactory() {
+        if (factory == null) {
+            this.factory = new DefaultTypeFactory(this);
+        }
+        return factory;
     }
 
     private boolean sourceFileInitialized = false;
@@ -556,6 +588,8 @@ public class DefaultJCClass implements JCClass {
             return;
         }
 
+        // TODO
+
         innerClassesInitialized = true;
     }
 
@@ -563,6 +597,8 @@ public class DefaultJCClass implements JCClass {
         if (attributes == null || enclosingMethodInitialized) {
             return;
         }
+
+        // TODO
 
         enclosingMethodInitialized = true;
     }
@@ -588,6 +624,8 @@ public class DefaultJCClass implements JCClass {
         if (attributes == null || bootstrapMethodsInitialized) {
             return;
         }
+
+        // TODO
 
         bootstrapMethodsInitialized = true;
     }
@@ -628,6 +666,20 @@ public class DefaultJCClass implements JCClass {
         if (attributes == null || signatureInitialized) {
             return;
         }
+        final SignatureAttribute attribute = attributes.getAttribute(SignatureAttribute.class);
+        final String signatureValue;
+        if (attribute != null) {
+            signatureValue = attribute.getSignature();
+        } else {
+            signatureValue = SignatureParser.createSignature(superName, interfaces);
+        }
+        final SignatureParser parser = new SignatureParser(signatureValue);
+        final ClassSignature signature = parser.parseClassSignature();
+        final TypeFactory factory = getFactory();
+
+        this.declaration = new DefaultClassGenericDeclaration(this, signature, factory);
+        this.genericSuperClass = declaration.getGenericSuperClass();
+        this.genericSuperInterfaces = declaration.getGenericSuperInterfaces();
 
         signatureInitialized = true;
     }
@@ -669,6 +721,8 @@ public class DefaultJCClass implements JCClass {
             return;
         }
 
+        // TODO
+
         typeAnnotationsInitialized = true;
     }
 
@@ -676,6 +730,16 @@ public class DefaultJCClass implements JCClass {
         if (attributes == null || unknownAttributesInitialized) {
             return;
         }
+        final Set<UnknownAttribute> unknowns = attributes.getAttributes(UnknownAttribute.class);
+        if (unknowns == null || unknowns.isEmpty()) {
+            this.unknownAttributes = new UnknownAttribute[0];
+        } else {
+            this.unknownAttributes = unknowns.toArray(new UnknownAttribute[unknowns.size()]);
+        }
+
+        // remove now that we're done with them
+        attributes.removeAttributes(UnknownAttribute.class);
+        updateAttributes();
 
         unknownAttributesInitialized = true;
     }
