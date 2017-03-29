@@ -1,9 +1,9 @@
 package org.obicere.bytecode.core.reader;
 
-import org.javacore.JCField;
+import org.javacore.JCMethod;
+import org.javacore.attribute.AttributeSet;
 import org.javacore.constant.ConstantUtf8;
-import org.obicere.bytecode.core.objects.DefaultJCField;
-import org.obicere.bytecode.core.objects.attribute.Attributes;
+import org.obicere.bytecode.core.objects.DefaultJCMethod;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -11,10 +11,10 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class FieldReader implements Reader<JCField> {
+public class JCMethodReader implements Reader<JCMethod> {
 
     @Override
-    public JCField read(final ByteCodeReader input) throws IOException {
+    public DefaultJCMethod read(final ByteCodeReader input) throws IOException {
         final int accessFlags = input.readUnsignedShort();
         final ConstantUtf8 nameConstant = input.readConstant();
         final ConstantUtf8 descriptorConstant = input.readConstant();
@@ -22,8 +22,8 @@ public class FieldReader implements Reader<JCField> {
         final String name = nameConstant.getValue();
         final String descriptor = descriptorConstant.getValue();
 
-        final Attributes attributes = input.readAttributeSet();
+        final AttributeSet attributes = input.readAttributeSet();
 
-        return new DefaultJCField(accessFlags, name, descriptor, attributes);
+        return new DefaultJCMethod(accessFlags, name, descriptor, attributes);
     }
 }

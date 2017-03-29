@@ -16,6 +16,8 @@ public class StackMapTableAttributeReader implements Reader<StackMapTableAttribu
 
     @Override
     public StackMapTableAttribute read(final ByteCodeReader input) throws IOException {
+        // read name and discard
+        input.readShort();
         // read length and discard
         input.readInt();
         final int numberOfEntries = input.readUnsignedShort();

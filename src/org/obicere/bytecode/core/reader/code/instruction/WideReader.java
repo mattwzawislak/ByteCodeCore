@@ -1,5 +1,6 @@
 package org.obicere.bytecode.core.reader.code.instruction;
 
+import org.javacore.code.instruction.Instructions;
 import org.javacore.code.instruction.Wide;
 import org.obicere.bytecode.core.objects.code.instruction.DefaultWide;
 import org.obicere.bytecode.core.reader.Reader;
@@ -18,7 +19,7 @@ public class WideReader implements Reader<Wide> {
         if (!isValidWideTag(opcode)) {
             throw new ClassFormatError("invalid operation after a wide instruction listing: " + opcode);
         }
-        if (opcode == InstructionReader.OPCODE_IINC) { // need to read two extra bytes
+        if (opcode == Instructions.OPCODE_IINC) { // need to read two extra bytes
             final int index = input.readUnsignedShort();
             final int constant = input.readShort();
             return new DefaultWide(opcode, index, constant);
@@ -30,16 +31,16 @@ public class WideReader implements Reader<Wide> {
 
     private boolean isValidWideTag(final int opcode) {
         switch (opcode) {
-            case InstructionReader.OPCODE_IINC:
-            case InstructionReader.OPCODE_ILOAD:
-            case InstructionReader.OPCODE_FLOAD:
-            case InstructionReader.OPCODE_LLOAD:
-            case InstructionReader.OPCODE_DLOAD:
-            case InstructionReader.OPCODE_ISTORE:
-            case InstructionReader.OPCODE_ASTORE:
-            case InstructionReader.OPCODE_LSTORE:
-            case InstructionReader.OPCODE_DSTORE:
-            case InstructionReader.OPCODE_RET:
+            case Instructions.OPCODE_IINC:
+            case Instructions.OPCODE_ILOAD:
+            case Instructions.OPCODE_FLOAD:
+            case Instructions.OPCODE_LLOAD:
+            case Instructions.OPCODE_DLOAD:
+            case Instructions.OPCODE_ISTORE:
+            case Instructions.OPCODE_ASTORE:
+            case Instructions.OPCODE_LSTORE:
+            case Instructions.OPCODE_DSTORE:
+            case Instructions.OPCODE_RET:
                 return true;
             default:
                 return false;

@@ -16,6 +16,8 @@ public class RuntimeInvisibleTypeAnnotationsAttributeReader implements Reader<Ru
 
     @Override
     public RuntimeInvisibleTypeAnnotationsAttribute read(final ByteCodeReader input) throws IOException {
+        // read name and discard
+        input.readShort();
         // read length and discard
         input.readInt();
         final int numAnnotations = input.readUnsignedShort();

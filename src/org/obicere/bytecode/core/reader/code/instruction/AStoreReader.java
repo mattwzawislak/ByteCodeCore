@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * @author Obicere
  */
-public class AStore_Reader implements Reader<AStore> {
+public class AStoreReader implements Reader<AStore> {
 
     @Override
     public AStore read(final ByteCodeReader input) throws IOException {

@@ -14,6 +14,8 @@ import java.io.IOException;
 public class ConstantValueAttributeReader implements Reader<ConstantValueAttribute> {
     @Override
     public ConstantValueAttribute read(final ByteCodeReader input) throws IOException {
+        // read name and discard
+        input.readShort();
         // read length and discard
         input.readInt();
         final Constant constant = input.readConstant();

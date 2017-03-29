@@ -16,6 +16,8 @@ public class RuntimeVisibleParameterAnnotationsAttributeReader implements Reader
 
     @Override
     public RuntimeVisibleParameterAnnotationsAttribute read(final ByteCodeReader input) throws IOException {
+        // read name and discard
+        input.readShort();
         // read length and discard
         input.readInt();
         final int numParameters = input.readUnsignedByte();

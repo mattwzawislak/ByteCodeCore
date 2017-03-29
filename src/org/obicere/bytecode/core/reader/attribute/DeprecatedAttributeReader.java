@@ -14,6 +14,8 @@ public class DeprecatedAttributeReader implements Reader<DeprecatedAttribute> {
 
     @Override
     public DeprecatedAttribute read(final ByteCodeReader input) throws IOException {
+        // read name and discard
+        input.readShort();
         // read length and discard
         input.readInt();
         return DefaultDeprecatedAttribute.getInstance();

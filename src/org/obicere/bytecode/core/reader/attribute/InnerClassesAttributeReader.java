@@ -16,6 +16,8 @@ public class InnerClassesAttributeReader implements Reader<InnerClassesAttribute
 
     @Override
     public InnerClassesAttribute read(final ByteCodeReader input) throws IOException {
+        // read name and discard
+        input.readShort();
         // read length and discard
         input.readInt();
         final int numberOfClasses = input.readUnsignedShort();

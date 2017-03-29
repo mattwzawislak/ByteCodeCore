@@ -16,6 +16,8 @@ import java.io.IOException;
 public class ExceptionsAttributeReader implements Reader<ExceptionsAttribute> {
     @Override
     public ExceptionsAttribute read(final ByteCodeReader input) throws IOException {
+        // read name and discard
+        input.readShort();
         // read length and discard
         input.readInt();
         final int numberOfExceptions = input.readUnsignedShort();

@@ -16,6 +16,8 @@ public class RuntimeVisibleAnnotationsAttributeReader implements Reader<RuntimeV
 
     @Override
     public RuntimeVisibleAnnotationsAttribute read(final ByteCodeReader input) throws IOException {
+        // read name and discard
+        input.readShort();
         // read length and discard
         input.readInt();
         final int numAnnotations = input.readUnsignedShort();

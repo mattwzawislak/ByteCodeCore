@@ -16,6 +16,8 @@ public class MethodParametersAttributeReader implements Reader<MethodParametersA
 
     @Override
     public MethodParametersAttribute read(final ByteCodeReader input) throws IOException {
+        // read name and discard
+        input.readShort();
         // read length and discard
         input.readInt();
         final int parametersCount = input.readUnsignedByte();

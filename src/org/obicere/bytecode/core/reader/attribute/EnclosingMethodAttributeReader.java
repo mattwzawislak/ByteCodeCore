@@ -18,6 +18,8 @@ import java.io.IOException;
 public class EnclosingMethodAttributeReader implements Reader<EnclosingMethodAttribute> {
     @Override
     public EnclosingMethodAttribute read(final ByteCodeReader input) throws IOException {
+        // read name and discard
+        input.readShort();
         // read length and discard
         input.readInt();
         final ConstantClass className = input.readConstant();

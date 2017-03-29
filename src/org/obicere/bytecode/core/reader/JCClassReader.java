@@ -4,11 +4,10 @@ import org.javacore.Identifier;
 import org.javacore.JCClass;
 import org.javacore.JCField;
 import org.javacore.JCMethod;
+import org.javacore.attribute.AttributeSet;
 import org.javacore.constant.ConstantClass;
 import org.javacore.constant.ConstantPool;
 import org.obicere.bytecode.core.objects.DefaultJCClass;
-import org.obicere.bytecode.core.objects.attribute.Attributes;
-import org.obicere.bytecode.core.objects.constant.DefaultConstantPool;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
 import java.io.IOException;
@@ -77,14 +76,14 @@ public class JCClassReader implements Reader<JCClass> {
             methods[i] = input.read(Identifier.METHOD);
         }
 
-        final Attributes attributes = input.readAttributeSet();
+        final AttributeSet attributes = input.readAttributeSet();
 
         jcClass.setMinorVersion(minorVersion);
         jcClass.setMajorVersion(majorVersion);
         jcClass.setAccessFlags(accessFlags);
-        jcClass.setName(name);
+        jcClass.setName(thisName);
         jcClass.setSuperName(superName);
-        jcClass.setInterfaces(interfaces);
+        jcClass.setSuperInterfaces(interfaces);
         jcClass.setFields(fields);
         jcClass.setMethods(methods);
         jcClass.setAttributes(attributes);

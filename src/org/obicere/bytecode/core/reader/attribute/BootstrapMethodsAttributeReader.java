@@ -16,6 +16,8 @@ public class BootstrapMethodsAttributeReader implements Reader<BootstrapMethodsA
 
     @Override
     public BootstrapMethodsAttribute read(final ByteCodeReader input) throws IOException {
+        // read name and discard
+        input.readShort();
         // read length and discard
         input.readInt();
         final int numBootstrapMethods = input.readUnsignedShort();

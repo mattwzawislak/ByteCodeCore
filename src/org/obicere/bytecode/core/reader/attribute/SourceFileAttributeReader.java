@@ -15,6 +15,8 @@ public class SourceFileAttributeReader implements Reader<SourceFileAttribute> {
 
     @Override
     public SourceFileAttribute read(final ByteCodeReader input) throws IOException {
+        // read name and discard
+        input.readShort();
         // read length and discard
         input.readInt();
         final ConstantUtf8 sourceFileConstant = input.readConstant();

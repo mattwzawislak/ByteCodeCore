@@ -13,8 +13,8 @@ import java.io.IOException;
 public class SourceDebugExtensionAttributeReader implements Reader<SourceDebugExtensionAttribute> {
     @Override
     public SourceDebugExtensionAttribute read(final ByteCodeReader input) throws IOException {
-        // can't discard the length, I think this is the only case...
-        // thanks, Sun
+        // read name and discard
+        input.readShort();
         final int length = input.readInt();
         final byte[] debugExtensionBytes = new byte[length];
         if (input.read(debugExtensionBytes) < 0) {

@@ -15,6 +15,8 @@ public class AnnotationDefaultAttributeReader implements Reader<AnnotationDefaul
 
     @Override
     public AnnotationDefaultAttribute read(final ByteCodeReader input) throws IOException {
+        // read name and discard
+        input.readShort();
         // read length and discard
         input.readInt();
         return new DefaultAnnotationDefaultAttribute(input.read(Identifier.ELEMENT_VALUE));
