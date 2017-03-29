@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.DLoad_1;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -22,7 +22,7 @@ public class DefaultDLoad_1 extends AbstractInstruction implements DLoad_1 {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_DLOAD_1;
+        return Instructions.OPCODE_DLOAD_1;
     }
 
     @Override

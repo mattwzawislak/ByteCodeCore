@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.DStore;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -33,6 +33,6 @@ public class DefaultDStore extends AbstractInstruction implements DStore {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_DSTORE;
+        return Instructions.OPCODE_DSTORE;
     }
 }

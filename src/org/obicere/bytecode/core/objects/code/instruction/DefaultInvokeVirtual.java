@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects.code.instruction;
 import org.javacore.JCMethod;
 import org.javacore.code.instruction.InvokeVirtual;
 import org.javacore.reference.Reference;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -35,6 +35,6 @@ public class DefaultInvokeVirtual extends AbstractInstruction implements InvokeV
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_INVOKEVIRTUAL;
+        return Instructions.OPCODE_INVOKEVIRTUAL;
     }
 }

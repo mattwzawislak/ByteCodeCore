@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.LRem;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -22,6 +22,6 @@ public class DefaultLRem extends AbstractInstruction implements LRem {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_LREM;
+        return Instructions.OPCODE_LREM;
     }
 }

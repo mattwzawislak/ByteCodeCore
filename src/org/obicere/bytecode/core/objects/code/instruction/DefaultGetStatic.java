@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects.code.instruction;
 import org.javacore.JCField;
 import org.javacore.code.instruction.GetStatic;
 import org.javacore.reference.Reference;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -35,6 +35,6 @@ public class DefaultGetStatic extends AbstractInstruction implements GetStatic {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_GETSTATIC;
+        return Instructions.OPCODE_GETSTATIC;
     }
 }

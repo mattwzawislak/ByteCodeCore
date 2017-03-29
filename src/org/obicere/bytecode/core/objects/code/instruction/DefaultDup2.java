@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.Dup2;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -22,6 +22,6 @@ public class DefaultDup2 extends AbstractInstruction implements Dup2 {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_DUP2;
+        return Instructions.OPCODE_DUP2;
     }
 }

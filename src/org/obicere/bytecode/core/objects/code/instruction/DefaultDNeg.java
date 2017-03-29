@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.DNeg;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -22,6 +22,6 @@ public class DefaultDNeg extends AbstractInstruction implements DNeg {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_DNEG;
+        return Instructions.OPCODE_DNEG;
     }
 }

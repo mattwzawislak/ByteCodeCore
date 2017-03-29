@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.Wide;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -31,7 +31,7 @@ public class DefaultWide extends AbstractInstruction implements Wide {
 
     @Override
     public int getLength(final int pc) {
-        if (instruction == InstructionReader.OPCODE_IINC) {
+        if (instruction == Instructions.OPCODE_IINC) {
             return 6;
         } else {
             return 4;
@@ -59,29 +59,29 @@ public class DefaultWide extends AbstractInstruction implements Wide {
 
     private String getName(final int instruction) {
         switch (instruction) {
-            case InstructionReader.OPCODE_IINC:
+            case Instructions.OPCODE_IINC:
                 return "iinc";
-            case InstructionReader.OPCODE_ILOAD:
+            case Instructions.OPCODE_ILOAD:
                 return "iload";
-            case InstructionReader.OPCODE_FLOAD:
+            case Instructions.OPCODE_FLOAD:
                 return "fload";
-            case InstructionReader.OPCODE_ALOAD:
+            case Instructions.OPCODE_ALOAD:
                 return "aload";
-            case InstructionReader.OPCODE_LLOAD:
+            case Instructions.OPCODE_LLOAD:
                 return "lload";
-            case InstructionReader.OPCODE_DLOAD:
+            case Instructions.OPCODE_DLOAD:
                 return "dload";
-            case InstructionReader.OPCODE_ISTORE:
+            case Instructions.OPCODE_ISTORE:
                 return "istore";
-            case InstructionReader.OPCODE_FSTORE:
+            case Instructions.OPCODE_FSTORE:
                 return "fstore";
-            case InstructionReader.OPCODE_ASTORE:
+            case Instructions.OPCODE_ASTORE:
                 return "astore";
-            case InstructionReader.OPCODE_LSTORE:
+            case Instructions.OPCODE_LSTORE:
                 return "lstore";
-            case InstructionReader.OPCODE_DSTORE:
+            case Instructions.OPCODE_DSTORE:
                 return "dstore";
-            case InstructionReader.OPCODE_RET:
+            case Instructions.OPCODE_RET:
                 return "ret";
             default:
                 throw new IllegalArgumentException("illegal operand for wide: " + instruction);
@@ -96,6 +96,6 @@ public class DefaultWide extends AbstractInstruction implements Wide {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_WIDE;
+        return Instructions.OPCODE_WIDE;
     }
 }

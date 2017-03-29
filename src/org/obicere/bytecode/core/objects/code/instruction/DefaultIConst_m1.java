@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.IConst_m1;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -22,6 +22,6 @@ public class DefaultIConst_m1 extends AbstractInstruction implements IConst_m1 {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_ICONST_M1;
+        return Instructions.OPCODE_ICONST_M1;
     }
 }

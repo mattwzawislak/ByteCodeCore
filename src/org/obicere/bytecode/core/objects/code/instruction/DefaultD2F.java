@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.D2F;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -22,6 +22,6 @@ public class DefaultD2F extends AbstractInstruction implements D2F {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_D2F;
+        return Instructions.OPCODE_D2F;
     }
 }

@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.FCmpL;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -22,6 +22,6 @@ public class DefaultFCmpL extends AbstractInstruction implements FCmpL {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_FCMPL;
+        return Instructions.OPCODE_FCMPL;
     }
 }

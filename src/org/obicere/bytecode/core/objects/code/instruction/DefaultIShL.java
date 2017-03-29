@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.IShL;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -22,6 +22,6 @@ public class DefaultIShL extends AbstractInstruction implements IShL {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_ISHL;
+        return Instructions.OPCODE_ISHL;
     }
 }

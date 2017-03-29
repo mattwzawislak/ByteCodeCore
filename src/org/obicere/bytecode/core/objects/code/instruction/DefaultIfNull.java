@@ -2,7 +2,7 @@ package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.block.label.Label;
 import org.javacore.code.instruction.IfNull;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -34,6 +34,6 @@ public class DefaultIfNull extends AbstractInstruction implements IfNull {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_IFNULL;
+        return Instructions.OPCODE_IFNULL;
     }
 }

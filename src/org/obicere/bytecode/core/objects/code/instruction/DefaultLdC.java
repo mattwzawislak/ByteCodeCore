@@ -2,7 +2,7 @@ package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.LdC;
 import org.javacore.constant.Constant;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -29,6 +29,6 @@ public class DefaultLdC extends AbstractInstruction implements LdC {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_LDC;
+        return Instructions.OPCODE_LDC;
     }
 }

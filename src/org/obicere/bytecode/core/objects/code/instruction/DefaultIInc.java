@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.IInc;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -40,6 +40,6 @@ public class DefaultIInc extends AbstractInstruction implements IInc {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_IINC;
+        return Instructions.OPCODE_IINC;
     }
 }

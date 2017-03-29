@@ -3,7 +3,7 @@ package org.obicere.bytecode.core.objects.code.instruction;
 import org.javacore.JCMethod;
 import org.javacore.code.instruction.InvokeInterface;
 import org.javacore.reference.Reference;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -55,6 +55,6 @@ public class DefaultInvokeInterface extends AbstractInstruction implements Invok
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_INVOKEINTERFACE;
+        return Instructions.OPCODE_INVOKEINTERFACE;
     }
 }

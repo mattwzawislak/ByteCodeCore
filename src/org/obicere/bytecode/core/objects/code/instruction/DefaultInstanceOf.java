@@ -2,7 +2,7 @@ package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.InstanceOf;
 import org.javacore.type.Type;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -34,6 +34,6 @@ public class DefaultInstanceOf extends AbstractInstruction implements InstanceOf
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_INSTANCEOF;
+        return Instructions.OPCODE_INSTANCEOF;
     }
 }

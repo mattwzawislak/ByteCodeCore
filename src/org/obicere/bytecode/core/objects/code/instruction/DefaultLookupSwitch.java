@@ -2,7 +2,7 @@ package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.block.label.Label;
 import org.javacore.code.instruction.LookupSwitch;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -66,6 +66,6 @@ public class DefaultLookupSwitch extends AbstractInstruction implements LookupSw
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_LOOKUPSWITCH;
+        return Instructions.OPCODE_LOOKUPSWITCH;
     }
 }

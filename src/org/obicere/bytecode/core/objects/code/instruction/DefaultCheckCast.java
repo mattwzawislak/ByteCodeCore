@@ -2,7 +2,7 @@ package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.CheckCast;
 import org.javacore.type.Type;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -34,6 +34,6 @@ public class DefaultCheckCast extends AbstractInstruction implements CheckCast {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_CHECKCAST;
+        return Instructions.OPCODE_CHECKCAST;
     }
 }

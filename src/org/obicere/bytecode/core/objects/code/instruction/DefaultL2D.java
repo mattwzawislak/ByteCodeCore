@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.L2D;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -22,6 +22,6 @@ public class DefaultL2D extends AbstractInstruction implements L2D {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_L2D;
+        return Instructions.OPCODE_L2D;
     }
 }

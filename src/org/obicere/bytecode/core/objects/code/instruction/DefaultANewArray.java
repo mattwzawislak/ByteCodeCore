@@ -2,7 +2,7 @@ package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.ANewArray;
 import org.javacore.type.Type;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -34,6 +34,6 @@ public class DefaultANewArray extends AbstractInstruction implements ANewArray {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_ANEWARRAY;
+        return Instructions.OPCODE_ANEWARRAY;
     }
 }

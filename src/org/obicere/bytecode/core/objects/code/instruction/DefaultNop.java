@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.Nop;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -22,6 +22,6 @@ public class DefaultNop extends AbstractInstruction implements Nop {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_NOP;
+        return Instructions.OPCODE_NOP;
     }
 }

@@ -2,6 +2,7 @@ package org.obicere.bytecode.core.objects.code;
 
 import org.javacore.Identifier;
 import org.javacore.attribute.Attribute;
+import org.javacore.attribute.AttributeSet;
 import org.javacore.attribute.LineNumberTableAttribute;
 import org.javacore.attribute.LocalVariableTableAttribute;
 import org.javacore.attribute.LocalVariableTypeTableAttribute;
@@ -18,7 +19,6 @@ import org.javacore.code.instruction.Instruction;
 import org.javacore.code.table.CodeBlockTable;
 import org.javacore.code.table.CodeExceptionTable;
 import org.javacore.code.table.LocalVariableTable;
-import org.obicere.bytecode.core.objects.attribute.Attributes;
 import org.obicere.bytecode.core.objects.code.block.DefaultFrameCodeBlock;
 import org.obicere.bytecode.core.objects.code.block.DefaultLineCodeBlock;
 import org.obicere.bytecode.core.objects.code.block.label.DefaultLabel;
@@ -73,6 +73,10 @@ public class DefaultCode implements Code {
 
     public DefaultCode(final ByteCodeReader reader) throws IOException {
         reader.enterParent(this);
+        // read name and discard
+        reader.readShort();
+        // read name and discard
+        reader.readInt();
 
         this.maxStack = reader.readUnsignedShort();
         this.maxLocals = reader.readUnsignedShort();
@@ -83,7 +87,7 @@ public class DefaultCode implements Code {
 
         this.exceptions = reader.read(Identifier.CODE_EXCEPTION_TABLE);
 
-        final Attributes attributes = reader.readAttributeSet();
+        final AttributeSet attributes = reader.readAttributeSet();
         this.codeBlocks = createCodeBlockTable(attributes);
         this.variables = createLocalVariableTable(attributes);
 
@@ -533,7 +537,7 @@ public class DefaultCode implements Code {
         }
     }
 
-    protected CodeBlockTable createCodeBlockTable(final Attributes attributes) {
+    protected CodeBlockTable createCodeBlockTable(final AttributeSet attributes) {
 
         final LineNumber[] lines = getLines(attributes);
         final StackMapFrame[] frames = getFrames(attributes);
@@ -541,7 +545,7 @@ public class DefaultCode implements Code {
         return initializeCodeBlockTable(lines, frames);
     }
 
-    protected StackMapFrame[] getFrames(final Attributes attributes) {
+    protected StackMapFrame[] getFrames(final AttributeSet attributes) {
         final StackMapTableAttribute stackMapTableAttribute = attributes.getAttribute(StackMapTableAttribute.class);
         if (stackMapTableAttribute != null) {
             return stackMapTableAttribute.getEntries();
@@ -550,7 +554,7 @@ public class DefaultCode implements Code {
         }
     }
 
-    protected LineNumber[] getLines(final Attributes attributes) {
+    protected LineNumber[] getLines(final AttributeSet attributes) {
         final Set<LineNumberTableAttribute> lineNumberTables = attributes.getAttributes(LineNumberTableAttribute.class);
         if (lineNumberTables == null) {
             return new LineNumber[0];
@@ -590,7 +594,7 @@ public class DefaultCode implements Code {
         return createCodeBlockTable(blocks);
     }
 
-    protected LocalVariableTable createLocalVariableTable(final Attributes attributes) {
+    protected LocalVariableTable createLocalVariableTable(final AttributeSet attributes) {
         final Set<LocalVariable> variables = new LinkedHashSet<>();
 
         final Set<LocalVariableTypeTableAttribute> localVariableTypeTableAttributes = attributes.getAttributes(LocalVariableTypeTableAttribute.class);

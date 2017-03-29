@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.DDiv;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -22,6 +22,6 @@ public class DefaultDDiv extends AbstractInstruction implements DDiv {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_DDIV;
+        return Instructions.OPCODE_DDIV;
     }
 }

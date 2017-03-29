@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.F2I;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -22,6 +22,6 @@ public class DefaultF2I extends AbstractInstruction implements F2I {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_F2I;
+        return Instructions.OPCODE_F2I;
     }
 }

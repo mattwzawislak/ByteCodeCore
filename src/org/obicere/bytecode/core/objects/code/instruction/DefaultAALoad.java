@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.AALoad;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -22,6 +22,6 @@ public class DefaultAALoad extends AbstractInstruction implements AALoad {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_AALOAD;
+        return Instructions.OPCODE_AALOAD;
     }
 }

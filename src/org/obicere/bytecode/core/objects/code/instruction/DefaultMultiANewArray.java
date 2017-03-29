@@ -2,7 +2,7 @@ package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.MultiANewArray;
 import org.javacore.type.Type;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -42,6 +42,6 @@ public class DefaultMultiANewArray extends AbstractInstruction implements MultiA
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_MULTIANEWARRAY;
+        return Instructions.OPCODE_MULTIANEWARRAY;
     }
 }

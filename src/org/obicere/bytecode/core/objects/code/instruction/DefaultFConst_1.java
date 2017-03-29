@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.FConst_1;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -22,6 +22,6 @@ public class DefaultFConst_1 extends AbstractInstruction implements FConst_1 {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_FCONST_1;
+        return Instructions.OPCODE_FCONST_1;
     }
 }

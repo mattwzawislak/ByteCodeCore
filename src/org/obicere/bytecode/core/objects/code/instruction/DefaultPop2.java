@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.Pop2;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -22,6 +22,6 @@ public class DefaultPop2 extends AbstractInstruction implements Pop2 {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_POP2;
+        return Instructions.OPCODE_POP2;
     }
 }

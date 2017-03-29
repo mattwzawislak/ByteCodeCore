@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.BALoad;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -22,6 +22,6 @@ public class DefaultBALoad extends AbstractInstruction implements BALoad {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_BALOAD;
+        return Instructions.OPCODE_BALOAD;
     }
 }

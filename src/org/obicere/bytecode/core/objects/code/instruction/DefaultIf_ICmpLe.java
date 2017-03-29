@@ -2,7 +2,7 @@ package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.block.label.Label;
 import org.javacore.code.instruction.If_ICmpLe;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -34,6 +34,6 @@ public class DefaultIf_ICmpLe extends AbstractInstruction implements If_ICmpLe {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_IF_ICMPLE;
+        return Instructions.OPCODE_IF_ICMPLE;
     }
 }

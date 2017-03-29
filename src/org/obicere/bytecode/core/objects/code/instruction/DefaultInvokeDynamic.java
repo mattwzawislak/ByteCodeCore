@@ -2,7 +2,7 @@ package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.InvokeDynamic;
 import org.javacore.common.BootstrapMethodLink;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -53,6 +53,6 @@ public class DefaultInvokeDynamic extends AbstractInstruction implements InvokeD
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_INVOKEDYNAMIC;
+        return Instructions.OPCODE_INVOKEDYNAMIC;
     }
 }

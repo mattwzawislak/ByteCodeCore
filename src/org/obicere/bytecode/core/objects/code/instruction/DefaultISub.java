@@ -1,7 +1,7 @@
 package org.obicere.bytecode.core.objects.code.instruction;
 
 import org.javacore.code.instruction.ISub;
-import org.obicere.bytecode.core.reader.code.instruction.InstructionReader;
+import org.javacore.code.instruction.Instructions;
 
 /**
  * @author Obicere
@@ -22,6 +22,6 @@ public class DefaultISub extends AbstractInstruction implements ISub {
 
     @Override
     public int getOpCode() {
-        return InstructionReader.OPCODE_ISUB;
+        return Instructions.OPCODE_ISUB;
     }
 }
