@@ -16,11 +16,10 @@ public class AttributeReader implements Reader<Attribute> {
 
     @Override
     public Attribute read(final ByteCodeReader input) throws IOException {
-        input.mark(2);
-        final ConstantUtf8 attributeNameConstant = input.readConstant();
+        final int index = input.peekShort();
+        final ConstantUtf8 attributeNameConstant = (ConstantUtf8) input.getConstantPool().get(index);
         final String attributeName = attributeNameConstant.getValue();
         final Identifier identifier = Attributes.of(attributeName);
-        input.reset();
 
         return input.read(identifier);
     }
