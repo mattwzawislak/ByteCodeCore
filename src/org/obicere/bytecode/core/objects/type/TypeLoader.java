@@ -20,7 +20,7 @@ public final class TypeLoader implements TypeRepository {
 
     private final ClassPath classPath;
 
-    private TypeLoader() {
+    public TypeLoader() {
         this(ClassPath.getSystemClassPath());
     }
 
