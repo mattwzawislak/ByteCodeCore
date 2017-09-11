@@ -10,10 +10,10 @@ public class IndexedInputStream extends InputStream implements IndexedStream {
 
     private int position = 0;
 
-    private final PushbackInputStream stream;
+    private final PushbackInputStream input;
 
-    public IndexedInputStream(final InputStream stream) {
-        this.stream = new PushbackInputStream(stream);
+    public IndexedInputStream(final InputStream inputStream) {
+        this.input = new PushbackInputStream(inputStream, 1024);
     }
 
     public int getIndex() {
@@ -26,13 +26,22 @@ public class IndexedInputStream extends InputStream implements IndexedStream {
         if (read < 0) {
             return read;
         }
-        stream.unread(read);
+        input.unread(read);
+        return read;
+    }
+
+    public int peek(final byte[] bytes) throws IOException {
+        final int read = read(bytes);
+        if (read < 0) {
+            return read;
+        }
+        input.unread(bytes, 0, read);
         return read;
     }
 
     @Override
     public int read() throws IOException {
-        final int read = stream.read();
+        final int read = input.read();
         if (read >= 0) {
             position++;
         }
@@ -46,7 +55,7 @@ public class IndexedInputStream extends InputStream implements IndexedStream {
 
     @Override
     public int read(final byte[] b, final int off, final int len) throws IOException {
-        final int read = stream.read(b, off, len);
+        final int read = input.read(b, off, len);
         if (read >= 0) {
             position += read;
         }
@@ -55,11 +64,11 @@ public class IndexedInputStream extends InputStream implements IndexedStream {
 
     @Override
     public void close() throws IOException {
-        stream.close();
+        input.close();
     }
 
     @Override
     public int available() throws IOException {
-        return stream.available();
+        return input.available();
     }
 }

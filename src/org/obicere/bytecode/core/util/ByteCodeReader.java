@@ -120,11 +120,11 @@ public class ByteCodeReader extends IndexedDataInputStream {
     }
 
     public void pollConstants(final ConstantPool constantPool) {
-        final ConstantPool expected = constants.poll();
+        final ConstantPool expected = constants.peek();
         if(expected != constantPool) {
             throw new AssertionError("expected element differs from current element");
         }
-        path.pop();
+        constants.pop();
     }
 
     public ConstantPool getConstantPool() {

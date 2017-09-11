@@ -71,7 +71,7 @@ public class IndexedDataInputStream extends DataInputStream {
      * index of the stream. This is also the stream that contains all of
      * the data to be processed.
      */
-    private final IndexedStream input;
+    private final IndexedInputStream input;
 
     /**
      * Constructs a new stream with no logical offset. This will read all
@@ -156,6 +156,12 @@ public class IndexedDataInputStream extends DataInputStream {
 
     public int peek() throws IOException {
         return input.peek();
+    }
+
+    public int peekShort() throws IOException {
+        final byte[] peek = new byte[2];
+        input.peek(peek);
+        return ((peek[0] & 0xFF) << 8) | (peek[1] & 0xFF);
     }
 
     @Override

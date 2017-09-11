@@ -12,4 +12,5 @@ public interface IndexedStream extends AutoCloseable {
 
     @Override
     public void close() throws IOException;
+
 }
