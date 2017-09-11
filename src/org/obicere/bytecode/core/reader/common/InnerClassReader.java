@@ -1,6 +1,7 @@
 package org.obicere.bytecode.core.reader.common;
 
 import org.javacore.common.InnerClass;
+import org.javacore.constant.ConstantClass;
 import org.javacore.constant.ConstantUtf8;
 import org.obicere.bytecode.core.objects.common.DefaultInnerClass;
 import org.obicere.bytecode.core.reader.Reader;
@@ -14,8 +15,8 @@ import java.io.IOException;
 public class InnerClassReader implements Reader<InnerClass> {
     @Override
     public InnerClass read(final ByteCodeReader input) throws IOException {
-        final ConstantUtf8 innerClassInfoConstant = input.readConstant();
-        final ConstantUtf8 outerClassInfoConstant = input.readConstant();
+        final ConstantClass innerClassInfoConstant = input.readConstant();
+        final ConstantClass outerClassInfoConstant = input.readConstant();
         final ConstantUtf8 innerNameConstant = input.readConstant();
         final int innerClassAccessFlags = input.readUnsignedShort();
 
@@ -29,12 +30,12 @@ public class InnerClassReader implements Reader<InnerClass> {
         if (innerClassInfoConstant == null) {
             innerClassInfo = null;
         } else {
-            innerClassInfo = innerClassInfoConstant.getValue();
+            innerClassInfo = innerClassInfoConstant.getName();
         }
         if (outerClassInfoConstant == null) {
             outerClassInfo = null;
         } else {
-            outerClassInfo = outerClassInfoConstant.getValue();
+            outerClassInfo = outerClassInfoConstant.getName();
         }
 
         return new DefaultInnerClass(innerClassInfo, outerClassInfo, innerName, innerClassAccessFlags);

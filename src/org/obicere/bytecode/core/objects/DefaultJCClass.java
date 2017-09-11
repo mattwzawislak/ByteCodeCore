@@ -3,10 +3,12 @@ package org.obicere.bytecode.core.objects;
 import org.javacore.JCClass;
 import org.javacore.JCField;
 import org.javacore.JCMethod;
+import org.javacore.JavaCore;
 import org.javacore.annotation.Annotation;
 import org.javacore.attribute.Attribute;
 import org.javacore.attribute.AttributeSet;
 import org.javacore.attribute.DeprecatedAttribute;
+import org.javacore.attribute.InnerClassesAttribute;
 import org.javacore.attribute.RuntimeInvisibleAnnotationsAttribute;
 import org.javacore.attribute.RuntimeVisibleAnnotationsAttribute;
 import org.javacore.attribute.SignatureAttribute;
@@ -15,6 +17,7 @@ import org.javacore.attribute.SourceFileAttribute;
 import org.javacore.attribute.SyntheticAttribute;
 import org.javacore.attribute.UnknownAttribute;
 import org.javacore.common.BootstrapMethod;
+import org.javacore.common.InnerClass;
 import org.javacore.type.GenericType;
 import org.javacore.type.TypedClass;
 import org.javacore.type.factory.TypeFactory;
@@ -27,6 +30,8 @@ import org.obicere.bytecode.core.objects.type.parser.SignatureParser;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -588,7 +593,30 @@ public class DefaultJCClass implements JCClass {
             return;
         }
 
-        // TODO
+        final InnerClassesAttribute attribute = attributes.getAttribute(InnerClassesAttribute.class);
+        if (attribute != null) {
+            final InnerClass[] innerClasses = attribute.getClasses();
+            final List<JCClass> classList = new LinkedList<>();
+
+            for (final InnerClass innerClass : innerClasses) {
+                final String name = innerClass.getInnerClassInfo();
+                final JCClass cls = JavaCore.getClass(name);
+
+                final String outerInfo = innerClass.getOuterClassInfo();
+                if (outerInfo != null && outerInfo.equals(this.name)) {
+                    cls.setAccessFlags(innerClass.getInnerClassAccessFlags());
+                    classList.add(cls);
+                }
+            }
+
+            this.innerClasses = classList.toArray(new JCClass[classList.size()]);
+        } else {
+            this.innerClasses = new JCClass[0];
+        }
+
+        attributes.removeAttribute(InnerClassesAttribute.class);
+
+        updateAttributes();
 
         innerClassesInitialized = true;
     }
