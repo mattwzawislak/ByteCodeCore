@@ -22,15 +22,15 @@ public class InnerClassReader implements Reader<InnerClass> {
 
         // these two names can be null if Class version is 51.0 or greater
         // JLS §4.7.6
-        final String innerClassInfo;
+        final String innerName;
         final String outerClassInfo;
-        // inner name must be non-null
-        final String innerName = innerNameConstant.getValue();
+        // inner class info must be non-null
+        final String innerClassInfo = innerClassInfoConstant.getName();
 
-        if (innerClassInfoConstant == null) {
-            innerClassInfo = null;
+        if (innerNameConstant == null) {
+            innerName = null;
         } else {
-            innerClassInfo = innerClassInfoConstant.getName();
+            innerName = innerNameConstant.getValue();
         }
         if (outerClassInfoConstant == null) {
             outerClassInfo = null;
