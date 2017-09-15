@@ -219,12 +219,12 @@ public class DefaultJCClass implements JCClass {
 
     @Override
     public boolean isOuterClass() {
-        return true;
+        return outerClass == null;
     }
 
     @Override
     public boolean isInnerClass() {
-        return false;
+        return outerClass != null;
     }
 
     @Override
@@ -607,6 +607,10 @@ public class DefaultJCClass implements JCClass {
                     cls.setAccessFlags(innerClass.getInnerClassAccessFlags());
                     classList.add(cls);
                 }
+            }
+
+            for (final JCClass cls : classList) {
+                cls.setOuterClass(this);
             }
 
             this.innerClasses = classList.toArray(new JCClass[classList.size()]);
