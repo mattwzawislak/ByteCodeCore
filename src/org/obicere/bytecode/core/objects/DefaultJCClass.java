@@ -18,6 +18,7 @@ import org.javacore.attribute.SyntheticAttribute;
 import org.javacore.attribute.UnknownAttribute;
 import org.javacore.common.BootstrapMethod;
 import org.javacore.common.InnerClass;
+import org.javacore.exception.JVMLimitException;
 import org.javacore.type.GenericType;
 import org.javacore.type.TypedClass;
 import org.javacore.type.factory.TypeFactory;
@@ -33,11 +34,23 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * @author Obicere
  */
 public class DefaultJCClass implements JCClass {
+
+    private static final JCField[] EMPTY_FIELD_ARRAY = new JCField[0];
+
+    private static final JCMethod[] EMPTY_METHOD_ARRAY = new JCMethod[0];
+
+    private static final JCClass[] EMPTY_CLASS_ARRAY = new JCClass[0];
+
+    private static final BootstrapMethod[] EMPTY_BOOTSTRAP_METHOD_ARRAY = new BootstrapMethod[0];
+
+    private static final Annotation[] EMPTY_ANNOTATION_ARRAY = new Annotation[0];
 
     private static final int OUTER_ACCESS_FLAGS_MASK = 0x7631;
 
@@ -58,9 +71,19 @@ public class DefaultJCClass implements JCClass {
     // retention: disposable
     private String[] interfaces;
 
+    private static final int METHOD_LIMIT       = 65535;
+    private static final int METHOD_ARRAY_LIMIT = 20;
+
     private JCMethod[] methods;
 
+    private Set<JCMethod> methodSet;
+
+    private static final int FIELD_LIMIT       = 65535;
+    private static final int FIELD_ARRAY_LIMIT = 20;
+
     private JCField[] fields;
+
+    private Set<JCField> fieldSet;
 
     // retention: disposable
     private AttributeSet attributes;
@@ -88,8 +111,12 @@ public class DefaultJCClass implements JCClass {
     // dependencies: InnerClasses
     private JCClass enclosingClass;
 
+    private static final int INNER_CLASS_ARRAY_LIMIT = 10;
+
     // dependencies: InnerClasses
     private JCClass[] innerClasses;
+
+    private Set<JCClass> innerClassSet;
 
     // dependencies EnclosingMethod
     private JCMethod enclosingMethod;
@@ -265,7 +292,7 @@ public class DefaultJCClass implements JCClass {
     @Override
     public void setFields(final JCField[] fields) {
         if (fields == null) {
-            this.fields = new JCField[0];
+            this.fields = EMPTY_FIELD_ARRAY;
             return;
         }
         this.fields = fields.clone();
@@ -273,18 +300,26 @@ public class DefaultJCClass implements JCClass {
 
     @Override
     public int getMethodsCount() {
-        return methods.length;
+        if (methodSet != null) {
+            return methodSet.size();
+        } else {
+            return methods.length;
+        }
     }
 
     @Override
     public JCMethod[] getMethods() {
-        return methods.clone();
+        if (methodSet != null) {
+            return methodSet.toArray(new JCMethod[getMethodsCount()]);
+        } else {
+            return methods.clone();
+        }
     }
 
     @Override
     public void setMethods(final JCMethod[] methods) {
         if (methods == null) {
-            this.methods = new JCMethod[0];
+            this.methods = EMPTY_METHOD_ARRAY;
             return;
         }
         this.methods = methods.clone();
@@ -509,6 +544,413 @@ public class DefaultJCClass implements JCClass {
         this.annotations = annotations.clone();
     }
 
+    // TODO
+    @Override
+    public boolean addMethod(final JCMethod method) {
+        if (method == null) {
+            throw new NullPointerException("method must be non-null");
+        }
+        growMethodsArray(1);
+        if (methodSet != null) {
+            methodSet.add(method);
+        } else {
+            methods[methods.length - 1] = method;
+        }
+        return true;
+    }
+
+    // TODO
+    @Override
+    public boolean addMethods(final JCMethod... methods) {
+        return addMethods(methods, 0, methods.length);
+    }
+
+    // TODO
+    @Override
+    public boolean addMethods(final JCMethod[] methods, final int start, final int length) {
+        if (methods == null) {
+            throw new NullPointerException("methods array must be non-null");
+        }
+        return addMethodsFromArray(methods, start, length);
+    }
+
+    // TODO
+    @Override
+    public boolean addMethods(final Iterable<JCMethod> methods) {
+        return addMethods(methods, m -> true);
+    }
+
+    // TODO
+    @Override
+    public boolean addMethods(final JCMethod[] methods, final Predicate<JCMethod> condition) {
+        if (methods == null) {
+            throw new NullPointerException("methods array must be non-null");
+        }
+        if (condition == null) {
+            throw new NullPointerException("condition must be non-null");
+        }
+        int index = 0;
+        int limit = 1;
+        JCMethod[] filteredMethods = new JCMethod[limit];
+        for (final JCMethod next : methods) {
+            if (next == null) {
+                throw new NullPointerException("Each method in methods array must be non-null.");
+            }
+            if (condition.test(next)) {
+                if (index == limit) {
+                    if (limit >= METHOD_LIMIT) {
+                        throw new JVMLimitException("Maximum number of methods reached.", METHOD_LIMIT);
+                    }
+                    limit = Math.min(limit * 2, methods.length);
+                    final JCMethod[] newFilteredMethods = new JCMethod[limit];
+                    System.arraycopy(filteredMethods, 0, newFilteredMethods, 0, filteredMethods.length);
+                    filteredMethods = newFilteredMethods;
+                }
+                filteredMethods[index++] = next;
+            }
+        }
+        if (index > 0) {
+            addMethodsFromArray(filteredMethods, 0, index);
+            return true;
+        }
+        // if a method was accepted, return true. Otherwise return false (no methods were accepted)
+        return false;
+    }
+
+    // TODO
+    @Override
+    public boolean addMethods(final Iterable<JCMethod> methods, final Predicate<JCMethod> condition) {
+        if (methods == null) {
+            throw new NullPointerException("methods iterator must be non-null");
+        }
+        if (condition == null) {
+            throw new NullPointerException("condition must be non-null");
+        }
+        int index = 0;
+        int limit = 1;
+        JCMethod[] filteredMethods = new JCMethod[limit];
+        for (final JCMethod next : methods) {
+            if (next == null) {
+                throw new NullPointerException("Each method in methods iterator must be non-null.");
+            }
+            if (condition.test(next)) {
+                if (index == limit) {
+                    if (limit >= METHOD_LIMIT) {
+                        throw new JVMLimitException("Maximum number of methods reached.", METHOD_LIMIT);
+                    }
+                    limit = limit * 2;
+                    final JCMethod[] newFilteredMethods = new JCMethod[limit];
+                    System.arraycopy(filteredMethods, 0, newFilteredMethods, 0, filteredMethods.length);
+                    filteredMethods = newFilteredMethods;
+                }
+                filteredMethods[index++] = next;
+            }
+        }
+        if (index > 0) {
+            addMethodsFromArray(filteredMethods, 0, index);
+            return true;
+        }
+        // if a method was accepted, return true. Otherwise return false (no methods were accepted)
+        return false;
+    }
+
+    private boolean addMethodsFromArray(final JCMethod[] methods, final int start, final int length) {
+        verifyNonNull(methods, "Cannot add null method to class.");
+        final int totalLength = length - start;
+        if (totalLength <= 0) {
+            return false;
+        }
+        if (start + length > methods.length) {
+            return false;
+        }
+        final int oldLength = getMethodsCount();
+        growMethodsArray(totalLength);
+        if (methodSet != null) {
+            for (int i = 0; i < length; i++) {
+                methodSet.add(methods[i + start]);
+            }
+        } else {
+            System.arraycopy(methods, 0, this.methods, oldLength, totalLength);
+        }
+        return true;
+    }
+
+    // TODO
+    @Override
+    public JCMethod removeMethod(final JCMethod method) {
+        return null;
+    }
+
+    // TODO
+    @Override
+    public JCMethod removeMethod(final String name) {
+        return null;
+    }
+
+    // TODO
+    @Override
+    public JCMethod removeMethod(final int index) {
+        return null;
+    }
+
+    // TODO
+    @Override
+    public JCMethod removeMethod(final Predicate<JCMethod> condition) {
+        return null;
+    }
+
+    // TODO
+    @Override
+    public JCMethod[] removeMethods(final String name) {
+        return new JCMethod[0];
+    }
+
+    // TODO
+    @Override
+    public JCMethod[] removeMethods(final int[] indices) {
+        return new JCMethod[0];
+    }
+
+    // TODO
+    @Override
+    public JCMethod[] removeMethods(final int start, final int length) {
+        return new JCMethod[0];
+    }
+
+    // TODO
+    @Override
+    public JCMethod[] removeMethods(final Iterable<JCMethod> methods) {
+        return new JCMethod[0];
+    }
+
+    // TODO
+    @Override
+    public JCMethod[] removeMethods(
+            final Predicate<JCMethod> condition) {
+        return new JCMethod[0];
+    }
+
+    // TODO
+    @Override
+    public JCMethod[] removeAllMethods() {
+        return new JCMethod[0];
+    }
+
+    // TODO
+    @Override
+    public Stream<JCMethod> streamMethods() {
+        return null;
+    }
+
+    // TODO
+    @Override
+    public boolean containsMethod(final JCMethod method) {
+        return false;
+    }
+
+    // TODO
+    @Override
+    public boolean containsMethods(final JCMethod method) {
+        return false;
+    }
+
+    // TODO
+    @Override
+    public JCMethod getMethod(final String name) {
+        return null;
+    }
+
+    // TODO
+    @Override
+    public JCMethod[] getMethods(final String name) {
+        return new JCMethod[0];
+    }
+
+    // TODO
+    @Override
+    public JCMethod[] getMethods(final Predicate<JCMethod> condition) {
+        return new JCMethod[0];
+    }
+
+    // TODO
+    @Override
+    public JCMethod[] getMethods(final int start, final int length) {
+        return new JCMethod[0];
+    }
+
+    private void growMethodsArray(final int increaseSize) {
+        final int size = getMethodsCount();
+        final int newSize = size + increaseSize;
+
+        if (newSize >= METHOD_LIMIT) {
+            throw new JVMLimitException("Maximum number of methods reached", METHOD_LIMIT);
+        }
+
+        if (newSize >= METHOD_ARRAY_LIMIT && methodSet == null) {
+            methodSet = new LinkedHashSet<>();
+
+            Collections.addAll(methodSet, methods);
+
+            System.out.println("Switched to methodset");
+        }
+        if (newSize < METHOD_ARRAY_LIMIT) {
+            final JCMethod[] newMethods = new JCMethod[newSize];
+            System.arraycopy(methods, 0, newMethods, 0, size);
+            methods = newMethods;
+            System.out.println("Grew array: " + newSize);
+        }
+    }
+
+    // TODO
+    @Override
+    public boolean addField(final JCField method) {
+        return false;
+    }
+
+    // TODO
+    @Override
+    public boolean addFields(final JCField... methods) {
+        return false;
+    }
+
+    // TODO
+    @Override
+    public boolean addFields(final JCField[] methods, final int start, final int length) {
+        return false;
+    }
+
+    // TODO
+    @Override
+    public boolean addFields(final Iterable<JCField> methods) {
+        return false;
+    }
+
+    // TODO
+    @Override
+    public boolean addFields(final JCField[] methods, final Predicate<JCField> condition) {
+        return false;
+    }
+
+    // TODO
+    @Override
+    public boolean addFields(final Iterable<JCField> methods, final Predicate<JCField> condition) {
+        return false;
+    }
+
+    // TODO
+    @Override
+    public JCField removeField(final JCField method) {
+        return null;
+    }
+
+    // TODO
+    @Override
+    public JCField removeField(final String name) {
+        return null;
+    }
+
+    // TODO
+    @Override
+    public JCField removeField(final int index) {
+        return null;
+    }
+
+    // TODO
+    @Override
+    public JCField removeField(final Predicate<JCField> condition) {
+        return null;
+    }
+
+    // TODO
+    @Override
+    public JCField[] removeFields(final String name) {
+        return new JCField[0];
+    }
+
+    // TODO
+    @Override
+    public JCField[] removeFields(final int[] indices) {
+        return new JCField[0];
+    }
+
+    // TODO
+    @Override
+    public JCField[] removeFields(final int start, final int length) {
+        return new JCField[0];
+    }
+
+    // TODO
+    @Override
+    public JCField[] removeFields(final Iterable<JCField> methods) {
+        return new JCField[0];
+    }
+
+    // TODO
+    @Override
+    public JCField[] removeFields(final Predicate<JCField> condition) {
+        return new JCField[0];
+    }
+
+    // TODO
+    @Override
+    public JCField[] removeAllFields() {
+        return new JCField[0];
+    }
+
+    // TODO
+    @Override
+    public Stream<JCField> streamFields() {
+        return null;
+    }
+
+    // TODO
+    @Override
+    public boolean containsField(final JCField method) {
+        return false;
+    }
+
+    // TODO
+    @Override
+    public boolean containsFields(final JCField method) {
+        return false;
+    }
+
+    // TODO
+    @Override
+    public JCField getField(final String name) {
+        return null;
+    }
+
+    // TODO
+    @Override
+    public JCField[] getFields(final String name) {
+        return new JCField[0];
+    }
+
+    // TODO
+    @Override
+    public JCField[] getFields(final Predicate<JCField> condition) {
+        return new JCField[0];
+    }
+
+    // TODO
+    @Override
+    public JCField[] getFields(final int start, final int length) {
+        return new JCField[0];
+    }
+
+    // TODO
+    @Override
+    public boolean addInnerClass(final JCClass innerClass) {
+        return false;
+    }
+
+    // TODO
+    @Override
+    public boolean addInnerClasses(final JCClass[] innerClasses) {
+        return false;
+    }
+
     @Override
     public ClassGenericDeclaration getDeclaration() {
         initializeSignature();
@@ -593,6 +1035,8 @@ public class DefaultJCClass implements JCClass {
             return;
         }
 
+        innerClassesInitialized = true;
+
         final InnerClassesAttribute attribute = attributes.getAttribute(InnerClassesAttribute.class);
         if (attribute != null) {
             final InnerClass[] innerClasses = attribute.getClasses();
@@ -615,14 +1059,12 @@ public class DefaultJCClass implements JCClass {
 
             this.innerClasses = classList.toArray(new JCClass[classList.size()]);
         } else {
-            this.innerClasses = new JCClass[0];
+            this.innerClasses = EMPTY_CLASS_ARRAY;
         }
 
         attributes.removeAttribute(InnerClassesAttribute.class);
 
         updateAttributes();
-
-        innerClassesInitialized = true;
     }
 
     private void initializeEnclosingMethod() {
@@ -630,15 +1072,18 @@ public class DefaultJCClass implements JCClass {
             return;
         }
 
-        // TODO
-
         enclosingMethodInitialized = true;
+
+        // TODO
     }
 
     private void initializeSourceDebugExtension() {
         if (attributes == null || sourceDebugExtensionInitialized) {
             return;
         }
+
+        sourceDebugExtensionInitialized = true;
+
         final SourceDebugExtensionAttribute attribute = attributes.getAttribute(SourceDebugExtensionAttribute.class);
         if (attribute != null) {
             this.sourceDebugExtension = attribute.getDebugExtension();
@@ -648,8 +1093,6 @@ public class DefaultJCClass implements JCClass {
         attributes.removeAttributes(SourceDebugExtensionAttribute.class);
 
         updateAttributes();
-
-        sourceDebugExtensionInitialized = true;
     }
 
     private void initializeBootstrapMethods() {
@@ -657,15 +1100,18 @@ public class DefaultJCClass implements JCClass {
             return;
         }
 
-        // TODO
-
         bootstrapMethodsInitialized = true;
+
+        // TODO
     }
 
     private void initializeSynthetic() {
         if (attributes == null || syntheticInitialized) {
             return;
         }
+
+        syntheticInitialized = true;
+
         final SyntheticAttribute attribute = attributes.getAttribute(SyntheticAttribute.class);
 
         this.synthetic = (attribute != null);
@@ -674,14 +1120,15 @@ public class DefaultJCClass implements JCClass {
         attributes.removeAttributes(SyntheticAttribute.class);
 
         updateAttributes();
-
-        syntheticInitialized = true;
     }
 
     private void initializeDeprecated() {
         if (attributes == null || deprecatedInitialized) {
             return;
         }
+
+        deprecatedInitialized = true;
+
         final DeprecatedAttribute attribute = attributes.getAttribute(DeprecatedAttribute.class);
 
         this.deprecated = (attribute != null);
@@ -690,8 +1137,6 @@ public class DefaultJCClass implements JCClass {
         attributes.removeAttributes(DeprecatedAttribute.class);
 
         updateAttributes();
-
-        deprecatedInitialized = true;
     }
 
     private void initializeSignature() {
@@ -720,6 +1165,9 @@ public class DefaultJCClass implements JCClass {
         if (attributes == null || annotationsInitialized) {
             return;
         }
+
+        annotationsInitialized = true;
+
         final RuntimeVisibleAnnotationsAttribute visibleAttribute = attributes.getAttribute(RuntimeVisibleAnnotationsAttribute.class);
         final RuntimeInvisibleAnnotationsAttribute invisibleAttribute = attributes.getAttribute(RuntimeInvisibleAnnotationsAttribute.class);
 
@@ -732,8 +1180,8 @@ public class DefaultJCClass implements JCClass {
         }
 
         final int size = annotations.size();
-        if (size != 0) {
-            this.annotations = new Annotation[0];
+        if (size == 0) {
+            this.annotations = EMPTY_ANNOTATION_ARRAY;
         } else {
             this.annotations = annotations.toArray(new Annotation[size]);
         }
@@ -742,26 +1190,28 @@ public class DefaultJCClass implements JCClass {
         attributes.removeAttributes(RuntimeVisibleAnnotationsAttribute.class);
         attributes.removeAttributes(RuntimeInvisibleAnnotationsAttribute.class);
         updateAttributes();
-        annotationsInitialized = true;
     }
 
     private void initializeTypeAnnotations() {
         // type annotations require signature
-        // be sure to double check!!
+        // be sure to double check!
         initializeSignature();
         if (attributes == null || typeAnnotationsInitialized) {
             return;
         }
 
-        // TODO
-
         typeAnnotationsInitialized = true;
+
+        // TODO
     }
 
     private void initializeUnknownAttributes() {
         if (attributes == null || unknownAttributesInitialized) {
             return;
         }
+
+        unknownAttributesInitialized = true;
+
         final Set<UnknownAttribute> unknowns = attributes.getAttributes(UnknownAttribute.class);
         if (unknowns == null || unknowns.isEmpty()) {
             this.unknownAttributes = new UnknownAttribute[0];
@@ -772,13 +1222,19 @@ public class DefaultJCClass implements JCClass {
         // remove now that we're done with them
         attributes.removeAttributes(UnknownAttribute.class);
         updateAttributes();
-
-        unknownAttributesInitialized = true;
     }
 
     private void updateAttributes() {
         if (attributes.isEmpty()) {
             attributes = null;
+        }
+    }
+
+    protected void verifyNonNull(final Object[] objects, final String message) {
+        for (final Object obj : objects) {
+            if (obj == null) {
+                throw new NullPointerException(message);
+            }
         }
     }
 }

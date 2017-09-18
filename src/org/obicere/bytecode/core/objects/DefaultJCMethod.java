@@ -20,6 +20,8 @@ import org.obicere.bytecode.core.objects.type.generic.DefaultMethodGenericDeclar
 import org.obicere.bytecode.core.objects.type.parser.SignatureParser;
 import org.obicere.bytecode.core.util.ByteCodeReader;
 
+import java.util.Arrays;
+
 /**
  * @author Obicere
  */
@@ -229,5 +231,11 @@ public class DefaultJCMethod implements JCMethod {
     @Override
     public Attribute[] getAttributes() {
         return new Attribute[0];
+    }
+
+    // TODO TEMPORARY
+    @Override
+    public String toString() {
+        return name + "(" + Arrays.toString(parameterTypes) + ")" + returnType;
     }
 }
